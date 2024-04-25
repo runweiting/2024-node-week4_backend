@@ -22,6 +22,7 @@ const posts = {
         throw new Error("內容為必填");
       }
       const newPost = await Post.create({
+        user: body.user,
         content: body.content.trim(),
         image: body.image,
         likes: body.likes,
@@ -41,6 +42,7 @@ const posts = {
       const updatePost = await Post.findByIdAndUpdate(
         id,
         {
+          user: body.user,
           content: body.content.trim(),
           image: body.image,
           likes: body.likes,
