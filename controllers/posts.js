@@ -42,7 +42,6 @@ const posts = {
       const updatePost = await Post.findByIdAndUpdate(
         id,
         {
-          user: body.user,
           content: body.content.trim(),
           image: body.image,
           likes: body.likes,
