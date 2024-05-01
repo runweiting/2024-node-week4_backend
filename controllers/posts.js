@@ -22,7 +22,8 @@ const posts = {
     //   throw new Error("內容為必填");
     // }
     // 第五週直播改寫
-    if (req.body.content == undefined) {
+    const { body } = req;
+    if (body.content == undefined) {
       return next(appError(400, '你沒有填寫 content 資料'));
     }
     const newPost = await Post.create({
