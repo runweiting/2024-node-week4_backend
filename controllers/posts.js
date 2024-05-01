@@ -1,5 +1,4 @@
 const { handleSuccess, handleError } = require('../utilities/handler');
-const appError = require('../utilities/appError');
 const Post = require('../models/postsModel');
 const User = require('../models/usersModel');
 
@@ -16,27 +15,22 @@ const posts = {
       .sort(timeSort);
     handleSuccess(res, '查詢成功', posts);
   },
-  async createPost(req, res, next) {
-    // try {
-    // const { body } = req;
-    // if (!body.content) {
-    //   throw new Error("內容為必填");
-    // }
-    // 第五週直播改寫
-    const { body } = req;
-    if (body.content == undefined) {
-      return next(appError(400, '你沒有填寫 content 資料'));
+  async createPost(req, res) {
+    try {
+      const { body } = req;
+      if (!body.content) {
+        throw new Error('內容為必填');
+      }
+      const newPost = await Post.create({
+        user: body.user,
+        content: body.content.trim(),
+        image: body.image,
+        likes: body.likes,
+      });
+      handleSuccess(res, '新增成功', newPost);
+    } catch (err) {
+      handleError(res, err.message);
     }
-    const newPost = await Post.create({
-      user: body.user,
-      content: body.content.trim(),
-      image: body.image,
-      likes: body.likes,
-    });
-    handleSuccess(res, '新增成功', newPost);
-    // } catch (err) {
-    //   handleError(res, err.message);
-    // }
   },
   async updatePost(req, res) {
     try {
