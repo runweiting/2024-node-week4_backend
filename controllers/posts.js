@@ -1,4 +1,5 @@
 const { handleSuccess, handleError } = require('../utilities/handler');
+const appError = require('../utilities/appError');
 const Post = require('../models/postsModel');
 const User = require('../models/usersModel');
 
