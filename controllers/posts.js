@@ -15,7 +15,7 @@ const posts = {
       .sort(timeSort);
     handleSuccess(res, '查詢成功', posts);
   },
-  async createPost(req, res) {
+  async createPost(req, res, next) {
     try {
       const { body } = req;
       if (!body.content) {
@@ -29,7 +29,8 @@ const posts = {
       });
       handleSuccess(res, '新增成功', newPost);
     } catch (err) {
-      handleError(res, err.message);
+      next(err);
+      // handleError(res, err.message);
     }
   },
   async updatePost(req, res) {
