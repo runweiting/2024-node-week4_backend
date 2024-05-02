@@ -30,14 +30,14 @@ const posts = {
       image: body.image,
       likes: body.likes,
     });
-    if (newPost == null) {
-      return next(appError(400, '內容為必填'));
-    } else {
+    if (newPost !== null) {
       res.status(200).json({
         status: 'success',
         message: '新增成功',
         post: newPost,
       });
+    } else {
+      return next(appError(400, '內容為必填'));
     }
   },
   async updatePost(req, res, next) {
@@ -58,14 +58,14 @@ const posts = {
         runValidators: true,
       },
     );
-    if (updatePost == null) {
-      return next(appError(400, '查無此貼文 id'));
-    } else {
+    if (updatePost !== null) {
       res.status(200).json({
         status: 'success',
         message: '更新成功',
         post: updatePost,
       });
+    } else {
+      return next(appError(400, '查無此貼文 id'));
     }
   },
   async deleteAllPost(req, res, next) {
@@ -83,13 +83,13 @@ const posts = {
   async deletePost(req, res, next) {
     const id = req.params.id;
     const deletePost = await Post.findOneAndDelete(id);
-    if (deletePost == null) {
-      return next(appError(400, '查無此貼文 id'));
-    } else {
+    if (deletePost !== null) {
       res.status(200).json({
         status: 'success',
         message: '刪除成功',
       });
+    } else {
+      return next(appError(400, '查無此貼文 id'));
     }
   },
 };
