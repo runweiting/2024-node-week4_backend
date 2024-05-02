@@ -1,8 +1,6 @@
-// const { handleSuccess, handleError } = require('../utilities/handler');
 const appError = require('../utilities/appError');
 const Post = require('../models/postsModel');
 const User = require('../models/usersModel');
-const { post } = require('../routes');
 
 const posts = {
   async getPosts(req, res) {
@@ -66,30 +64,28 @@ const posts = {
       return next(appError(400, '查無此貼文 id'));
     }
   },
-  async deleteAllPost(req, res) {
-    try {
-      const route = req.originalUrl.split('?')[0];
-      if (route === '/posts/') {
-        throw new Error('請提供正確的貼文 id');
-      } else {
-        await Post.deleteMany({});
-        handleSuccess(res, '全部刪除成功');
-      }
-    } catch (err) {
-      handleError(res, err.message);
+  async deleteAllPost(req, res, next) {
+    const route = req.originalUrl.split('?')[0];
+    if (route === '/posts/') {
+      return next(appError(400, '請提供正確的貼文 id'));
+    } else {
+      await Post.deleteMany({});
+      res.status(200).json({
+        status: 'success',
+        message: '全部刪除成功',
+      });
     }
   },
-  async deletePost(req, res) {
-    try {
-      const id = req.params.id;
-      const deletePost = await Post.findOneAndDelete(id);
-      if (deletePost !== null) {
-        handleSuccess(res, '刪除成功', deletePost);
-      } else {
-        throw new Error('查無此貼文 id');
-      }
-    } catch (err) {
-      handleError(res, err.message);
+  async deletePost(req, res, next) {
+    const id = req.params.id;
+    const deletePost = await Post.findOneAndDelete(id);
+    if (deletePost !== null) {
+      res.status(200).json({
+        status: 'success',
+        message: '刪除成功',
+      });
+    } else {
+      return next(appError(400, '查無此貼文 id'));
     }
   },
 };
