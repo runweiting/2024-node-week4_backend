@@ -1,6 +1,8 @@
-const { handleSuccess, handleError } = require('../utilities/handler');
+// const { handleSuccess, handleError } = require('../utilities/handler');
+const appError = require('../utilities/appError');
 const Post = require('../models/postsModel');
 const User = require('../models/usersModel');
+const { post } = require('../routes');
 
 const posts = {
   async getPosts(req, res) {
@@ -13,52 +15,55 @@ const posts = {
         select: 'name photo',
       })
       .sort(timeSort);
-    handleSuccess(res, '查詢成功', posts);
+    res.status(200).json({
+      status: 'success',
+      message: '查詢成功',
+      post: posts,
+    });
   },
   async createPost(req, res, next) {
-    try {
-      const { body } = req;
-      if (!body.content) {
-        throw new Error('內容為必填');
-      }
-      const newPost = await Post.create({
-        user: body.user,
+    const { body } = req;
+    if (body.content == undefined) {
+      return next(appError(400, '內容為必填'));
+    }
+    const newPost = await Post.create({
+      user: body.user,
+      content: body.content.trim(),
+      image: body.image,
+      likes: body.likes,
+    });
+    res.status(200).json({
+      status: 'success',
+      message: '新增成功',
+      post: newPost,
+    });
+  },
+  async updatePost(req, res, next) {
+    const { body } = req;
+    const id = req.params.id;
+    if (body.content == undefined) {
+      return next(appError(400, '內容為必填'));
+    }
+    const updatePost = await Post.findByIdAndUpdate(
+      id,
+      {
         content: body.content.trim(),
         image: body.image,
         likes: body.likes,
+      },
+      {
+        new: true,
+        runValidators: true,
+      },
+    );
+    if (updatePost !== null) {
+      res.status(200).json({
+        status: 'success',
+        message: '更新成功',
+        post: updatePost,
       });
-      handleSuccess(res, '新增成功', newPost);
-    } catch (err) {
-      next(err);
-      // handleError(res, err.message);
-    }
-  },
-  async updatePost(req, res) {
-    try {
-      const { body } = req;
-      const id = req.params.id;
-      if (!body.content) {
-        throw new Error('內容為必填');
-      }
-      const updatePost = await Post.findByIdAndUpdate(
-        id,
-        {
-          content: body.content.trim(),
-          image: body.image,
-          likes: body.likes,
-        },
-        {
-          new: true,
-          runValidators: true,
-        },
-      );
-      if (updatePost !== null) {
-        handleSuccess(res, '更新成功', updatePost);
-      } else {
-        throw new Error('查無此貼文 id');
-      }
-    } catch (err) {
-      handleError(res, err.message);
+    } else {
+      return next(appError(400, '查無此貼文 id'));
     }
   },
   async deleteAllPost(req, res) {
