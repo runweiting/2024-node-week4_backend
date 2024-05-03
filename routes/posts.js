@@ -6,13 +6,12 @@ const appError = require('../statusHandle/appError');
 
 // 檢查必填
 const contentRequired = (req, res, next) => {
-  if (req.body.content == undefined) {
-    return next(appError(400, '內容為必填'));
-  } else {
+  if (req.body.content !== undefined) {
     next();
+  } else {
+    next(appError(400, '內容為必填'));
   }
 };
-// return next(appError(400, '內容為必填'));
 
 router.get('/', PostsController.getPosts);
 router.post('/', contentRequired, handleErrorAsync(PostsController.createPost));
