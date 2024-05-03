@@ -40,7 +40,7 @@ const posts = {
     const { body } = req;
     const id = req.params.id;
     if (body.content == undefined) {
-      return next(appError(400, '內容為必填', next));
+      return next(appError(400, '內容為必填'));
     }
     const updatePost = await Post.findByIdAndUpdate(
       id,
@@ -61,13 +61,13 @@ const posts = {
         post: updatePost,
       });
     } else {
-      return next(appError(400, '查無此貼文 id', next));
+      return next(appError(400, '查無此貼文 id'));
     }
   },
   async deleteAllPost(req, res, next) {
     const route = req.originalUrl.split('?')[0];
     if (route === '/posts/') {
-      return next(appError(400, '請提供正確的貼文 id', next));
+      return next(appError(400, '請提供正確的貼文 id'));
     } else {
       await Post.deleteMany({});
       res.status(200).json({
@@ -85,7 +85,7 @@ const posts = {
         message: '刪除成功',
       });
     } else {
-      return next(appError(400, '查無此貼文 id', next));
+      return next(appError(400, '查無此貼文 id'));
     }
   },
 };
