@@ -21,9 +21,9 @@ const posts = {
   },
   async createPost(req, res, next) {
     const { body } = req;
-    if (body.content == undefined) {
-      return next(appError(400, '內容為必填', next));
-    }
+    // if (body.content == undefined) {
+    //   return next(appError(400, '內容為必填', next));
+    // }
     const newPost = await Post.create({
       user: body.user,
       content: body.content.trim(),
