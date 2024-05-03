@@ -1,4 +1,4 @@
-const appError = require('../utilities/appError');
+const appError = require('../statusHandle/appError');
 const Post = require('../models/postsModel');
 const User = require('../models/usersModel');
 
@@ -29,21 +29,16 @@ const posts = {
       content: body.content.trim(),
       image: body.image,
       likes: body.likes,
-    })
-      .then((newPost) => {
-        if (newPost !== null) {
-          res.status(200).json({
-            status: 'success',
-            message: '新增成功',
-            post: newPost,
-          });
-        } else {
-          return next(appError(400, '內容為必填'));
-        }
-      })
-      .catch((err) => {
-        return next(appError(400, err.message));
+    });
+    if (newPost !== null) {
+      res.status(200).json({
+        status: 'success',
+        message: '新增成功',
+        post: newPost,
       });
+    } else {
+      return next(appError(400, '內容為必填'));
+    }
   },
   async updatePost(req, res, next) {
     const { body } = req;
