@@ -39,8 +39,8 @@ const posts = {
   async updatePost(req, res, next) {
     const { body } = req;
     const id = req.params.id;
-    const isCorrectId = await Post.findOne(id);
-    if (isCorrectId && body.content !== undefined) {
+    const targetPost = await Post.findOne({ _id: id });
+    if (targetPost && body.content !== undefined) {
       const updatePost = await Post.findByIdAndUpdate(
         id,
         {
