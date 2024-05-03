@@ -5,7 +5,7 @@
   "scripts": {
     "start": "node ./bin/www",
     "start:dev": "NODE_ENV=dev nodemon ./bin/www",
-    "start:por": "NODE_ENV=pro nodemon ./bin/www"
+    "start:pro": "NODE_ENV=pro nodemon ./bin/www"
   },
   "dependencies": {
     "cookie-parser": "~1.4.4",
