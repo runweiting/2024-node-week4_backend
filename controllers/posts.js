@@ -39,22 +39,20 @@ const posts = {
   async updatePost(req, res, next) {
     const { body } = req;
     const id = req.params.id;
-    if (body.content == undefined) {
-      return next(appError(400, '內容為必填'));
-    }
-    const updatePost = await Post.findByIdAndUpdate(
-      id,
-      {
-        content: body.content.trim(),
-        image: body.image,
-        likes: body.likes,
-      },
-      {
-        new: true,
-        runValidators: true,
-      },
-    );
-    if (updatePost !== null) {
+    const isCorrectId = await Post.findOne(id);
+    if (isCorrectId && body.content !== undefined) {
+      const updatePost = await Post.findByIdAndUpdate(
+        id,
+        {
+          content: body.content.trim(),
+          image: body.image,
+          likes: body.likes,
+        },
+        {
+          new: true,
+          runValidators: true,
+        },
+      );
       res.status(200).json({
         status: 'success',
         message: '更新成功',
