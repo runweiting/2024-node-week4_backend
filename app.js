@@ -76,8 +76,12 @@ app.use((err, req, res, next) => {
   if (process.env.NODE_ENV == 'dev') {
     return resErrorDev(err, res);
   }
-  // pro 處理 mongoose Schema 欄位驗證的各種錯誤訊息
-  if (err.name == 'ValidationError') {
+  // pro 處理各種套件的各種錯誤訊息
+  if (err.isAxiosError == true) {
+    err.message = 'axios 連線錯誤';
+    err.isOperational = true;
+    return resErrorPro(err, res);
+  } else if (err.name == 'ValidationError') {
     err.message = '資料欄位未正確填寫，請重新輸入！';
     err.isOperational = true;
     return resErrorPro(err, res);
