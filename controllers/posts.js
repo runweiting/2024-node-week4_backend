@@ -30,15 +30,11 @@ const posts = {
       image: body.image,
       likes: body.likes,
     });
-    if (newPost !== null) {
-      res.status(200).json({
-        status: 'success',
-        message: '新增成功',
-        post: newPost,
-      });
-    } else {
-      return next(appError(400, '內容為必填'));
-    }
+    res.status(200).json({
+      status: 'success',
+      message: '新增成功',
+      post: newPost,
+    });
   },
   async updatePost(req, res, next) {
     const { body } = req;
