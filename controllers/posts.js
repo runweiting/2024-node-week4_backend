@@ -78,7 +78,7 @@ const posts = {
   },
   async deletePost(req, res, next) {
     const id = req.params.id;
-    const deletePost = await Post.findOneAndDelete(id);
+    const deletePost = await Post.findByIdAndDelete(id);
     if (deletePost !== null) {
       res.status(200).json({
         status: 'success',
