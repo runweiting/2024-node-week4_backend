@@ -57,21 +57,16 @@ const posts = {
         new: true,
         runValidators: true,
       },
-    )
-      .then((updatePost) => {
-        if (updatePost !== null) {
-          res.status(200).json({
-            status: 'success',
-            message: '更新成功',
-            post: updatePost,
-          });
-        } else {
-          return next(appError(400, '查無此貼文 id'));
-        }
-      })
-      .catch((err) => {
-        return next(appError(400, err.message));
+    );
+    if (updatePost !== null) {
+      res.status(200).json({
+        status: 'success',
+        message: '更新成功',
+        post: updatePost,
       });
+    } else {
+      return next(appError(400, '查無此貼文 id'));
+    }
   },
   async deleteAllPost(req, res, next) {
     const route = req.originalUrl.split('?')[0];
@@ -87,20 +82,15 @@ const posts = {
   },
   async deletePost(req, res, next) {
     const id = req.params.id;
-    const deletePost = await Post.findOneAndDelete(id)
-      .then((deletePost) => {
-        if (deletePost !== null) {
-          res.status(200).json({
-            status: 'success',
-            message: '刪除成功',
-          });
-        } else {
-          return next(appError(400, '查無此貼文 id'));
-        }
-      })
-      .catch((err) => {
-        return next(appError(400, err.message));
+    const deletePost = await Post.findOneAndDelete(id);
+    if (deletePost !== null) {
+      res.status(200).json({
+        status: 'success',
+        message: '刪除成功',
       });
+    } else {
+      return next(appError(400, '查無此貼文 id'));
+    }
   },
 };
 
