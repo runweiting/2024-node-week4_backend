@@ -45,12 +45,13 @@ app.use((req, res, next) => {
 // 處理所有路由中產生的錯誤訊息，err 接收其他 middleware 傳來的錯誤信息，console.error() 記錄錯誤，500 為程式錯誤
 
 // * 開發、正式環境 錯誤管理
-// err.stack 會提供錯誤發生的堆疊資訊，此資訊會暴露專案結構，若顯示在前端有潛在風險，因此須區隔：開發環境回傳的錯誤訊息、正式環境回傳的錯誤訊息，以提升整體安全性
 const resErrorDev = (err, res) => {
   res.status(err.statusCode).json({
+    status: 'error',
     message: err.message,
     error: err,
-    stack: err.stack,
+    errorName: err.name,
+    errorStack: err.stack,
   });
 };
 //
@@ -58,12 +59,11 @@ const resErrorPro = (err, res) => {
   // 是否為預期錯誤
   if (err.isOperational) {
     res.status(err.statusCode).json({
+      status: 'error',
       message: err.message,
     });
   } else {
-    // log 記錄
     console.error('出現重大錯誤：', err);
-    // 送出預設訊息
     res.status(500).json({
       status: 'error',
       message: '系統錯誤，請洽系統管理員',
@@ -77,13 +77,17 @@ app.use((err, req, res, next) => {
     return resErrorDev(err, res);
   }
   // pro 處理各種套件的各種錯誤訊息
-  if (err.isAxiosError == true) {
+  if (err.name === 'AxiosError') {
+    err.isOperational = true;
     err.message = 'axios 連線錯誤';
-    err.isOperational = true;
     return resErrorPro(err, res);
-  } else if (err.name == 'ValidationError') {
-    err.message = '資料欄位未正確填寫，請重新輸入！';
+  } else if (err.name === 'ValidationError') {
     err.isOperational = true;
+    err.message = '資料欄位未正確填寫，請重新輸入！';
+    return resErrorPro(err, res);
+  } else if (err.name === 'CastError') {
+    err.isOperational = true;
+    err.message = '參數錯誤';
     return resErrorPro(err, res);
   }
   return resErrorPro(err, res);

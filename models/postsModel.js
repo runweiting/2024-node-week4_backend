@@ -1,17 +1,18 @@
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
 const postsSchema = new mongoose.Schema(
   {
     user: {
       type: mongoose.Schema.ObjectId,
-      ref: "User",
+      ref: 'User',
+      required: [true, '用戶 Id 未填寫'],
     },
     content: {
       type: String,
-      required: [true, "內容為必填"],
+      required: [true, '貼文內容為必填'],
     },
     image: {
       type: String,
-      default: "",
+      default: '',
     },
     likes: {
       type: Number,
@@ -24,8 +25,8 @@ const postsSchema = new mongoose.Schema(
   },
   {
     versionKey: false,
-  }
+  },
 );
-const Post = mongoose.model("Post", postsSchema);
+const Post = mongoose.model('Post', postsSchema);
 
 module.exports = Post;

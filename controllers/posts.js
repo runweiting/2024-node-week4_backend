@@ -20,70 +20,75 @@ const posts = {
     });
   },
   async createPost(req, res, next) {
-    const { body } = req;
-    if (body.content == undefined) {
-      return next(appError(400, '內容為必填'));
+    // 驗證輸入內容
+    const { user, content, image } = req.body;
+    if (!user) {
+      return next(appError(400, '用戶 Id 為必填'));
+    } else if (!content.trim()) {
+      return next(appError(400, '貼文內容為必填'));
+    } else if (image && !String(image).startsWith('http')) {
+      return next(appError(400, '圖片網址錯誤'));
+    }
+    // 驗證用戶
+    const targetUser = await User.findById(user);
+    if (!targetUser) {
+      return next(appError(400, '查無此用戶 Id'));
     }
     const newPost = await Post.create({
-      user: body.user,
-      content: body.content.trim(),
-      image: body.image,
-      likes: body.likes,
+      user: user,
+      content: content.trim(),
+      image: image,
     });
-    res.status(200).json({
+    res.status(201).json({
       status: 'success',
       message: '新增成功',
       post: newPost,
     });
   },
   async updatePost(req, res, next) {
-    const { body } = req;
-    const id = req.params.id;
-    const targetPost = await Post.findOne({ _id: id });
-    if (targetPost && body.content !== undefined) {
+    const { content, image } = req.body;
+    if (!content.trim()) {
+      return next(appError(400, '貼文內容為必填'));
+    }
+    const targetPost = await Post.findById(req.params.id);
+    if (!targetPost) {
+      return next(appError(404, '查無此貼文 id'));
+    } else {
       const updatePost = await Post.findByIdAndUpdate(
-        id,
+        req.params.id,
         {
-          content: body.content.trim(),
-          image: body.image,
-          likes: body.likes,
+          content: content.trim(),
+          image: image,
         },
         {
           new: true,
           runValidators: true,
         },
       );
-      res.status(200).json({
+      res.status(201).json({
         status: 'success',
         message: '更新成功',
         post: updatePost,
       });
-    } else {
-      return next(appError(400, '查無此貼文 id'));
     }
   },
   async deleteAllPost(req, res, next) {
-    const route = req.originalUrl.split('?')[0];
-    if (route === '/posts/') {
-      return next(appError(400, '請提供正確的貼文 id'));
-    } else {
-      await Post.deleteMany({});
-      res.status(200).json({
-        status: 'success',
-        message: '全部刪除成功',
-      });
-    }
+    await Post.deleteMany({});
+    res.status(200).json({
+      status: 'success',
+      message: '全部刪除成功',
+    });
   },
   async deletePost(req, res, next) {
-    const id = req.params.id;
-    const deletePost = await Post.findByIdAndDelete(id);
-    if (deletePost !== null) {
+    const targetPost = await Post.findById(req.params.id);
+    if (!targetPost) {
+      return next(appError(404, '查無此貼文 id'));
+    } else {
+      await Post.findByIdAndDelete(req.params.id);
       res.status(200).json({
         status: 'success',
         message: '刪除成功',
       });
-    } else {
-      return next(appError(400, '查無此貼文 id'));
     }
   },
 };
