@@ -6,7 +6,7 @@ const usersSchema = new mongoose.Schema(
       required: [true, '請輸入您的匿稱'],
     },
     role: {
-      type: Array,
+      type: String,
       enum: ['guest', 'member', 'admin'],
     },
     email: {

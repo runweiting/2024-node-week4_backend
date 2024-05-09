@@ -1,9 +1,8 @@
 const express = require('express');
 const router = express.Router();
+const UsersControllers = require('../controllers/users');
+const handleErrorAsync = require('../statusHandle/handleErrorAsync');
 
-/* GET users listing. */
-router.get('/', function (req, res, next) {
-  res.send('respond with a resource');
-});
+router.post('/sign_up', handleErrorAsync(UsersControllers.signUp));
 
 module.exports = router;

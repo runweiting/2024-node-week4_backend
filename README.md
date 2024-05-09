@@ -113,3 +113,7 @@
 ## B. 修改 usersModel
 
 - 必要欄位加入列舉
+
+## c. 修改 config.env
+
+- 加入 JWT_EXPIRES_DAY、JWT_SECRET
