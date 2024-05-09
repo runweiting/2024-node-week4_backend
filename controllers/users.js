@@ -31,6 +31,21 @@ const users = {
     });
     generateSendJWT(newUser, 200, res);
   },
+  async signIn(req, res, next) {
+    const { email, password } = req.body;
+    if (!email || !password) {
+      return next(appError(400, '帳號與密碼不可為空'));
+    }
+    if (!validator.isEmail(email)) {
+      return next(appError(400, 'email格式錯誤'));
+    }
+    const targetUser = await User.findOne({ email }).select('+password');
+    const isAuth = await bcrypt.compare(password, targetUser.password);
+    if (!isAuth) {
+      return next(appError(400, '您輸入的密碼不正確'));
+    }
+    generateSendJWT(targetUser, 200, res);
+  },
 };
 
 module.exports = users;
