@@ -4,7 +4,7 @@ const User = require('../models/usersModel');
 
 const posts = {
   async getPosts(req, res, next) {
-    const timeSort = req.query.timeSort == 'asc' ? 'createdAt' : '-createdAt';
+    const timeSort = req.query.timeSort === 'asc' ? 'createdAt' : '-createdAt';
     const q =
       req.query.q !== undefined ? { content: new RegExp(req.query.q) } : {};
     const posts = await Post.find(q)
