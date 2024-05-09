@@ -97,3 +97,19 @@
     - 貼上 config.env
     - 本地端 PORT 號不用加入
 5.  上傳 postman collection
+
+---
+
+# JWT 身份驗證機制
+
+## A. npm
+
+- bcrypt
+- validator
+- jsonwebtoken
+
+---
+
+## B. 修改 usersModel
+
+- 必要欄位加入列舉
