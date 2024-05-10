@@ -1,7 +1,10 @@
 const bcrypt = require('bcryptjs');
 const validator = require('validator');
 const User = require('../models/usersModel');
-const { handleAppError } = require('../statusHandle/handleResponses');
+const {
+  handleResponse,
+  handleAppError,
+} = require('../statusHandle/handleResponses');
 const generateSendJWT = require('../tools/generateSendJWT');
 
 const users = {
@@ -80,6 +83,34 @@ const users = {
       password: newPassword,
     });
     generateSendJWT(targetUser, 200, res);
+  },
+  async getProfile(req, res, next) {
+    const user = await User.findById(req.user.id);
+    handleResponse(res, 200, '查詢成功', user);
+  },
+  async updateProfile(req, res, next) {
+    const { name, gender, photo } = req.body;
+    if (!name) {
+      return next(handleAppError(400, '匿稱為必填'));
+    }
+    if (typeof name !== 'string') {
+      return next(handleAppError(400, '匿稱格式錯誤'));
+    }
+    if (!validator.isLength(name, { min: 2 })) {
+      return next(handleAppError(400, '暱稱至少 2 個字元以上'));
+    }
+    const updateProfile = await User.findByIdAndUpdate(
+      req.user.id,
+      {
+        name,
+        gender,
+        photo,
+      },
+      {
+        new: true,
+      },
+    );
+    handleResponse(res, 201, '個人資料更新成功', updateProfile);
   },
 };
 

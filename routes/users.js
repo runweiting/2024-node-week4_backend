@@ -11,5 +11,11 @@ router.patch(
   isAuth,
   handleErrorAsync(UsersControllers.updatePassword),
 );
+router.get('/profile', isAuth, handleErrorAsync(UsersControllers.getProfile));
+router.patch(
+  '/profile',
+  isAuth,
+  handleErrorAsync(UsersControllers.updateProfile),
+);
 
 module.exports = router;

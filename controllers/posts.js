@@ -24,23 +24,16 @@ const posts = {
   },
   async createPost(req, res, next) {
     // 驗證輸入內容
-    const { user, content, image, tags } = req.body;
-    if (!user) {
-      return next(handleAppError(400, '用戶 Id 為必填'));
-    } else if (!content.trim()) {
+    const { content, image, tags } = req.body;
+    if (!content.trim()) {
       return next(handleAppError(400, '貼文內容為必填'));
     } else if (image && !String(image).startsWith('http')) {
       return next(handleAppError(400, '圖片網址錯誤'));
     } else if (!tags || !Array.isArray(tags) || tags.length === 0) {
       return next(handleAppError(400, '標籤為必填'));
     }
-    // 驗證用戶
-    const targetUser = await User.findById(user);
-    if (!targetUser) {
-      return next(handleAppError(400, '查無此用戶 Id'));
-    }
     const newPost = await Post.create({
-      user: user,
+      user: req.user,
       content: content.trim(),
       image: image,
       tags: tags,
@@ -72,7 +65,7 @@ const posts = {
           runValidators: true,
         },
       );
-      handleResponse(res, 201, '更新成功', updatePost);
+      handleResponse(res, 201, '貼文更新成功', updatePost);
     }
   },
   async deleteAllPost(req, res, next) {
