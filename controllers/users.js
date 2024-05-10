@@ -38,7 +38,7 @@ const users = {
       email,
       password,
     });
-    generateSendJWT(newUser, 201, res);
+    generateSendJWT(newUser, 201, '註冊成功', res);
   },
   async signIn(req, res, next) {
     const { email, password } = req.body;
@@ -62,7 +62,7 @@ const users = {
     if (!isAuth) {
       return next(handleAppError(400, '密碼不正確'));
     }
-    generateSendJWT(targetUser, 201, res);
+    generateSendJWT(targetUser, 201, '登入成功', res);
   },
   async updatePassword(req, res, next) {
     const { password, confirmPassword } = req.body;
@@ -82,7 +82,7 @@ const users = {
     const targetUser = await User.findByIdAndUpdate(req.user.id, {
       password: newPassword,
     });
-    generateSendJWT(targetUser, 200, res);
+    generateSendJWT(targetUser, 200, '密碼更新成功', res);
   },
   async getProfile(req, res, next) {
     const user = await User.findById(req.user.id);
