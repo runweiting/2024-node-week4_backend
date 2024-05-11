@@ -29,7 +29,7 @@ const users = {
       !validator.isLength(password, { min: 8 }) ||
       !validator.matches(password, '(?=.*[a-zA-Z])(?=.*\\d)')
     ) {
-      return next(handleAppError(400, '密碼需至少 8 碼以上，並中英混合'));
+      return next(handleAppError(400, '密碼需至少 8 碼以上，並英數混合'));
     }
     // 加密密碼
     password = await bcrypt.hash(password, 12);
@@ -62,7 +62,7 @@ const users = {
     if (!isAuth) {
       return next(handleAppError(400, '密碼不正確'));
     }
-    generateSendJWT(targetUser, 201, '登入成功', res);
+    handleResponse(res, 201, '登入成功');
   },
   async updatePassword(req, res, next) {
     const { password, confirmPassword } = req.body;

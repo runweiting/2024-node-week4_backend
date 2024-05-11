@@ -1,9 +1,9 @@
 // 回傳成功
-const handleResponse = (res, httpStatus, message, post) => {
+const handleResponse = (res, httpStatus, message, data) => {
   res.status(httpStatus).json({
     status: 'success',
     message,
-    post,
+    data,
   });
 };
 
