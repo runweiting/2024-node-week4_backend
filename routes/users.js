@@ -7,7 +7,7 @@ const isAuth = require('../tools/isAuth');
 router.post('/sign_up', handleErrorAsync(UsersControllers.signUp));
 router.post('/sign_in', handleErrorAsync(UsersControllers.signIn));
 router.patch(
-  '/updatePassword',
+  '/update_password',
   isAuth,
   handleErrorAsync(UsersControllers.updatePassword),
 );
