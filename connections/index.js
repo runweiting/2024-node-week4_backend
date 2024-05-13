@@ -3,7 +3,6 @@ const DB = process.env.MONGODB_ATLAS_URL.replace(
   '<password>',
   process.env.MONGODB_ATLAS_PASSWORD,
 );
-console.log(DB);
 
 mongoose
   .connect(DB)

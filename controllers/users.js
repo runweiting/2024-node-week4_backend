@@ -55,6 +55,7 @@ const users = {
       return next(handleAppError(400, '密碼需至少 8 碼以上，並中英混合'));
     }
     const targetUser = await User.findOne({ email }).select('+password');
+    console.log(targetUser);
     if (!targetUser) {
       return next(handleAppError(404, '無此使用者'));
     }
@@ -111,6 +112,14 @@ const users = {
       },
     );
     handleResponse(res, 201, '個人資料更新成功', updateProfile);
+  },
+  signOut(req, res, next) {
+    // 清除使用者的認證相關資訊
+    // 清除 session 是一種用於跟蹤用戶狀態的機制，存儲用戶相關資訊，如登入狀態、購物車內容、用戶偏好設置等
+    req.session.destroy();
+    // 清除 cookie
+    res.clearCookie('myToken');
+    handleResponse(res, 200, '登出成功');
   },
 };
 
