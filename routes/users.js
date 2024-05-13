@@ -17,6 +17,6 @@ router.patch(
   isAuth,
   handleErrorAsync(UsersControllers.updateProfile),
 );
-router.post('sign-out', isAuth, UsersControllers.signOut);
+router.post('/sign-out', isAuth, UsersControllers.signOut);
 
 module.exports = router;

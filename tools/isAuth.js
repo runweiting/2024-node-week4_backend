@@ -27,8 +27,7 @@ const isAuth = handleErrorAsync(async (req, res, next) => {
       }
     });
   });
-  const targetUser = await User.findById(decoded.id);
-  req.user = targetUser;
+  req.user = await User.findById(decoded.id);
   next();
 });
 
