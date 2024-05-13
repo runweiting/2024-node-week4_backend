@@ -1,6 +1,4 @@
 const jwt = require('jsonwebtoken');
-const dotenv = require('dotenv');
-dotenv.config({ path: './config.env' });
 
 const generateSendJWT = (user, statusCode, message, res) => {
   // 將 user.id 作為 payload 生成 token
