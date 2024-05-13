@@ -4,10 +4,10 @@ const UsersControllers = require('../controllers/users');
 const { handleErrorAsync } = require('../statusHandle/handleResponses');
 const isAuth = require('../tools/isAuth');
 
-router.post('/sign_up', handleErrorAsync(UsersControllers.signUp));
-router.post('/sign_in', handleErrorAsync(UsersControllers.signIn));
+router.post('/sign-up', handleErrorAsync(UsersControllers.signUp));
+router.post('/sign-in', handleErrorAsync(UsersControllers.signIn));
 router.patch(
-  '/update_password',
+  '/update-password',
   isAuth,
   handleErrorAsync(UsersControllers.updatePassword),
 );
