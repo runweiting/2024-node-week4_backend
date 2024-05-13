@@ -5,6 +5,7 @@ const logger = require('morgan');
 const cors = require('cors');
 const dotenv = require('dotenv');
 dotenv.config({ path: './config.env' });
+console.log(process.env.JWT_EXPIRES_DAY, process.env.JWT_SECRET);
 
 const {
   handleDevError,

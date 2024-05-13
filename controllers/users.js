@@ -62,7 +62,7 @@ const users = {
     if (!isAuth) {
       return next(handleAppError(400, '密碼不正確'));
     }
-    generateSendJWT(targetUser, 201, '註冊成功', res);
+    generateSendJWT(targetUser, 201, '登入成功', res);
   },
   async updatePassword(req, res, next) {
     const { password, confirmPassword } = req.body;
