@@ -1,0 +1,348 @@
+{
+	"info": {
+		"_postman_id": "609de609-f112-4083-bd4e-dd0cd4d421f4",
+		"name": "week6-Render",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "30755152"
+	},
+	"item": [
+		{
+			"name": "users",
+			"item": [
+				{
+					"name": "註冊",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"dog\",\n    \"email\": \"dog@gmail.com\",\n    \"password\": \"dog12345\",\n    \"confirmPassword\": \"dog12345\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://two024-node-week4.onrender.com/users/sign-up",
+							"protocol": "https",
+							"host": [
+								"two024-node-week4",
+								"onrender",
+								"com"
+							],
+							"path": [
+								"users",
+								"sign-up"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "登入",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"dog@gmail.com\",\n    \"password\": \"dog12345\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://two024-node-week4.onrender.com/users/sign-in",
+							"protocol": "https",
+							"host": [
+								"two024-node-week4",
+								"onrender",
+								"com"
+							],
+							"path": [
+								"users",
+								"sign-in"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "重設密碼",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2NDFiOWI2Y2VkODhkYzljNGQ2OTVlOSIsIm5hbWUiOiLlsI_ni5cgZG9nIiwicGhvdG8iOiJodHRwczovL2ltYWdlcy51bnNwbGFzaC5jb20vcGhvdG8tMTQ3MjA5OTY0NTc4NS01NjU4YWJmNGZmNGU_cT04MCZ3PTE1MCZhdXRvPWZvcm1hdCZmaXQ9Y3JvcCZpeGxpYj1yYi00LjAuMyZpeGlkPU0zd3hNakEzZkRCOE1IeHdhRzkwYnkxd1lXZGxmSHg4ZkdWdWZEQjhmSHg4ZkElM0QlM0QiLCJpYXQiOjE3MTU2MDQ2OTIsImV4cCI6MTcxNjIwOTQ5Mn0.8rRnCeH8Awr0AGaiZn7CT3p_xOcqqWxDmrqAdObNCAc"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"password\": \"dog123456\",\n    \"confirmPassword\": \"dog123456\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://two024-node-week4.onrender.com/users/update-password",
+							"protocol": "https",
+							"host": [
+								"two024-node-week4",
+								"onrender",
+								"com"
+							],
+							"path": [
+								"users",
+								"update-password"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "取得個人資料",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2NDFiOWI2Y2VkODhkYzljNGQ2OTVlOSIsIm5hbWUiOiLlsI_ni5cgZG9nIiwicGhvdG8iOiJodHRwczovL2ltYWdlcy51bnNwbGFzaC5jb20vcGhvdG8tMTQ3MjA5OTY0NTc4NS01NjU4YWJmNGZmNGU_cT04MCZ3PTE1MCZhdXRvPWZvcm1hdCZmaXQ9Y3JvcCZpeGxpYj1yYi00LjAuMyZpeGlkPU0zd3hNakEzZkRCOE1IeHdhRzkwYnkxd1lXZGxmSHg4ZkdWdWZEQjhmSHg4ZkElM0QlM0QiLCJpYXQiOjE3MTU2MDQ2OTIsImV4cCI6MTcxNjIwOTQ5Mn0.8rRnCeH8Awr0AGaiZn7CT3p_xOcqqWxDmrqAdObNCAc"
+							}
+						],
+						"url": {
+							"raw": "https://two024-node-week4.onrender.com/users/profile",
+							"protocol": "https",
+							"host": [
+								"two024-node-week4",
+								"onrender",
+								"com"
+							],
+							"path": [
+								"users",
+								"profile"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "修改個人資料",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2NDFiOWI2Y2VkODhkYzljNGQ2OTVlOSIsImlhdCI6MTcxNTU4MzQxNCwiZXhwIjoxNzE2MTg4MjE0fQ.34tLPuciZvwiyyljlhqbj4B9dHQzyZP-0qxFQATL44Q"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"史努比 dog\",\n    \"gender\": \"male\",\n    \"photo\": \"https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?q=80&w=150&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://two024-node-week4.onrender.com/users/profile",
+							"protocol": "https",
+							"host": [
+								"two024-node-week4",
+								"onrender",
+								"com"
+							],
+							"path": [
+								"users",
+								"profile"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "登出",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2NDFiOWI2Y2VkODhkYzljNGQ2OTVlOSIsIm5hbWUiOiLlsI_ni5cgZG9nIiwicGhvdG8iOiJodHRwczovL2ltYWdlcy51bnNwbGFzaC5jb20vcGhvdG8tMTQ3MjA5OTY0NTc4NS01NjU4YWJmNGZmNGU_cT04MCZ3PTE1MCZhdXRvPWZvcm1hdCZmaXQ9Y3JvcCZpeGxpYj1yYi00LjAuMyZpeGlkPU0zd3hNakEzZkRCOE1IeHdhRzkwYnkxd1lXZGxmSHg4ZkdWdWZEQjhmSHg4ZkElM0QlM0QiLCJpYXQiOjE3MTU2MDQ2OTIsImV4cCI6MTcxNjIwOTQ5Mn0.8rRnCeH8Awr0AGaiZn7CT3p_xOcqqWxDmrqAdObNCAc"
+							}
+						],
+						"url": {
+							"raw": "https://two024-node-week4.onrender.com/users/sign-out",
+							"protocol": "https",
+							"host": [
+								"two024-node-week4",
+								"onrender",
+								"com"
+							],
+							"path": [
+								"users",
+								"sign-out"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "posts",
+			"item": [
+				{
+					"name": "取得全部貼文",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2NDFiOWI2Y2VkODhkYzljNGQ2OTVlOSIsIm5hbWUiOiLlsI_ni5cgZG9nIiwicGhvdG8iOiJodHRwczovL2ltYWdlcy51bnNwbGFzaC5jb20vcGhvdG8tMTQ3MjA5OTY0NTc4NS01NjU4YWJmNGZmNGU_cT04MCZ3PTE1MCZhdXRvPWZvcm1hdCZmaXQ9Y3JvcCZpeGxpYj1yYi00LjAuMyZpeGlkPU0zd3hNakEzZkRCOE1IeHdhRzkwYnkxd1lXZGxmSHg4ZkdWdWZEQjhmSHg4ZkElM0QlM0QiLCJpYXQiOjE3MTU2MDQ2OTIsImV4cCI6MTcxNjIwOTQ5Mn0.8rRnCeH8Awr0AGaiZn7CT3p_xOcqqWxDmrqAdObNCAc"
+							}
+						],
+						"url": {
+							"raw": "https://two024-node-week4.onrender.com/posts",
+							"protocol": "https",
+							"host": [
+								"two024-node-week4",
+								"onrender",
+								"com"
+							],
+							"path": [
+								"posts"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "新增貼文",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2M2UxZGQ4MTI5MTg2MDNkNDJiYmE3MCIsImlhdCI6MTcxNTM0NzA1MSwiZXhwIjoxNzE1OTUxODUxfQ.pl7PSSpl8j2IVkNLJHN-IiwsNC-lcTyG0A4ZdQbEho8"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"content\": \"test1\",\n    \"image\": \"\",\n    \"tags\": [\"美食\"]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://two024-node-week4.onrender.com/posts",
+							"protocol": "https",
+							"host": [
+								"two024-node-week4",
+								"onrender",
+								"com"
+							],
+							"path": [
+								"posts"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "編輯單筆貼文",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2M2UxZGQ4MTI5MTg2MDNkNDJiYmE3MCIsImlhdCI6MTcxNTM0NzA1MSwiZXhwIjoxNzE1OTUxODUxfQ.pl7PSSpl8j2IVkNLJHN-IiwsNC-lcTyG0A4ZdQbEho8"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"content\": \"test2\",\n    \"image\": \"\",\n    \"tags\": [\"運動\"]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://two024-node-week4.onrender.com/posts/663e2a48de7692bd215227b0",
+							"protocol": "https",
+							"host": [
+								"two024-node-week4",
+								"onrender",
+								"com"
+							],
+							"path": [
+								"posts",
+								"663e2a48de7692bd215227b0"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "刪除全部貼文",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2M2UxZGQ4MTI5MTg2MDNkNDJiYmE3MCIsImlhdCI6MTcxNTM0NzA1MSwiZXhwIjoxNzE1OTUxODUxfQ.pl7PSSpl8j2IVkNLJHN-IiwsNC-lcTyG0A4ZdQbEho8"
+							}
+						],
+						"url": {
+							"raw": "https://two024-node-week4.onrender.com/posts/all",
+							"protocol": "https",
+							"host": [
+								"two024-node-week4",
+								"onrender",
+								"com"
+							],
+							"path": [
+								"posts",
+								"all"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "刪除貼文",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2M2UxZGQ4MTI5MTg2MDNkNDJiYmE3MCIsImlhdCI6MTcxNTM0NzA1MSwiZXhwIjoxNzE1OTUxODUxfQ.pl7PSSpl8j2IVkNLJHN-IiwsNC-lcTyG0A4ZdQbEho8"
+							}
+						],
+						"url": {
+							"raw": "https://two024-node-week4.onrender.com/posts/663e281249334bb506128320",
+							"protocol": "https",
+							"host": [
+								"two024-node-week4",
+								"onrender",
+								"com"
+							],
+							"path": [
+								"posts",
+								"663e281249334bb506128320"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
