@@ -1,4 +1,7 @@
 const jwt = require('jsonwebtoken');
+const dotenv = require('dotenv');
+dotenv.config({ path: './config.env' });
+console.log(process.env.JWT_EXPIRES_DAY, process.env.JWT_SECRET);
 
 const generateSendJWT = (user, statusCode, message, res) => {
   console.log(
