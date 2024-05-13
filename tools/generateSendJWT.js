@@ -1,4 +1,6 @@
 const jwt = require('jsonwebtoken');
+const dotenv = require('dotenv');
+dotenv.config({ path: '../config.env' });
 
 const generateSendJWT = (user, statusCode, message, res) => {
   console.log('generateSendJWT:', process.env);
