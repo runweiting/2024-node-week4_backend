@@ -1,11 +1,9 @@
 const mongoose = require('mongoose');
-const dotenv = require('dotenv');
-dotenv.config({ path: '../config.env' });
-const DB = process.env.DATABASE.replace(
+const DB = process.env.MONGODB_ATLAS_URL.replace(
   '<password>',
-  process.env.DATABASE_PASSWORD,
+  process.env.MONGODB_ATLAS_PASSWORD,
 );
 mongoose
   .connect(DB)
   .then((res) => console.log('資料庫連線成功'))
-  .catch((err) => console.err(err));
+  .catch((err) => console.log('資料庫連接有誤', err.message));

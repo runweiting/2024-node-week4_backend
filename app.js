@@ -2,6 +2,7 @@ const express = require('express');
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
+require('dotenv').config({ path: './config.env' });
 const cors = require('cors');
 const {
   handleDevError,
