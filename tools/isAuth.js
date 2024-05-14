@@ -19,6 +19,7 @@ const isAuth = handleErrorAsync(async (req, res, next) => {
   }
   // 再解析 token 夾帶的 payload 是否正確
   const decoded = await new Promise((resolve, reject) => {
+    // jwt.verify 使用 callbackFn (err, payload) 進行非同步操作
     jwt.verify(token, process.env.JWT_SECRET, (err, payload) => {
       if (err) {
         reject(err);

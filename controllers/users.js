@@ -31,7 +31,7 @@ const users = {
     ) {
       return next(handleAppError(400, '密碼需至少 8 碼以上，並英數混合'));
     }
-    // 加密密碼
+    // 雜湊 Hash Function(要加密的字串, 要加鹽的字串長度)
     password = await bcrypt.hash(password, 12);
     const newUser = await User.create({
       name,

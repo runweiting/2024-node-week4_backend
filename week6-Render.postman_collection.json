@@ -76,7 +76,7 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2NDFiOWI2Y2VkODhkYzljNGQ2OTVlOSIsIm5hbWUiOiLlsI_ni5cgZG9nIiwicGhvdG8iOiJodHRwczovL2ltYWdlcy51bnNwbGFzaC5jb20vcGhvdG8tMTQ3MjA5OTY0NTc4NS01NjU4YWJmNGZmNGU_cT04MCZ3PTE1MCZhdXRvPWZvcm1hdCZmaXQ9Y3JvcCZpeGxpYj1yYi00LjAuMyZpeGlkPU0zd3hNakEzZkRCOE1IeHdhRzkwYnkxd1lXZGxmSHg4ZkdWdWZEQjhmSHg4ZkElM0QlM0QiLCJpYXQiOjE3MTU2MDQ2OTIsImV4cCI6MTcxNjIwOTQ5Mn0.8rRnCeH8Awr0AGaiZn7CT3p_xOcqqWxDmrqAdObNCAc"
+								"value": "Bearer "
 							}
 						],
 						"body": {
@@ -111,7 +111,7 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2NDFiOWI2Y2VkODhkYzljNGQ2OTVlOSIsIm5hbWUiOiLlsI_ni5cgZG9nIiwicGhvdG8iOiJodHRwczovL2ltYWdlcy51bnNwbGFzaC5jb20vcGhvdG8tMTQ3MjA5OTY0NTc4NS01NjU4YWJmNGZmNGU_cT04MCZ3PTE1MCZhdXRvPWZvcm1hdCZmaXQ9Y3JvcCZpeGxpYj1yYi00LjAuMyZpeGlkPU0zd3hNakEzZkRCOE1IeHdhRzkwYnkxd1lXZGxmSHg4ZkdWdWZEQjhmSHg4ZkElM0QlM0QiLCJpYXQiOjE3MTU2MDQ2OTIsImV4cCI6MTcxNjIwOTQ5Mn0.8rRnCeH8Awr0AGaiZn7CT3p_xOcqqWxDmrqAdObNCAc"
+								"value": "Bearer "
 							}
 						],
 						"url": {
@@ -137,12 +137,12 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2NDFiOWI2Y2VkODhkYzljNGQ2OTVlOSIsImlhdCI6MTcxNTU4MzQxNCwiZXhwIjoxNzE2MTg4MjE0fQ.34tLPuciZvwiyyljlhqbj4B9dHQzyZP-0qxFQATL44Q"
+								"value": "Bearer "
 							}
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"name\": \"史努比 dog\",\n    \"gender\": \"male\",\n    \"photo\": \"https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?q=80&w=150&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D\"\n}",
+							"raw": "{\n    \"name\": \"粉紅豬小妹\",\n    \"gender\": \"female\",\n    \"photo\": \"https://yt3.googleusercontent.com/ytc/AIdro_kNM3AsuDhlcjwM0vBiLtGENm2O81yXlrCZyGVIKG1mXA=s176-c-k-c0x00ffffff-no-rj\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -172,7 +172,7 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2NDFiOWI2Y2VkODhkYzljNGQ2OTVlOSIsIm5hbWUiOiLlsI_ni5cgZG9nIiwicGhvdG8iOiJodHRwczovL2ltYWdlcy51bnNwbGFzaC5jb20vcGhvdG8tMTQ3MjA5OTY0NTc4NS01NjU4YWJmNGZmNGU_cT04MCZ3PTE1MCZhdXRvPWZvcm1hdCZmaXQ9Y3JvcCZpeGxpYj1yYi00LjAuMyZpeGlkPU0zd3hNakEzZkRCOE1IeHdhRzkwYnkxd1lXZGxmSHg4ZkdWdWZEQjhmSHg4ZkElM0QlM0QiLCJpYXQiOjE3MTU2MDQ2OTIsImV4cCI6MTcxNjIwOTQ5Mn0.8rRnCeH8Awr0AGaiZn7CT3p_xOcqqWxDmrqAdObNCAc"
+								"value": "Bearer "
 							}
 						],
 						"url": {
@@ -203,7 +203,7 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2NDFiOWI2Y2VkODhkYzljNGQ2OTVlOSIsIm5hbWUiOiLlsI_ni5cgZG9nIiwicGhvdG8iOiJodHRwczovL2ltYWdlcy51bnNwbGFzaC5jb20vcGhvdG8tMTQ3MjA5OTY0NTc4NS01NjU4YWJmNGZmNGU_cT04MCZ3PTE1MCZhdXRvPWZvcm1hdCZmaXQ9Y3JvcCZpeGxpYj1yYi00LjAuMyZpeGlkPU0zd3hNakEzZkRCOE1IeHdhRzkwYnkxd1lXZGxmSHg4ZkdWdWZEQjhmSHg4ZkElM0QlM0QiLCJpYXQiOjE3MTU2MDQ2OTIsImV4cCI6MTcxNjIwOTQ5Mn0.8rRnCeH8Awr0AGaiZn7CT3p_xOcqqWxDmrqAdObNCAc"
+								"value": "Bearer "
 							}
 						],
 						"url": {
@@ -228,12 +228,12 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2M2UxZGQ4MTI5MTg2MDNkNDJiYmE3MCIsImlhdCI6MTcxNTM0NzA1MSwiZXhwIjoxNzE1OTUxODUxfQ.pl7PSSpl8j2IVkNLJHN-IiwsNC-lcTyG0A4ZdQbEho8"
+								"value": "Bearer "
 							}
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"content\": \"test1\",\n    \"image\": \"\",\n    \"tags\": [\"美食\"]\n}",
+							"raw": "{\n    \"content\": \"什麼？！今天要上班！！\",\n    \"image\": \"https://images.unsplash.com/photo-1555685812-4b943f1cb0eb?q=80&w=560&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D\",\n    \"tags\": [\"其他\"]\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -262,12 +262,12 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2M2UxZGQ4MTI5MTg2MDNkNDJiYmE3MCIsImlhdCI6MTcxNTM0NzA1MSwiZXhwIjoxNzE1OTUxODUxfQ.pl7PSSpl8j2IVkNLJHN-IiwsNC-lcTyG0A4ZdQbEho8"
+								"value": "Bearer "
 							}
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"content\": \"test2\",\n    \"image\": \"\",\n    \"tags\": [\"運動\"]\n}",
+							"raw": "{\n    \"content\": \"今天中午大家要吃什麼呢？\",\n    \"image\": \"https://im.marieclaire.com.tw/m800c533h100b0/assets/mc/202312/658A7F382D75C1703575352.jpeg\",\n    \"tags\": [\"美食\"]\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -275,7 +275,7 @@
 							}
 						},
 						"url": {
-							"raw": "https://two024-node-week4.onrender.com/posts/663e2a48de7692bd215227b0",
+							"raw": "https://two024-node-week4.onrender.com/posts/66420bce946a52ecddd0303d",
 							"protocol": "https",
 							"host": [
 								"two024-node-week4",
@@ -284,7 +284,7 @@
 							],
 							"path": [
 								"posts",
-								"663e2a48de7692bd215227b0"
+								"66420bce946a52ecddd0303d"
 							]
 						}
 					},
@@ -297,7 +297,7 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2M2UxZGQ4MTI5MTg2MDNkNDJiYmE3MCIsImlhdCI6MTcxNTM0NzA1MSwiZXhwIjoxNzE1OTUxODUxfQ.pl7PSSpl8j2IVkNLJHN-IiwsNC-lcTyG0A4ZdQbEho8"
+								"value": "Bearer "
 							}
 						],
 						"url": {
@@ -323,11 +323,11 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2M2UxZGQ4MTI5MTg2MDNkNDJiYmE3MCIsImlhdCI6MTcxNTM0NzA1MSwiZXhwIjoxNzE1OTUxODUxfQ.pl7PSSpl8j2IVkNLJHN-IiwsNC-lcTyG0A4ZdQbEho8"
+								"value": "Bearer "
 							}
 						],
 						"url": {
-							"raw": "https://two024-node-week4.onrender.com/posts/663e281249334bb506128320",
+							"raw": "https://two024-node-week4.onrender.com/posts/6634917580b9eae299133288",
 							"protocol": "https",
 							"host": [
 								"two024-node-week4",
@@ -336,7 +336,7 @@
 							],
 							"path": [
 								"posts",
-								"663e281249334bb506128320"
+								"6634917580b9eae299133288"
 							]
 						}
 					},
