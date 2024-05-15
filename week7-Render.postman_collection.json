@@ -1,11 +1,52 @@
 {
 	"info": {
-		"_postman_id": "609de609-f112-4083-bd4e-dd0cd4d421f4",
-		"name": "week6-Render",
+		"_postman_id": "09f9e207-60bc-42f8-a3e1-623e6f2c0c6b",
+		"name": "week7-Render",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "30755152"
 	},
 	"item": [
+		{
+			"name": "upload",
+			"item": [
+				{
+					"name": "圖片上傳",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2NDFiZTdjY2VkODhkYzljNGQ2OTVmZCIsIm5hbWUiOiJIZWxsbyBLaXR0eSIsInBob3RvIjoiaHR0cHM6Ly9oaXBzLmhlYXJzdGFwcHMuY29tL2htZy1wcm9kL2ltYWdlcy8yNzEwOTEyMzItNDY2OTA2MzQ0Nzk3MDc3LTE2NjA5NTc4MDI3OTIyODIwMTMtbi02NTRjNzgzMjVjM2FhLmpwZz9jcm9wPTF4dzoxeGg7Y2VudGVyLHRvcCZyZXNpemU9OTgwOioiLCJpYXQiOjE3MTU3ODEwMTEsImV4cCI6MTcxNjM4NTgxMX0.1k7EwwthStyrxvO0-XhCYvuxW9L6_KhC9cnMlxTH8eg"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "file",
+									"type": "file",
+									"src": "/Users/Apple/Desktop/截圖 2024-05-15 下午9.54.19.png"
+								}
+							]
+						},
+						"url": {
+							"raw": "https://two024-node-week4.onrender.com/upload/file",
+							"protocol": "https",
+							"host": [
+								"two024-node-week4",
+								"onrender",
+								"com"
+							],
+							"path": [
+								"upload",
+								"file"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
 		{
 			"name": "users",
 			"item": [
