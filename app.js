@@ -12,6 +12,7 @@ const {
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
 const postsRouter = require('./routes/posts');
+const uploadRouter = require('./routes/upload');
 const notFound = require('./routes/notFound');
 
 const app = express();
@@ -38,6 +39,7 @@ process.on('uncaughtException', (err) => {
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/posts', postsRouter);
+app.use('/upload', uploadRouter);
 app.use(notFound);
 
 // * 全域 錯誤捕捉
