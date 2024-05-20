@@ -7,10 +7,7 @@
   },
   "host": "https://two024-node-week4.onrender.com",
   "basePath": "/",
-  "schemes": [
-    "http",
-    "https"
-  ],
+  "schemes": ["http", "https"],
   "paths": {
     "/": {
       "get": {
