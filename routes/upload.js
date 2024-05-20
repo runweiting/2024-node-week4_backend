@@ -44,7 +44,7 @@ router.post(
         await User.findByIdAndUpdate(req.user.id, {
           photo: fileUrl,
         });
-        handleResponse(res, 200, '大頭照更新成功', fileUrl);
+        handleResponse(res, 200, '大頭照更新成功');
       });
     });
     // 如果上傳過程中發生錯誤，觸發 error 事件
