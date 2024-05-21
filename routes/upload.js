@@ -4,6 +4,7 @@ const {
   handleResponse,
   handleErrorAsync,
   handleAppError,
+  handleErrorResponse,
 } = require('../statusHandle/handleResponses');
 const { v4: uuidv4 } = require('uuid');
 const isAuth = require('../tools/isAuth');
@@ -49,12 +50,49 @@ router.post(
     });
     // 如果上傳過程中發生錯誤，觸發 error 事件
     blobStream.on('error', (err) => {
-      res.status(500).send('上傳失敗');
+      handleErrorResponse(res, 500, '上傳失敗');
       console.error(err);
     });
     // file.buffer 是一個 Buffer，包含上傳文件的二進制數據，將數據寫入 Google Cloud Storage 的 Blob 中
     blobStream.end(file.buffer);
   }),
+  /**
+   * #swagger.tags = ['用戶 - 圖片上傳 (Uploads)']
+   * #swagger.description = '用戶圖片上傳 API<br>請注意，僅限使用 jpg、jpeg 與 png 格式，檔案大小限制為 1MB 以下。<br><br>
+   ```
+   <form action="/upload/file" enctype="multipart/form-data" method="post"><input type="file" name="file-to-upload"><input type="submit" value="Upload"></form>
+   ```'
+   * #swagger.security = [{
+      "apiKeyAuth": []
+    }]
+   * #swagger.parameters['upload'] = {
+      in: 'body',
+      required: true,
+      schema: {
+        file: {
+          type: 'file',
+          format: 'binary',
+          description: '圖片檔案',
+          required: true,
+        }
+      }
+    }
+   * #swagger.responses[200] = {
+      description: '上傳成功',
+      schema: {
+        "status": true,
+        "message": "大頭照更新成功",
+      }
+    }
+   * #swagger.responses[400] = {
+      description: '上傳失敗',
+      schema: {
+        "status": false,
+        "message": "大頭照更新失敗",
+      }
+    }
+   }
+   */
 );
 
 module.exports = router;

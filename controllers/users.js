@@ -64,6 +64,14 @@ const users = {
     }
     generateSendJWT(targetUser, 201, '登入成功', res);
   },
+  signOut(req, res, next) {
+    res.clearCookie('myToken');
+    handleResponse(res, 200, '登出成功');
+  },
+  async getProfile(req, res, next) {
+    const targetUser = await User.findById(req.user.id);
+    handleResponse(res, 200, '查詢成功', targetUser);
+  },
   async updatePassword(req, res, next) {
     const { password, confirmPassword } = req.body;
     if (!password || !confirmPassword) {
@@ -83,10 +91,6 @@ const users = {
       password: newPassword,
     });
     generateSendJWT(targetUser, 200, '密碼更新成功', res);
-  },
-  async getProfile(req, res, next) {
-    const targetUser = await User.findById(req.user.id);
-    handleResponse(res, 200, '查詢成功', targetUser);
   },
   async updateProfile(req, res, next) {
     const { name, gender, photo } = req.body;
@@ -111,10 +115,6 @@ const users = {
       },
     );
     handleResponse(res, 201, '個人資料更新成功', updateProfile);
-  },
-  signOut(req, res, next) {
-    res.clearCookie('myToken');
-    handleResponse(res, 200, '登出成功');
   },
 };
 

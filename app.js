@@ -2,13 +2,15 @@ const express = require('express');
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
-require('dotenv').config({ path: './config.env' });
 const cors = require('cors');
+const swaggerUI = require('swagger-ui-express');
+const swaggerFile = require('./swagger-output.json');
+require('dotenv').config({ path: './config.env' });
+
 const {
   handleDevError,
   handleProError,
 } = require('./statusHandle/handleResponses');
-
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
 const postsRouter = require('./routes/posts');
@@ -40,6 +42,7 @@ app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/posts', postsRouter);
 app.use('/upload', uploadRouter);
+app.use('/api-doc', swaggerUI.serve, swaggerUI.setup(swaggerFile));
 app.use(notFound);
 
 // * 全域 錯誤捕捉

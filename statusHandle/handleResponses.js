@@ -1,7 +1,7 @@
 // 回傳成功
 const handleResponse = (res, httpStatus, message, data) => {
   res.status(httpStatus).json({
-    status: 'success',
+    status: true,
     message,
     data,
   });
@@ -17,7 +17,7 @@ const handleErrorResponse = (
   errStack,
 ) => {
   const send = {
-    status: 'error',
+    status: false,
     message: message,
   };
   if (err) {

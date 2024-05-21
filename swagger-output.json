@@ -2,84 +2,425 @@
   "swagger": "2.0",
   "info": {
     "title": "MetaWall API",
-    "description": "MetaWall API 練習文件，注意事項：登入成功後請點「Authorize」輸入 Token。",
+    "description": "MetaWall API 練習文件。<br>注意事項：登入成功後請點「Authorize」輸入 Token。<br><br>範例程式碼：<br><br>\n```javascript\nconst config = {\n  headers: { Authorization: token },\n};\naxios.post('/V2/api/user/check', {}, config)\n  .then((res) => {\n    console.log(res.data);\n  })\n  .catch((error) => {\n    console.log(error.response.data);\n  });\n```\n",
     "version": "1.0.0"
   },
-  "host": "https://two024-node-week4.onrender.com",
+  "host": "localhost:3010",
   "basePath": "/",
-  "schemes": ["http", "https"],
+  "schemes": [
+    "http",
+    "https"
+  ],
+  "securityDefinitions": {
+    "apiKeyAuth": {
+      "type": "apiKey",
+      "in": "headers",
+      "name": "authorization",
+      "description": "請加上 API Token"
+    }
+  },
   "paths": {
-    "/": {
-      "get": {
-        "description": "",
-        "responses": {
-          "default": {
-            "description": ""
-          }
-        }
-      }
-    },
     "/users/sign-up": {
       "post": {
-        "description": "",
+        "tags": [
+          "用戶 - 登入及註冊"
+        ],
+        "description": "用戶註冊 API",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "example": "example"
+                },
+                "email": {
+                  "type": "string",
+                  "example": "example@test.com"
+                },
+                "password": {
+                  "type": "string",
+                  "example": "example"
+                },
+                "confirmPassword": {
+                  "type": "string",
+                  "example": "example"
+                }
+              },
+              "required": [
+                "name",
+                "email",
+                "password",
+                "confirmPassword"
+              ]
+            }
+          }
+        ],
         "responses": {
-          "default": {
-            "description": ""
+          "200": {
+            "description": "註冊成功",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "boolean",
+                  "example": true
+                },
+                "message": {
+                  "type": "string",
+                  "example": "註冊成功"
+                },
+                "token": {
+                  "type": "string",
+                  "example": "eyJhbGciOiJSUzI1NiIsImtpZCI6InRCME0yQSJ9...."
+                },
+                "expired": {
+                  "type": "number",
+                  "example": 1630734430297
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request"
           }
         }
       }
     },
     "/users/sign-in": {
       "post": {
-        "description": "",
-        "responses": {
-          "default": {
-            "description": ""
+        "tags": [
+          "用戶 - 登入及註冊"
+        ],
+        "description": "用戶登入 API",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "email": {
+                  "type": "string",
+                  "example": "example@test.com"
+                },
+                "password": {
+                  "type": "string",
+                  "example": "example"
+                }
+              },
+              "required": [
+                "email",
+                "password"
+              ]
+            }
           }
-        }
-      }
-    },
-    "/users/update-password": {
-      "patch": {
-        "description": "",
+        ],
         "responses": {
-          "default": {
-            "description": ""
-          }
-        }
-      }
-    },
-    "/users/profile": {
-      "get": {
-        "description": "",
-        "responses": {
-          "default": {
-            "description": ""
-          }
-        }
-      },
-      "patch": {
-        "description": "",
-        "responses": {
-          "default": {
-            "description": ""
+          "200": {
+            "description": "登入成功",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "boolean",
+                  "example": true
+                },
+                "message": {
+                  "type": "string",
+                  "example": "登入成功"
+                },
+                "token": {
+                  "type": "string",
+                  "example": "eyJhbGciOiJSUzI1NiIsImtpZCI6InRCME0yQSJ9...."
+                },
+                "expired": {
+                  "type": "number",
+                  "example": 1630734430297
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request"
           }
         }
       }
     },
     "/users/sign-out": {
       "post": {
-        "description": "",
+        "tags": [
+          "用戶 - 登入及註冊"
+        ],
+        "description": "用戶登出 API",
         "responses": {
-          "default": {
-            "description": ""
+          "200": {
+            "description": "登出成功"
+          },
+          "400": {
+            "description": "Bad Request"
           }
-        }
+        },
+        "security": [
+          {
+            "apiKeyAuth": []
+          }
+        ]
+      }
+    },
+    "/users/profile": {
+      "get": {
+        "tags": [
+          "用戶 - 個人檔案 (Users)"
+        ],
+        "description": "取得個人檔案 API",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "boolean",
+                  "example": true
+                },
+                "message": {
+                  "type": "string",
+                  "example": "查詢成功"
+                },
+                "data": {
+                  "type": "object",
+                  "properties": {
+                    "_id": {
+                      "type": "string",
+                      "example": "664c185bcd3fb..."
+                    },
+                    "name": {
+                      "type": "string",
+                      "example": "example"
+                    },
+                    "role": {
+                      "type": "string",
+                      "example": "example"
+                    },
+                    "photo": {
+                      "type": "string",
+                      "example": "圖片連結(https)"
+                    },
+                    "createdAt": {
+                      "type": "string",
+                      "example": "2024..."
+                    },
+                    "updatedAt": {
+                      "type": "string",
+                      "example": "2024..."
+                    },
+                    "gender": {
+                      "type": "string",
+                      "example": "example"
+                    }
+                  }
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request"
+          }
+        },
+        "security": [
+          {
+            "apiKeyAuth": []
+          }
+        ]
+      },
+      "patch": {
+        "tags": [
+          "用戶 - 個人檔案 (Users)"
+        ],
+        "description": "更新個人檔案 API",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "example": "example"
+                },
+                "gender": {
+                  "type": "string",
+                  "example": "example"
+                },
+                "photo": {
+                  "type": "string",
+                  "example": "圖片連結(https)"
+                }
+              },
+              "required": [
+                "name",
+                "gender",
+                "photo"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "更新成功",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "boolean",
+                  "example": true
+                },
+                "message": {
+                  "type": "string",
+                  "example": "個人資料更新成功"
+                },
+                "data": {
+                  "type": "object",
+                  "properties": {
+                    "_id": {
+                      "type": "string",
+                      "example": "664c185bcd3fb..."
+                    },
+                    "name": {
+                      "type": "string",
+                      "example": "example"
+                    },
+                    "role": {
+                      "type": "string",
+                      "example": "example"
+                    },
+                    "photo": {
+                      "type": "string",
+                      "example": "圖片連結(https)"
+                    },
+                    "createdAt": {
+                      "type": "string",
+                      "example": "2024..."
+                    },
+                    "updatedAt": {
+                      "type": "string",
+                      "example": "2024..."
+                    },
+                    "gender": {
+                      "type": "string",
+                      "example": "example"
+                    }
+                  }
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request"
+          }
+        },
+        "security": [
+          {
+            "apiKeyAuth": []
+          }
+        ]
+      }
+    },
+    "/users/update-password": {
+      "patch": {
+        "tags": [
+          "用戶 - 個人檔案 (Users)"
+        ],
+        "description": "更新個人密碼 API",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "password": {
+                  "type": "string",
+                  "example": "example"
+                },
+                "confirmPassword": {
+                  "type": "string",
+                  "example": "example"
+                }
+              },
+              "required": [
+                "password",
+                "confirmPassword"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "更新成功",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "boolean",
+                  "example": true
+                },
+                "message": {
+                  "type": "string",
+                  "example": "密碼更新成功"
+                },
+                "token": {
+                  "type": "string",
+                  "example": "eyJhbGciOiJSUzI1NiIsImtpZCI6InRCME0yQSJ9...."
+                },
+                "expired": {
+                  "type": "number",
+                  "example": 1630734430297
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request"
+          }
+        },
+        "security": [
+          {
+            "apiKeyAuth": []
+          }
+        ]
       }
     },
     "/posts/": {
       "get": {
-        "description": "",
+        "tags": [
+          "用戶 - 貼文 (Posts)"
+        ],
+        "description": "取得全部貼文 API",
         "parameters": [
           {
             "name": "timeSort",
@@ -93,39 +434,254 @@
           }
         ],
         "responses": {
-          "default": {
-            "description": ""
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "boolean",
+                  "example": true
+                },
+                "message": {
+                  "type": "string",
+                  "example": "查詢成功"
+                },
+                "data": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "_id": {
+                        "type": "string",
+                        "example": "664c185bcd3fb..."
+                      },
+                      "user": {
+                        "type": "object",
+                        "properties": {
+                          "_id": {
+                            "type": "string",
+                            "example": "664c185bcd3fb..."
+                          },
+                          "name": {
+                            "type": "string",
+                            "example": "example"
+                          },
+                          "photo": {
+                            "type": "string",
+                            "example": "圖片連結(https)"
+                          }
+                        }
+                      },
+                      "content": {
+                        "type": "string",
+                        "example": "example"
+                      },
+                      "image": {
+                        "type": "string",
+                        "example": "圖片連結(https)"
+                      },
+                      "likes": {
+                        "type": "array",
+                        "example": [],
+                        "items": {}
+                      },
+                      "comments": {
+                        "type": "number",
+                        "example": 0
+                      },
+                      "tags": {
+                        "type": "array",
+                        "example": [
+                          "example"
+                        ],
+                        "items": {
+                          "type": "string"
+                        }
+                      },
+                      "isPublic": {
+                        "type": "boolean",
+                        "example": true
+                      },
+                      "createdAt": {
+                        "type": "string",
+                        "example": "2024..."
+                      },
+                      "updatedAt": {
+                        "type": "string",
+                        "example": "2024..."
+                      }
+                    }
+                  }
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
           }
-        }
+        },
+        "security": [
+          {
+            "apiKeyAuth": []
+          }
+        ]
       },
       "post": {
-        "description": "",
-        "responses": {
-          "default": {
-            "description": ""
+        "tags": [
+          "用戶 - 貼文 (Posts)"
+        ],
+        "description": "新增貼文 API",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "content": {
+                  "type": "string",
+                  "example": "example"
+                },
+                "image": {
+                  "type": "string",
+                  "example": "圖片連結(https)"
+                },
+                "tags": {
+                  "type": "array",
+                  "example": [
+                    "example1",
+                    "example2",
+                    "example3"
+                  ],
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              },
+              "required": [
+                "content",
+                "image",
+                "tags"
+              ]
+            }
           }
-        }
+        ],
+        "responses": {
+          "200": {
+            "description": "新增成功",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "boolean",
+                  "example": true
+                },
+                "message": {
+                  "type": "string",
+                  "example": "新增成功"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request"
+          }
+        },
+        "security": [
+          {
+            "apiKeyAuth": []
+          }
+        ]
       }
     },
     "/posts/{id}": {
       "patch": {
-        "description": "",
+        "tags": [
+          "用戶 - 貼文 (Posts)"
+        ],
+        "description": "更新指定貼文 API",
         "parameters": [
           {
             "name": "id",
             "in": "path",
             "required": true,
             "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "content": {
+                  "type": "string",
+                  "example": "example"
+                },
+                "image": {
+                  "type": "string",
+                  "example": "圖片連結(https)"
+                },
+                "tags": {
+                  "type": "array",
+                  "example": [
+                    "example1",
+                    "example2",
+                    "example3"
+                  ],
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              },
+              "required": [
+                "content",
+                "image",
+                "tags"
+              ]
+            }
           }
         ],
         "responses": {
-          "default": {
-            "description": ""
+          "200": {
+            "description": "貼文更新成功",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "boolean",
+                  "example": true
+                },
+                "message": {
+                  "type": "string",
+                  "example": "更新成功"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request"
           }
-        }
+        },
+        "security": [
+          {
+            "apiKeyAuth": []
+          }
+        ]
       },
       "delete": {
-        "description": "",
+        "tags": [
+          "用戶 - 貼文 (Posts)"
+        ],
+        "description": "刪除指定貼文 API",
         "parameters": [
           {
             "name": "id",
@@ -135,30 +691,151 @@
           }
         ],
         "responses": {
-          "default": {
-            "description": ""
+          "200": {
+            "description": "刪除成功",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "boolean",
+                  "example": true
+                },
+                "message": {
+                  "type": "string",
+                  "example": "刪除成功"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
           }
-        }
+        },
+        "security": [
+          {
+            "apiKeyAuth": []
+          }
+        ]
       }
     },
     "/posts/all": {
       "delete": {
-        "description": "",
+        "tags": [
+          "用戶 - 貼文 (Posts)"
+        ],
+        "description": "刪除全部貼文 API",
         "responses": {
-          "default": {
-            "description": ""
+          "200": {
+            "description": "刪除成功",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "boolean",
+                  "example": true
+                },
+                "message": {
+                  "type": "string",
+                  "example": "全部刪除成功"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
           }
-        }
+        },
+        "security": [
+          {
+            "apiKeyAuth": []
+          }
+        ]
       }
     },
     "/upload/file": {
       "post": {
-        "description": "",
-        "responses": {
-          "500": {
-            "description": "Internal Server Error"
+        "tags": [
+          "用戶 - 圖片上傳 (Uploads)"
+        ],
+        "description": "用戶圖片上傳 API<br>請注意，僅限使用 jpg、jpeg 與 png 格式，檔案大小限制為 1MB 以下。<br><br>  ```  <form action=\"/upload/file\" enctype=\"multipart/form-data\" method=\"post\"><input type=\"file\" name=\"file-to-upload\"><input type=\"submit\" value=\"Upload\"></form>  ```",
+        "parameters": [
+          {
+            "name": "upload",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "file": {
+                  "type": "object",
+                  "properties": {
+                    "type": {
+                      "type": "string",
+                      "example": "file"
+                    },
+                    "format": {
+                      "type": "string",
+                      "example": "binary"
+                    },
+                    "description": {
+                      "type": "string",
+                      "example": "圖片檔案"
+                    },
+                    "required": {
+                      "type": "boolean",
+                      "example": true
+                    }
+                  }
+                }
+              }
+            }
           }
-        }
+        ],
+        "responses": {
+          "200": {
+            "description": "上傳成功",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "boolean",
+                  "example": true
+                },
+                "message": {
+                  "type": "string",
+                  "example": "大頭照更新成功"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "400": {
+            "description": "上傳失敗",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "boolean",
+                  "example": false
+                },
+                "message": {
+                  "type": "string",
+                  "example": "大頭照更新失敗"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "apiKeyAuth": []
+          }
+        ]
       }
     }
   }

@@ -3,7 +3,6 @@ const {
   handleAppError,
 } = require('../statusHandle/handleResponses');
 const Post = require('../models/postsModel');
-const User = require('../models/usersModel');
 
 const posts = {
   async getPosts(req, res, next) {
@@ -23,7 +22,6 @@ const posts = {
     handleResponse(res, 200, '查詢成功', posts);
   },
   async createPost(req, res, next) {
-    // 驗證輸入內容
     const { content, image, tags } = req.body;
     if (!content.trim()) {
       return next(handleAppError(400, '貼文內容為必填'));
@@ -32,13 +30,13 @@ const posts = {
     } else if (!tags || !Array.isArray(tags) || tags.length === 0) {
       return next(handleAppError(400, '標籤為必填'));
     }
-    const newPost = await Post.create({
+    await Post.create({
       user: req.user,
       content: content.trim(),
       image: image,
       tags: tags,
     });
-    handleResponse(res, 201, '新增成功', newPost);
+    handleResponse(res, 201, '新增成功');
   },
   async updatePost(req, res, next) {
     const { content, image, tags } = req.body;
@@ -53,7 +51,7 @@ const posts = {
     if (!targetPost) {
       return next(handleAppError(404, '查無此貼文 id'));
     } else {
-      const updatePost = await Post.findByIdAndUpdate(
+      await Post.findByIdAndUpdate(
         req.params.id,
         {
           content: content.trim(),
@@ -65,7 +63,7 @@ const posts = {
           runValidators: true,
         },
       );
-      handleResponse(res, 201, '貼文更新成功', updatePost);
+      handleResponse(res, 201, '貼文更新成功');
     }
   },
   async deleteAllPost(req, res, next) {

@@ -11,7 +11,7 @@ const generateSendJWT = (user, statusCode, message, res) => {
   const expired =
     Date.now() + parseInt(process.env.JWT_EXPIRES_DAY) * 24 * 60 * 60 * 1000;
   res.status(statusCode).json({
-    status: 'success',
+    status: true,
     message,
     token,
     expired,
