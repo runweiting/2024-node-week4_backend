@@ -5,6 +5,7 @@ const {
   handleErrorAsync,
   handleAppError,
   handleErrorResponse,
+  handleMulterError,
 } = require('../middlewares/handleResponses');
 const { v4: uuidv4 } = require('uuid');
 const isAuth = require('../middlewares/isAuth');
@@ -18,6 +19,7 @@ router.post(
   '/file',
   isAuth,
   isImage,
+  handleMulterError,
   handleErrorAsync(async (req, res, next) => {
     if (!req.files.length) {
       return next(handleAppError(400, '尚未上傳檔案', next));

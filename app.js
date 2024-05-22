@@ -7,7 +7,7 @@ const swaggerUI = require('swagger-ui-express');
 const swaggerFile = require('./swagger-output.json');
 require('dotenv').config({ path: './config.env' });
 
-const handleGlobalError = require('./middlewares/handleGlobalError');
+const { handleGlobalError } = require('./middlewares/handleResponses');
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
 const postsRouter = require('./routes/posts');

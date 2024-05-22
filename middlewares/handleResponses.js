@@ -1,3 +1,5 @@
+const multer = require('multer');
+
 // 回傳成功
 const handleResponse = (res, httpStatus, message, data) => {
   res.status(httpStatus).json({
@@ -28,7 +30,7 @@ const handleErrorResponse = (
   res.status(httpStatus).json(send);
 };
 
-// 回傳自定錯誤
+// 自定錯誤
 const handleAppError = (httpStatus, errMessage, next) => {
   const error = new Error(errMessage);
   error.statusCode = httpStatus;
@@ -36,7 +38,7 @@ const handleAppError = (httpStatus, errMessage, next) => {
   return error;
 };
 
-// 回傳非同步錯誤
+// 非同步錯誤
 const handleErrorAsync = function handleErrorAsync(func) {
   // 新增 middleware 接住資料
   return function (req, res, next) {
@@ -47,7 +49,7 @@ const handleErrorAsync = function handleErrorAsync(func) {
   };
 };
 
-// 回傳 dev 開發環境錯誤
+// dev 開發環境錯誤
 const handleDevError = (err, res) => {
   handleErrorResponse(
     res,
@@ -59,7 +61,7 @@ const handleDevError = (err, res) => {
   );
 };
 
-// 回傳 pro 正式環境錯誤
+// pro 正式環境錯誤
 const handleProError = (err, res) => {
   if (err.isOperational) {
     handleErrorResponse(res, err.statusCode, err.message);
@@ -69,6 +71,41 @@ const handleProError = (err, res) => {
   }
 };
 
+// 全域錯誤捕捉
+const handleGlobalError = (err, req, res, next) => {
+  err.statusCode = err.statusCode || 500;
+  if (process.env.NODE_ENV === 'dev') {
+    return handleDevError(err, res);
+  }
+  // 過濾是否為各種 npm 錯誤訊息 = 翻譯 npm 錯誤給使用者看
+  if (err.name === 'AxiosError') {
+    err.isOperational = true;
+    err.message = 'axios 連線錯誤';
+    return handleProError(err, res);
+  } else if (err.name === 'ValidationError') {
+    err.isOperational = true;
+    err.message = '資料欄位未正確填寫，請重新輸入！';
+    return handleProError(err, res);
+  } else if (err.name === 'CastError') {
+    err.isOperational = true;
+    err.message = '參數錯誤';
+    return handleProError(err, res);
+  }
+  // 都不是，判斷是否為自定錯誤，不然就是 500
+  return handleProError(err, res);
+};
+
+// multer 錯誤
+const handleMulterError = (err, req, res, next) => {
+  // instanceof 檢查錯誤是否為特定類型，以便進行特定的錯誤處理
+  if (err instanceof multer.MulterError) {
+    if (err.code === 'LIMIT_FILE_SIZE') {
+      return next(handleAppError(400, '檔案大小超過限制：僅限 2MB 以下。'));
+    }
+  }
+  next(err);
+};
+
 module.exports = {
   handleResponse,
   handleErrorResponse,
@@ -76,4 +113,6 @@ module.exports = {
   handleErrorAsync,
   handleDevError,
   handleProError,
+  handleGlobalError,
+  handleMulterError,
 };
