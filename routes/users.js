@@ -1,12 +1,12 @@
 const express = require('express');
 const router = express.Router();
-const UsersControllers = require('../controllers/users');
-const { handleErrorAsync } = require('../statusHandle/handleResponses');
-const isAuth = require('../tools/isAuth');
+const UsersController = require('../controllers/usersController');
+const { handleErrorAsync } = require('../middlewares/handleResponses');
+const isAuth = require('../middlewares/isAuth');
 
 router.post(
   '/sign-up',
-  handleErrorAsync(UsersControllers.signUp),
+  handleErrorAsync(UsersController.signUp),
   /**
    * #swagger.tags = ['用戶 - 登入及註冊']
    * #swagger.description = '用戶註冊 API'
@@ -21,7 +21,7 @@ router.post(
         '$confirmPassword': 'example'
       }
     }
-   * #swagger.responses[200] = {
+   * #swagger.responses[201] = {
       description: '註冊成功',
       schema: {
         "status": true,
@@ -38,7 +38,7 @@ router.post(
 
 router.post(
   '/sign-in',
-  handleErrorAsync(UsersControllers.signIn),
+  handleErrorAsync(UsersController.signIn),
   /**
    * #swagger.tags = ['用戶 - 登入及註冊']
    * #swagger.description = '用戶登入 API'
@@ -69,7 +69,7 @@ router.post(
 router.post(
   '/sign-out',
   isAuth,
-  UsersControllers.signOut,
+  UsersController.signOut,
   /**
    * #swagger.tags = ['用戶 - 登入及註冊']
    * #swagger.description = '用戶登出 API'
@@ -88,7 +88,7 @@ router.post(
 router.get(
   '/profile',
   isAuth,
-  handleErrorAsync(UsersControllers.getProfile),
+  handleErrorAsync(UsersController.getProfile),
   /**
    * #swagger.tags = ['用戶 - 個人檔案 (Users)']
    * #swagger.description = '取得個人檔案 API'
@@ -120,7 +120,7 @@ router.get(
 router.patch(
   '/update-password',
   isAuth,
-  handleErrorAsync(UsersControllers.updatePassword),
+  handleErrorAsync(UsersController.updatePassword),
   /**
    * #swagger.tags = ['用戶 - 個人檔案 (Users)']
    * #swagger.description = '更新個人密碼 API'
@@ -154,7 +154,7 @@ router.patch(
 router.patch(
   '/profile',
   isAuth,
-  handleErrorAsync(UsersControllers.updateProfile),
+  handleErrorAsync(UsersController.updateProfile),
   /**
    * #swagger.tags = ['用戶 - 個人檔案 (Users)']
    * #swagger.description = '更新個人檔案 API'

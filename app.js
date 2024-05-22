@@ -7,10 +7,7 @@ const swaggerUI = require('swagger-ui-express');
 const swaggerFile = require('./swagger-output.json');
 require('dotenv').config({ path: './config.env' });
 
-const {
-  handleDevError,
-  handleProError,
-} = require('./statusHandle/handleResponses');
+const handleGlobalError = require('./middlewares/handleGlobalError');
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
 const postsRouter = require('./routes/posts');
@@ -20,6 +17,7 @@ const notFound = require('./routes/notFound');
 const app = express();
 require('./connections');
 
+// * Middlewares
 app.use(cors());
 app.use(logger('dev'));
 app.use(express.json());
@@ -27,7 +25,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-// * uncaughtException
+// * Uncaught Exception
 // 當發生未捕獲的異常時，捕捉整個程式中的錯誤並終止執行
 process.on('uncaughtException', (err) => {
   console.error('uncaughtException!');
@@ -37,7 +35,7 @@ process.on('uncaughtException', (err) => {
   process.exit(1);
 });
 
-//  * router middleware
+//  * Routers
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/posts', postsRouter);
@@ -45,32 +43,11 @@ app.use('/upload', uploadRouter);
 app.use('/api-doc', swaggerUI.serve, swaggerUI.setup(swaggerFile));
 app.use(notFound);
 
-// * 全域 錯誤捕捉
+// * Global Error Handling
 // 捕獲所有未被其他中間件或路由處理的錯誤
-app.use((err, req, res, next) => {
-  err.statusCode = err.statusCode || 500;
-  if (process.env.NODE_ENV === 'dev') {
-    return handleDevError(err, res);
-  }
-  // 過濾是否為各種 npm 錯誤訊息 = 翻譯 npm 錯誤給使用者看
-  if (err.name === 'AxiosError') {
-    err.isOperational = true;
-    err.message = 'axios 連線錯誤';
-    return handleProError(err, res);
-  } else if (err.name === 'ValidationError') {
-    err.isOperational = true;
-    err.message = '資料欄位未正確填寫，請重新輸入！';
-    return handleProError(err, res);
-  } else if (err.name === 'CastError') {
-    err.isOperational = true;
-    err.message = '參數錯誤';
-    return handleProError(err, res);
-  }
-  // 都不是，判斷是否為自定錯誤，不然就是 500
-  return handleProError(err, res);
-});
+app.use(handleGlobalError);
 
-// * unhandledRejection
+// * Unhandled Rejection
 // catch 未被處理時觸發，捕獲異步操作中的錯誤
 process.on('unhandledRejection', (err, promise) => {
   console.error('未捕捉到的rejection：', promise, '原因：', err);

@@ -5,10 +5,10 @@ const {
   handleErrorAsync,
   handleAppError,
   handleErrorResponse,
-} = require('../statusHandle/handleResponses');
+} = require('../middlewares/handleResponses');
 const { v4: uuidv4 } = require('uuid');
-const isAuth = require('../tools/isAuth');
-const isImage = require('../tools/isImage');
+const isAuth = require('../middlewares/isAuth');
+const isImage = require('../middlewares/isImage');
 const firebaseAdmin = require('../tools/firebase');
 // bucket 雲存儲桶是 Firebase Admin SDK 中對應於一個存儲桶的對象
 const bucket = firebaseAdmin.storage().bucket();

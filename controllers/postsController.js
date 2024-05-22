@@ -1,7 +1,7 @@
 const {
   handleResponse,
   handleAppError,
-} = require('../statusHandle/handleResponses');
+} = require('../middlewares/handleResponses');
 const Post = require('../models/postsModel');
 
 const posts = {

@@ -4,8 +4,8 @@ const User = require('../models/usersModel');
 const {
   handleResponse,
   handleAppError,
-} = require('../statusHandle/handleResponses');
-const generateSendJWT = require('../tools/generateSendJWT');
+} = require('../middlewares/handleResponses');
+const generateSendJWT = require('../middlewares/generateSendJWT');
 
 const users = {
   async signUp(req, res, next) {
@@ -31,6 +31,11 @@ const users = {
     ) {
       return next(handleAppError(400, '密碼需至少 8 碼以上，並英數混合'));
     }
+    const targetUser = await User.findOne({ email });
+    if (targetUser) {
+      // 回應統一的錯誤訊息以避免資安問題
+      return next(handleAppError(400, '註冊失敗，請稍後再試'));
+    }
     // 雜湊 Hash Function(要加密的字串, 要加鹽的字串長度)
     password = await bcrypt.hash(password, 12);
     const newUser = await User.create({
@@ -38,6 +43,8 @@ const users = {
       email,
       password,
     });
+    // *可以考慮在這裡發送 Email 驗證信
+    // *sendVerificationEmail(newUser);
     generateSendJWT(newUser, 201, '註冊成功', res);
   },
   async signIn(req, res, next) {
@@ -52,15 +59,17 @@ const users = {
       !validator.isLength(password, { min: 8 }) ||
       !validator.matches(password, '(?=.*[a-zA-Z])(?=.*\\d)')
     ) {
-      return next(handleAppError(400, '密碼需至少 8 碼以上，並中英混合'));
+      return next(handleAppError(400, '密碼需至少 8 碼以上，並英數混合'));
     }
     const targetUser = await User.findOne({ email }).select('+password');
     if (!targetUser) {
-      return next(handleAppError(404, '無此使用者'));
+      // 回應統一的錯誤訊息以避免資安問題
+      return next(handleAppError(400, '帳號或密碼不正確'));
     }
     const isAuth = await bcrypt.compare(password, targetUser.password);
     if (!isAuth) {
-      return next(handleAppError(400, '密碼不正確'));
+      // 回應統一的錯誤訊息以避免資安問題
+      return next(handleAppError(400, '帳號或密碼不正確'));
     }
     generateSendJWT(targetUser, 201, '登入成功', res);
   },

@@ -1,13 +1,13 @@
 const express = require('express');
 const router = express.Router();
-const PostsControllers = require('../controllers/posts');
-const { handleErrorAsync } = require('../statusHandle/handleResponses');
-const isAuth = require('../tools/isAuth');
+const PostsController = require('../controllers/postsController');
+const { handleErrorAsync } = require('../middlewares/handleResponses');
+const isAuth = require('../middlewares/isAuth');
 
 router.get(
   '/',
   isAuth,
-  PostsControllers.getPosts,
+  PostsController.getPosts,
   /**
    * #swagger.tags = ['用戶 - 貼文 (Posts)']
    * #swagger.description = '取得全部貼文 API'
@@ -47,7 +47,7 @@ router.get(
 router.post(
   '/',
   isAuth,
-  handleErrorAsync(PostsControllers.createPost),
+  handleErrorAsync(PostsController.createPost),
   /**
    * #swagger.tags = ['用戶 - 貼文 (Posts)']
    * #swagger.description = '新增貼文 API'
@@ -81,7 +81,7 @@ router.post(
 router.patch(
   '/:id',
   isAuth,
-  handleErrorAsync(PostsControllers.updatePost),
+  handleErrorAsync(PostsController.updatePost),
   /**
    * #swagger.tags = ['用戶 - 貼文 (Posts)']
    * #swagger.description = '更新指定貼文 API'
@@ -115,7 +115,7 @@ router.patch(
 router.delete(
   '/all',
   isAuth,
-  PostsControllers.deleteAllPost,
+  PostsController.deleteAllPost,
   /**
    * #swagger.tags = ['用戶 - 貼文 (Posts)']
    * #swagger.description = '刪除全部貼文 API'
@@ -135,7 +135,7 @@ router.delete(
 router.delete(
   '/:id',
   isAuth,
-  handleErrorAsync(PostsControllers.deletePost),
+  handleErrorAsync(PostsController.deletePost),
   /**
    * #swagger.tags = ['用戶 - 貼文 (Posts)']
    * #swagger.description = '刪除指定貼文 API'
