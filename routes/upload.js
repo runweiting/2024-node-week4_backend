@@ -22,7 +22,7 @@ router.post(
   handleMulterError,
   handleErrorAsync(async (req, res, next) => {
     if (!req.files.length) {
-      return next(handleAppError(400, '尚未上傳檔案', next));
+      return handleAppError(400, '尚未上傳檔案', next);
     }
     // 取得 req.files 陣列裡的第一個檔案
     const file = req.files[0];
@@ -42,7 +42,7 @@ router.post(
       // 取得檔案網址
       blob.getSignedUrl(config, async (err, fileUrl) => {
         if (err) {
-          return next(handleAppError(500, '取得檔案網址失敗'));
+          return handleAppError(500, '取得檔案網址失敗', next);
         }
         await User.findByIdAndUpdate(req.user.id, {
           photo: fileUrl,

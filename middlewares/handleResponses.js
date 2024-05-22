@@ -35,6 +35,12 @@ const handleAppError = (httpStatus, errMessage, next) => {
   const error = new Error(errMessage);
   error.statusCode = httpStatus;
   error.isOperational = true;
+  // 若有 next
+  if (next) {
+    // 跳過後續的路由和中間件，將 error 直接傳遞給全域錯誤捕捉
+    return next(error);
+  }
+  // 自行處理 error，不用 next 傳遞 error 給下一個 middleware
   return error;
 };
 
@@ -100,7 +106,7 @@ const handleMulterError = (err, req, res, next) => {
   // instanceof 檢查錯誤是否為特定類型，以便進行特定的錯誤處理
   if (err instanceof multer.MulterError) {
     if (err.code === 'LIMIT_FILE_SIZE') {
-      return next(handleAppError(400, '檔案大小超過限制：僅限 2MB 以下。'));
+      return handleAppError(400, '檔案大小超過限制：僅限 2MB 以下。', next);
     }
   }
   next(err);

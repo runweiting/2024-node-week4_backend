@@ -14,8 +14,10 @@ const isImage = multer({
   fileFilter(req, file, cb) {
     const ext = path.extname(file.originalname).toLowerCase();
     if (ext !== '.jpg' && ext !== '.jpeg' && ext !== '.png') {
-      return cb(
-        handleAppError(400, '檔案格式錯誤，僅限上傳 jpg、jpeg 與 png 格式。'),
+      return handleAppError(
+        400,
+        '檔案格式錯誤，僅限上傳 jpg、jpeg 與 png 格式。',
+        cb,
       );
     }
     // 第一個參數是錯誤，第二個參數是 Boolean，表示是否接受上傳的文件

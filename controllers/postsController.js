@@ -24,11 +24,11 @@ const posts = {
   async createPost(req, res, next) {
     const { content, image, tags } = req.body;
     if (!content.trim()) {
-      return next(handleAppError(400, '貼文內容為必填'));
+      return handleAppError(400, '貼文內容為必填', next);
     } else if (image && !String(image).startsWith('http')) {
-      return next(handleAppError(400, '圖片網址錯誤'));
+      return handleAppError(400, '圖片網址錯誤', next);
     } else if (!tags || !Array.isArray(tags) || tags.length === 0) {
-      return next(handleAppError(400, '標籤為必填'));
+      return handleAppError(400, '標籤為必填', next);
     }
     await Post.create({
       user: req.user,
@@ -41,15 +41,15 @@ const posts = {
   async updatePost(req, res, next) {
     const { content, image, tags } = req.body;
     if (!content.trim()) {
-      return next(handleAppError(400, '貼文內容為必填'));
+      return handleAppError(400, '貼文內容為必填', next);
     } else if (image && !String(image).startsWith('http')) {
-      return next(handleAppError(400, '圖片網址錯誤'));
+      return handleAppError(400, '圖片網址錯誤', next);
     } else if (!tags || !Array.isArray(tags) || tags.length === 0) {
-      return next(handleAppError(400, '標籤為必填'));
+      return handleAppError(400, '標籤為必填', next);
     }
     const targetPost = await Post.findById(req.params.id);
     if (!targetPost) {
-      return next(handleAppError(404, '查無此貼文 id'));
+      return handleAppError(404, '查無此貼文 id', next);
     } else {
       await Post.findByIdAndUpdate(
         req.params.id,
@@ -73,7 +73,7 @@ const posts = {
   async deletePost(req, res, next) {
     const targetPost = await Post.findById(req.params.id);
     if (!targetPost) {
-      return next(handleAppError(404, '查無此貼文 id'));
+      return handleAppError(404, '查無此貼文 id', next);
     } else {
       await Post.findByIdAndDelete(req.params.id);
       handleResponse(res, 200, "刪除成功'");

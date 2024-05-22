@@ -11,30 +11,30 @@ const users = {
   async signUp(req, res, next) {
     let { name, email, password, confirmPassword } = req.body;
     if (!name || !email || !password || !confirmPassword) {
-      return next(handleAppError(400, '請填寫所有欄位'));
+      return handleAppError(400, '請填寫所有欄位', next);
     }
     if (password !== confirmPassword) {
-      return next(handleAppError(400, '密碼不一致'));
+      return handleAppError(400, '密碼不一致', next);
     }
     if (typeof name !== 'string') {
-      return next(handleAppError(400, '資料格式錯誤'));
+      return handleAppError(400, '資料格式錯誤', next);
     }
     if (!validator.isLength(name, { min: 2 })) {
-      return next(handleAppError(400, '暱稱至少 2 個字元以上'));
+      return handleAppError(400, '暱稱至少 2 個字元以上', next);
     }
     if (!validator.isEmail(email)) {
-      return next(handleAppError(400, 'email格式錯誤'));
+      return handleAppError(400, 'email格式錯誤', next);
     }
     if (
       !validator.isLength(password, { min: 8 }) ||
       !validator.matches(password, '(?=.*[a-zA-Z])(?=.*\\d)')
     ) {
-      return next(handleAppError(400, '密碼需至少 8 碼以上，並英數混合'));
+      return handleAppError(400, '密碼需至少 8 碼以上，並英數混合', next);
     }
     const targetUser = await User.findOne({ email });
     if (targetUser) {
       // 回應統一的錯誤訊息以避免資安問題
-      return next(handleAppError(400, '註冊失敗，請稍後再試'));
+      return handleAppError(400, '註冊失敗，請稍後再試', next);
     }
     // 雜湊 Hash Function(要加密的字串, 要加鹽的字串長度)
     password = await bcrypt.hash(password, 12);
@@ -50,26 +50,26 @@ const users = {
   async signIn(req, res, next) {
     const { email, password } = req.body;
     if (!email || !password) {
-      return next(handleAppError(400, '帳號與密碼不可為空'));
+      return handleAppError(400, '帳號與密碼不可為空', next);
     }
     if (!validator.isEmail(email)) {
-      return next(handleAppError(400, 'email格式錯誤'));
+      return handleAppError(400, 'email格式錯誤', next);
     }
     if (
       !validator.isLength(password, { min: 8 }) ||
       !validator.matches(password, '(?=.*[a-zA-Z])(?=.*\\d)')
     ) {
-      return next(handleAppError(400, '密碼需至少 8 碼以上，並英數混合'));
+      return handleAppError(400, '密碼需至少 8 碼以上，並英數混合', next);
     }
     const targetUser = await User.findOne({ email }).select('+password');
     if (!targetUser) {
       // 回應統一的錯誤訊息以避免資安問題
-      return next(handleAppError(400, '帳號或密碼不正確'));
+      return handleAppError(400, '帳號或密碼不正確', next);
     }
     const isAuth = await bcrypt.compare(password, targetUser.password);
     if (!isAuth) {
       // 回應統一的錯誤訊息以避免資安問題
-      return next(handleAppError(400, '帳號或密碼不正確'));
+      return handleAppError(400, '帳號或密碼不正確', next);
     }
     generateSendJWT(targetUser, 201, '登入成功', res);
   },
@@ -84,16 +84,16 @@ const users = {
   async updatePassword(req, res, next) {
     const { password, confirmPassword } = req.body;
     if (!password || !confirmPassword) {
-      return next(handleAppError(400, '請填寫所有欄位'));
+      return handleAppError(400, '請填寫所有欄位', next);
     }
     if (password !== confirmPassword) {
-      return next(handleAppError(400, '密碼不一致'));
+      return handleAppError(400, '密碼不一致', next);
     }
     if (
       !validator.isLength(password, { min: 8 }) ||
       !validator.matches(password, '(?=.*[a-zA-Z])(?=.*\\d)')
     ) {
-      return next(handleAppError(400, '密碼需至少 8 碼以上，並中英混合'));
+      return handleAppError(400, '密碼需至少 8 碼以上，並中英混合', next);
     }
     const newPassword = await bcrypt.hash(password, 12);
     const targetUser = await User.findByIdAndUpdate(req.user.id, {
@@ -104,13 +104,13 @@ const users = {
   async updateProfile(req, res, next) {
     const { name, gender, photo } = req.body;
     if (!name) {
-      return next(handleAppError(400, '匿稱為必填'));
+      return handleAppError(400, '匿稱為必填', next);
     }
     if (typeof name !== 'string') {
-      return next(handleAppError(400, '匿稱格式錯誤'));
+      return handleAppError(400, '匿稱格式錯誤', next);
     }
     if (!validator.isLength(name, { min: 2 })) {
-      return next(handleAppError(400, '暱稱至少 2 個字元以上'));
+      return handleAppError(400, '暱稱至少 2 個字元以上', next);
     }
     const updateProfile = await User.findByIdAndUpdate(
       req.user.id,

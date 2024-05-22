@@ -12,7 +12,7 @@ const isAuth = handleErrorAsync(async (req, res, next) => {
     token = req.headers.authorization.split(' ')[1];
   }
   if (!token) {
-    return next(handleAppError(401, '尚未登入'));
+    return handleAppError(401, '使用者尚未登入', next);
   }
   // 再解析 token 夾帶的 payload 是否正確
   const decoded = await new Promise((resolve, reject) => {
