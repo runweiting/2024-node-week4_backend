@@ -15,7 +15,7 @@ const uploadRouter = require('./routes/upload');
 const notFound = require('./routes/notFound');
 
 const app = express();
-require('./connections');
+require('./connections/mongoose');
 
 // * Middlewares
 app.use(cors());
