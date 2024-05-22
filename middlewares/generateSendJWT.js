@@ -2,7 +2,7 @@ const jwt = require('jsonwebtoken');
 
 const generateSendJWT = (user, statusCode, message, res) => {
   const { _id, name, photo } = user;
-  // 將 user.id 作為 payload 生成 token
+  // 將 user _id, name, photo 作為 payload 生成 token
   const token = jwt.sign({ id: _id, name, photo }, process.env.JWT_SECRET, {
     expiresIn: process.env.JWT_EXPIRES_DAY,
   });

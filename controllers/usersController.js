@@ -93,7 +93,7 @@ const users = {
       !validator.isLength(password, { min: 8 }) ||
       !validator.matches(password, '(?=.*[a-zA-Z])(?=.*\\d)')
     ) {
-      return handleAppError(400, '密碼需至少 8 碼以上，並中英混合', next);
+      return handleAppError(400, '密碼需至少 8 碼以上，並英數混合', next);
     }
     const newPassword = await bcrypt.hash(password, 12);
     const targetUser = await User.findByIdAndUpdate(req.user.id, {
