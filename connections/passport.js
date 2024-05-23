@@ -1,5 +1,7 @@
 const passport = require('passport');
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
+const bcrypt = require('bcryptjs');
+const User = require('../models/usersModel');
 
 passport.use(
   new GoogleStrategy(
@@ -8,8 +10,25 @@ passport.use(
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
       callbackURL: process.env.GOOGLE_CLIENT_CALLBACKURL,
     },
-    function (accessToken, refreshToken, profile, cb) {
-      return cb(null, 'user');
+    async function (accessToken, refreshToken, profile, cb) {
+      // 判斷使用者是否曾以 google 登入
+      const targetUser = await User.findOne({ googleId: profile.id });
+      if (targetUser) {
+        console.log('使用者已存在');
+        return cb(null, targetUser);
+      }
+      // 幫使用者生成加密密碼註冊
+      const password = bcrypt.hash(
+        process.env.GOOGLE_RESOURCE_OWNER_SECRET,
+        12,
+      );
+      const newUser = await User.create({
+        name: profile.displayName,
+        email: profile.emails[0].value,
+        password,
+        googleId: profile.id,
+      });
+      return cb(null, newUser);
     },
   ),
 );

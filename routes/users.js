@@ -4,6 +4,7 @@ const passport = require('passport');
 const UsersController = require('../controllers/usersController');
 const { handleErrorAsync } = require('../middlewares/handleResponses');
 const isAuth = require('../middlewares/isAuth');
+const { generateUrlJWT } = require('../middlewares/generateJWT');
 
 router.post(
   '/sign-up',
@@ -198,14 +199,12 @@ router.get(
   '/google',
   passport.authenticate('google', { scope: ['email', 'profile'] }),
 );
+
 router.get(
   '/google/callback',
   passport.authenticate('google', { session: false }),
   (req, res) => {
-    res.send({
-      status: true,
-      data: req.user,
-    });
+    generateUrlJWT(req.user, res);
   },
 );
 

@@ -5,7 +5,7 @@ const {
   handleResponse,
   handleAppError,
 } = require('../middlewares/handleResponses');
-const generateSendJWT = require('../middlewares/generateSendJWT');
+const generateSendJWT = require('../middlewares/generateJWT');
 
 const users = {
   async signUp(req, res, next) {

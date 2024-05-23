@@ -36,6 +36,9 @@ const usersSchema = new mongoose.Schema(
       default: '',
       trim: true,
     },
+    googleId: {
+      type: String,
+    },
   },
   {
     versionKey: false,
