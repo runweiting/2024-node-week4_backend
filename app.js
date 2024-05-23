@@ -20,6 +20,7 @@ const notFound = require('./routes/notFound');
 
 const app = express();
 require('./connections/mongoose');
+require('./connections/passport');
 
 handleUncaughtException();
 handleUnhandledRejection();

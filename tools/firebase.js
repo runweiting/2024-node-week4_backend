@@ -1,5 +1,3 @@
-const dotenv = require('dotenv');
-dotenv.config({ path: '../config.env' });
 const admin = require('firebase-admin');
 
 // Firebase Admin SDK(Software Development Kit) 金鑰內容
