@@ -10,15 +10,15 @@ passport.use(
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
       callbackURL: process.env.GOOGLE_CLIENT_CALLBACKURL,
     },
-    async function (accessToken, refreshToken, profile, cb) {
+    async (accessToken, refreshToken, profile, cb) => {
       // 判斷使用者是否曾以 google 登入
       const targetUser = await User.findOne({ googleId: profile.id });
       if (targetUser) {
         console.log('使用者已存在');
         return cb(null, targetUser);
       }
-      // 幫使用者生成加密密碼註冊
-      const password = bcrypt.hash(
+      // 幫未曾以 google 登入的使用者生成加密密碼來註冊
+      const password = await bcrypt.hash(
         process.env.GOOGLE_RESOURCE_OWNER_SECRET,
         12,
       );
