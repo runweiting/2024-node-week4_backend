@@ -17,7 +17,7 @@ passport.use(
         console.log('使用者已存在');
         return cb(null, targetUser);
       }
-      // 幫未曾以 google 登入的使用者生成加密密碼來註冊
+      // 為未曾以 google 登入的使用者註冊帳號
       const password = await bcrypt.hash(
         process.env.GOOGLE_RESOURCE_OWNER_SECRET,
         12,

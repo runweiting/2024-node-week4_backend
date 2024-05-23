@@ -24,16 +24,9 @@ const generateUrlJWT = (user, res) => {
     expiresIn: process.env.JWT_EXPIRES_DAY,
   });
   user.password = undefined;
-  console.log(
-    'GOOGLE_RESOURCE_OWNER_REDIRECT',
-    process.env.GOOGLE_RESOURCE_OWNER_REDIRECT,
-  );
   // 使用者透過 ‘/user/google’ 登入 google，不是透過 API，故需重新導向 res.redirect
   res.redirect(
-    `${process.env.GOOGLE_RESOURCE_OWNER_REDIRECT}/callback?token=${token}&name=${user.name}`,
-  );
-  console.log(
-    `${process.env.GOOGLE_RESOURCE_OWNER_REDIRECT}/callback?token=${token}&name=${user.name}`,
+    `${process.env.GOOGLE_RESOURCE_OWNER_REDIRECT}?token=${token}&name=${user.name}`,
   );
 };
 
