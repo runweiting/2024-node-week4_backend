@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const passport = require('passport');
 const UsersController = require('../controllers/usersController');
 const { handleErrorAsync } = require('../middlewares/handleResponses');
 const isAuth = require('../middlewares/isAuth');
@@ -192,4 +193,20 @@ router.patch(
     }
    */
 );
+
+router.get(
+  '/google',
+  passport.authenticate('google', { scope: ['email', 'profile'] }),
+);
+router.get(
+  '/google/callback',
+  passport.authenticate('google', { session: false }),
+  (req, res) => {
+    res.send({
+      status: true,
+      data: req.user,
+    });
+  },
+);
+
 module.exports = router;
