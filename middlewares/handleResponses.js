@@ -112,6 +112,26 @@ const handleMulterError = (err, req, res, next) => {
   next(err);
 };
 
+// Uncaught Exception
+// 當發生未捕獲的異常時，捕捉整個程式中的錯誤並終止執行
+const handleUncaughtException = () => {
+  process.on('uncaughtException', (err) => {
+    console.error('uncaughtException!');
+    console.error(err.name);
+    console.error(err.message);
+    console.error(err.stack);
+    process.exit(1);
+  });
+};
+
+// Unhandled Rejection
+// catch 未被處理時觸發，捕獲異步操作中的錯誤
+const handleUnhandledRejection = () => {
+  process.on('unhandledRejection', (err, promise) => {
+    console.error('未捕捉到的rejection：', promise, '原因：', err);
+  });
+};
+
 module.exports = {
   handleResponse,
   handleErrorResponse,
@@ -121,4 +141,6 @@ module.exports = {
   handleProError,
   handleGlobalError,
   handleMulterError,
+  handleUncaughtException,
+  handleUnhandledRejection,
 };

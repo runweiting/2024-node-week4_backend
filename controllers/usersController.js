@@ -34,7 +34,7 @@ const users = {
     const targetUser = await User.findOne({ email });
     if (targetUser) {
       // 回應統一的錯誤訊息以避免資安問題
-      return handleAppError(400, '註冊失敗，請稍後再試', next);
+      return handleAppError(400, '該帳號已存在', next);
     }
     // 雜湊 Hash Function(要加密的字串, 要加鹽的字串長度)
     password = await bcrypt.hash(password, 12);
