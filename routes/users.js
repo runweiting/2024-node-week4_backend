@@ -198,6 +198,9 @@ router.patch(
 router.get(
   '/google',
   passport.authenticate('google', { scope: ['email', 'profile'] }),
+  /**
+   * #swagger.ignore = true
+   */
 );
 
 router.get(
@@ -206,6 +209,9 @@ router.get(
   (req, res) => {
     generateUrlJWT(req.user, res);
   },
+  /**
+   * #swagger.ignore = true
+   */
 );
 
 module.exports = router;
