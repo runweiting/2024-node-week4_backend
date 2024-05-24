@@ -33,7 +33,7 @@ const generateUrlJWT = (user, res) => {
   ).toUTCString();
   // 使用者透過 ‘/user/google’ 登入 google，不是透過 API，故需重新導向 res.redirect
   res.redirect(
-    `${process.env.GOOGLE_RESOURCE_OWNER_REDIRECT}?token=${token}&expires=${expires}`,
+    `${process.env.GOOGLE_RESOURCE_OWNER_REDIRECT}/callback?token=${token}&expires=${expires}`,
   );
 };
 
