@@ -23,7 +23,7 @@
     "/users/sign-up": {
       "post": {
         "tags": [
-          "用戶 - 登入及註冊"
+          "會員功能 - 登入註冊"
         ],
         "description": "用戶註冊 API",
         "parameters": [
@@ -61,7 +61,7 @@
           }
         ],
         "responses": {
-          "200": {
+          "201": {
             "description": "註冊成功",
             "schema": {
               "type": "object",
@@ -97,7 +97,7 @@
     "/users/sign-in": {
       "post": {
         "tags": [
-          "用戶 - 登入及註冊"
+          "會員功能 - 登入註冊"
         ],
         "description": "用戶登入 API",
         "parameters": [
@@ -161,7 +161,7 @@
     "/users/sign-out": {
       "post": {
         "tags": [
-          "用戶 - 登入及註冊"
+          "會員功能 - 登入註冊"
         ],
         "description": "用戶登出 API",
         "responses": {
@@ -182,7 +182,7 @@
     "/users/profile": {
       "get": {
         "tags": [
-          "用戶 - 個人檔案 (Users)"
+          "會員功能 - 個人檔案"
         ],
         "description": "取得個人檔案 API",
         "responses": {
@@ -250,7 +250,7 @@
       },
       "patch": {
         "tags": [
-          "用戶 - 個人檔案 (Users)"
+          "會員功能 - 個人檔案"
         ],
         "description": "更新個人檔案 API",
         "parameters": [
@@ -349,7 +349,7 @@
     "/users/update-password": {
       "patch": {
         "tags": [
-          "用戶 - 個人檔案 (Users)"
+          "會員功能 - 個人檔案"
         ],
         "description": "更新個人密碼 API",
         "parameters": [
@@ -415,10 +415,129 @@
         ]
       }
     },
+    "/users/liked-post": {
+      "get": {
+        "tags": [
+          "動態貼文 - 按讚"
+        ],
+        "description": "取得按讚的文章列表 API",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "boolean",
+                  "example": true
+                },
+                "message": {
+                  "type": "string",
+                  "example": "查詢成功"
+                },
+                "data": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "_id": {
+                        "type": "string",
+                        "example": "664c185bcd3fb..."
+                      },
+                      "user": {
+                        "type": "object",
+                        "properties": {
+                          "_id": {
+                            "type": "string",
+                            "example": "664c185bcd3fb..."
+                          },
+                          "name": {
+                            "type": "string",
+                            "example": "example"
+                          },
+                          "photo": {
+                            "type": "string",
+                            "example": "圖片連結(https)"
+                          }
+                        }
+                      },
+                      "content": {
+                        "type": "string",
+                        "example": "example"
+                      },
+                      "image": {
+                        "type": "string",
+                        "example": "圖片連結(https)"
+                      },
+                      "likes": {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "_id": {
+                              "type": "string",
+                              "example": "664c185bcd3fb..."
+                            },
+                            "name": {
+                              "type": "string",
+                              "example": "example"
+                            },
+                            "photo": {
+                              "type": "string",
+                              "example": "圖片連結(https)"
+                            }
+                          }
+                        }
+                      },
+                      "comments": {
+                        "type": "number",
+                        "example": 0
+                      },
+                      "tags": {
+                        "type": "array",
+                        "example": [
+                          "example"
+                        ],
+                        "items": {
+                          "type": "string"
+                        }
+                      },
+                      "isPublic": {
+                        "type": "boolean",
+                        "example": true
+                      },
+                      "createdAt": {
+                        "type": "string",
+                        "example": "2024..."
+                      },
+                      "updatedAt": {
+                        "type": "string",
+                        "example": "2024..."
+                      }
+                    }
+                  }
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request"
+          }
+        },
+        "security": [
+          {
+            "apiKeyAuth": []
+          }
+        ]
+      }
+    },
     "/posts/": {
       "get": {
         "tags": [
-          "用戶 - 貼文 (Posts)"
+          "動態貼文 - 貼文"
         ],
         "description": "取得全部貼文 API",
         "parameters": [
@@ -519,6 +638,9 @@
                 "name": "main"
               }
             }
+          },
+          "400": {
+            "description": "Bad Request"
           }
         },
         "security": [
@@ -529,7 +651,7 @@
       },
       "post": {
         "tags": [
-          "用戶 - 貼文 (Posts)"
+          "動態貼文 - 貼文"
         ],
         "description": "新增貼文 API",
         "parameters": [
@@ -602,7 +724,7 @@
     "/posts/{id}": {
       "patch": {
         "tags": [
-          "用戶 - 貼文 (Posts)"
+          "動態貼文 - 貼文"
         ],
         "description": "更新指定貼文 API",
         "parameters": [
@@ -679,7 +801,7 @@
       },
       "delete": {
         "tags": [
-          "用戶 - 貼文 (Posts)"
+          "動態貼文 - 貼文"
         ],
         "description": "刪除指定貼文 API",
         "parameters": [
@@ -721,7 +843,7 @@
     "/posts/all": {
       "delete": {
         "tags": [
-          "用戶 - 貼文 (Posts)"
+          "動態貼文 - 貼文"
         ],
         "description": "刪除全部貼文 API",
         "responses": {
@@ -743,6 +865,242 @@
                 "name": "main"
               }
             }
+          }
+        },
+        "security": [
+          {
+            "apiKeyAuth": []
+          }
+        ]
+      }
+    },
+    "/posts/{id}/like": {
+      "post": {
+        "tags": [
+          "動態貼文 - 按讚"
+        ],
+        "description": "按一則貼文的讚 API",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "貼文按讚成功",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "boolean",
+                  "example": true
+                },
+                "message": {
+                  "type": "string",
+                  "example": "貼文按讚成功"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "404": {
+            "description": "查無此貼文 id",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "boolean",
+                  "example": false
+                },
+                "message": {
+                  "type": "string",
+                  "example": "查無此貼文 id"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "apiKeyAuth": []
+          }
+        ]
+      }
+    },
+    "/posts/{id}/unlike": {
+      "delete": {
+        "tags": [
+          "動態貼文 - 按讚"
+        ],
+        "description": "取消指定貼文的讚 API",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "貼文按讚已取消",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "boolean",
+                  "example": true
+                },
+                "message": {
+                  "type": "string",
+                  "example": "貼文按讚已取消"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "404": {
+            "description": "查無此貼文 id",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "boolean",
+                  "example": false
+                },
+                "message": {
+                  "type": "string",
+                  "example": "查無此貼文 id"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "apiKeyAuth": []
+          }
+        ]
+      }
+    },
+    "/posts/user/{id}": {
+      "get": {
+        "tags": [
+          "動態貼文 - 貼文"
+        ],
+        "description": "取得個人貼文列表 API",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "boolean",
+                  "example": true
+                },
+                "message": {
+                  "type": "string",
+                  "example": "查詢成功"
+                },
+                "data": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "_id": {
+                        "type": "string",
+                        "example": "664c185bcd3fb..."
+                      },
+                      "user": {
+                        "type": "string",
+                        "example": "664c185bcd3fb..."
+                      },
+                      "content": {
+                        "type": "string",
+                        "example": "example"
+                      },
+                      "image": {
+                        "type": "string",
+                        "example": "圖片連結(https)"
+                      },
+                      "likes": {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "_id": {
+                              "type": "string",
+                              "example": "664c185bcd3fb..."
+                            },
+                            "name": {
+                              "type": "string",
+                              "example": "example"
+                            },
+                            "photo": {
+                              "type": "string",
+                              "example": "圖片連結(https)"
+                            }
+                          }
+                        }
+                      },
+                      "comments": {
+                        "type": "number",
+                        "example": 0
+                      },
+                      "tags": {
+                        "type": "array",
+                        "example": [
+                          "example"
+                        ],
+                        "items": {
+                          "type": "string"
+                        }
+                      },
+                      "isPublic": {
+                        "type": "boolean",
+                        "example": true
+                      },
+                      "createdAt": {
+                        "type": "string",
+                        "example": "2024..."
+                      },
+                      "updatedAt": {
+                        "type": "string",
+                        "example": "2024..."
+                      }
+                    }
+                  }
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request"
           }
         },
         "security": [

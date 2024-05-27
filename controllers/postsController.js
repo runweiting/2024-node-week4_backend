@@ -79,6 +79,47 @@ const posts = {
       handleResponse(res, 200, "刪除成功'");
     }
   },
+  // 按一則貼文的讚
+  async likePost(req, res, next) {
+    // 驗證是否有此貼文 id
+    const targetPost = await Post.findById(req.params.id);
+    if (!targetPost) {
+      return handleAppError(404, '查無此貼文 id', next);
+    } else {
+      await Post.findByIdAndUpdate(req.params.id, {
+        // 在 likes 欄位加入此 req.user.id
+        $addToSet: {
+          likes: req.user.id,
+        },
+      });
+      handleResponse(res, 200, '貼文按讚成功');
+    }
+  },
+  // 取消一則貼文的讚
+  async unlikePost(req, res, next) {
+    const targetPost = await Post.findById(req.params.id);
+    if (!targetPost) {
+      return next(handleAppError(404, '查無此貼文 id', next));
+    } else {
+      await Post.findByIdAndUpdate(req.params.id, {
+        // 在 likes 欄位移除此 req.user.id
+        $pull: {
+          likes: req.user.id,
+        },
+      });
+      handleResponse(res, 200, '貼文按讚已取消');
+    }
+  },
+  // 取得個人所有貼文列表
+  async getUserPosts(req, res, next) {
+    const userId = req.params.id;
+    const postsList = await Post.find({ user: userId });
+    if (postsList.length === 0) {
+      return handleAppError(404, '目前沒有個人貼文', next);
+    } else {
+      handleResponse(res, 200, '查詢成功', postsList);
+    }
+  },
 };
 
 module.exports = posts;

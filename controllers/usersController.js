@@ -1,11 +1,12 @@
 const bcrypt = require('bcryptjs');
 const validator = require('validator');
 const User = require('../models/usersModel');
+const Post = require('../models/postsModel');
 const {
   handleResponse,
   handleAppError,
 } = require('../middlewares/handleResponses');
-const generateSendJWT = require('../middlewares/generateJWT');
+const { generateSendJWT } = require('../middlewares/generateJWT');
 
 const users = {
   async signUp(req, res, next) {
@@ -124,6 +125,28 @@ const users = {
       },
     );
     handleResponse(res, 201, '個人資料更新成功', updateProfile);
+  },
+  // 按讚的文章列表
+  async getLikedPosts(req, res, next) {
+    const postsList = await Post.find({
+      // 搜尋 likes 陣列欄位裡的 req.user.id
+      likes: {
+        $in: [req.user.id],
+      },
+    })
+      .populate({
+        path: 'user',
+        select: 'name photo',
+      })
+      .populate({
+        path: 'likes',
+        select: 'name photo',
+      });
+    if (postsList.length === 0) {
+      return handleAppError(404, '目前沒有按讚貼文', next);
+    } else {
+      handleResponse(res, 200, '查詢成功', postsList);
+    }
   },
 };
 

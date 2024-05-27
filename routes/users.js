@@ -10,7 +10,7 @@ router.post(
   '/sign-up',
   handleErrorAsync(UsersController.signUp),
   /**
-   * #swagger.tags = ['用戶 - 登入及註冊']
+   * #swagger.tags = ['會員功能 - 登入註冊']
    * #swagger.description = '用戶註冊 API'
    * #swagger.parameters['body'] = {
       in: 'body',
@@ -42,7 +42,7 @@ router.post(
   '/sign-in',
   handleErrorAsync(UsersController.signIn),
   /**
-   * #swagger.tags = ['用戶 - 登入及註冊']
+   * #swagger.tags = ['會員功能 - 登入註冊']
    * #swagger.description = '用戶登入 API'
    * #swagger.parameters['body'] = {
       in: 'body',
@@ -73,7 +73,7 @@ router.post(
   isAuth,
   UsersController.signOut,
   /**
-   * #swagger.tags = ['用戶 - 登入及註冊']
+   * #swagger.tags = ['會員功能 - 登入註冊']
    * #swagger.description = '用戶登出 API'
    * #swagger.security = [{
       "apiKeyAuth": []
@@ -92,7 +92,7 @@ router.get(
   isAuth,
   handleErrorAsync(UsersController.getProfile),
   /**
-   * #swagger.tags = ['用戶 - 個人檔案 (Users)']
+   * #swagger.tags = ['會員功能 - 個人檔案']
    * #swagger.description = '取得個人檔案 API'
    * #swagger.security = [{
       "apiKeyAuth": []
@@ -124,7 +124,7 @@ router.patch(
   isAuth,
   handleErrorAsync(UsersController.updatePassword),
   /**
-   * #swagger.tags = ['用戶 - 個人檔案 (Users)']
+   * #swagger.tags = ['會員功能 - 個人檔案']
    * #swagger.description = '更新個人密碼 API'
    * #swagger.security = [{
       "apiKeyAuth": []
@@ -158,7 +158,7 @@ router.patch(
   isAuth,
   handleErrorAsync(UsersController.updateProfile),
   /**
-   * #swagger.tags = ['用戶 - 個人檔案 (Users)']
+   * #swagger.tags = ['會員功能 - 個人檔案']
    * #swagger.description = '更新個人檔案 API'
    * #swagger.security = [{
       "apiKeyAuth": []
@@ -211,6 +211,60 @@ router.get(
   },
   /**
    * #swagger.ignore = true
+   */
+);
+
+router.get(
+  '/liked-post',
+  isAuth,
+  handleErrorAsync(UsersController.getLikedPosts),
+  /**
+   * #swagger.tags = ['動態貼文 - 按讚']
+   * #swagger.description = '取得按讚的文章列表 API'
+   * #swagger.security = [{
+      "apiKeyAuth": []
+    }]
+   * #swagger.responses[200] = {
+      description: 'OK',
+      schema: {
+        "status": true,
+        "message": "查詢成功",
+        "data": [
+          {
+            "_id": "664c185bcd3fb...",
+            "user": {
+              "_id": "664c185bcd3fb...",
+              "name": "example",
+              "photo": "圖片連結(https)"
+            },
+            "content": "example",
+            "image": "圖片連結(https)",
+            "likes": [
+              {
+                "_id": "664c185bcd3fb...",
+                "name": "example",
+                "photo": "圖片連結(https)"
+              },
+              {
+                "_id": "664c185bcd3fb...",
+                "name": "example",
+                "photo": "圖片連結(https)"
+              },
+            ],
+            "comments": 0,
+            "tags": [
+              "example"
+            ],
+            "isPublic": true,
+            "createdAt": "2024...",
+            "updatedAt": "2024..."
+          },
+        ]
+      }
+    }
+   * #swagger.responses[400] = {
+      description: 'Bad Request'
+    }
    */
 );
 
