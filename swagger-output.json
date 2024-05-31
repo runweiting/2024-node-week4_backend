@@ -428,7 +428,7 @@
     "/users/liked-posts": {
       "get": {
         "tags": [
-          "會員功能 - 個人檔案 (users)"
+          "會員功能 - 追蹤及按讚文章 (users)"
         ],
         "description": "取得個人按讚的文章列表 API",
         "responses": {
@@ -545,6 +545,223 @@
                 "message": {
                   "type": "string",
                   "example": "目前沒有按讚貼文"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "apiKeyAuth": []
+          }
+        ]
+      }
+    },
+    "/users/following": {
+      "get": {
+        "tags": [
+          "會員功能 - 追蹤及按讚文章 (users)"
+        ],
+        "description": "取得個人追蹤名單 API",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "boolean",
+                  "example": true
+                },
+                "message": {
+                  "type": "string",
+                  "example": "查詢成功"
+                },
+                "data": {
+                  "type": "object",
+                  "properties": {
+                    "_id": {
+                      "type": "string",
+                      "example": "664c185bcd3fb..."
+                    },
+                    "following": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "user": {
+                            "type": "object",
+                            "properties": {
+                              "_id": {
+                                "type": "string",
+                                "example": "664c185bcd3fb..."
+                              },
+                              "name": {
+                                "type": "string",
+                                "example": "example"
+                              },
+                              "photo": {
+                                "type": "string",
+                                "example": "圖片連結(https)"
+                              }
+                            }
+                          },
+                          "_id": {
+                            "type": "string",
+                            "example": "664c185bcd3fb..."
+                          },
+                          "createdAt": {
+                            "type": "string",
+                            "example": "2024..."
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "boolean",
+                  "example": false
+                },
+                "message": {
+                  "type": "string",
+                  "example": "查無用戶追蹤名單"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "apiKeyAuth": []
+          }
+        ]
+      }
+    },
+    "/users/{id}/follow": {
+      "post": {
+        "tags": [
+          "會員功能 - 追蹤及按讚文章 (users)"
+        ],
+        "description": "追蹤指定用戶 API",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "OK",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "boolean",
+                  "example": true
+                },
+                "message": {
+                  "type": "string",
+                  "example": "追蹤成功"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "boolean",
+                  "example": false
+                },
+                "message": {
+                  "type": "string",
+                  "example": "您無法追蹤自己"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "apiKeyAuth": []
+          }
+        ]
+      }
+    },
+    "/users/{id}/unfollow": {
+      "delete": {
+        "tags": [
+          "會員功能 - 追蹤及按讚文章 (users)"
+        ],
+        "description": "取消追蹤指定用戶 API",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "boolean",
+                  "example": true
+                },
+                "message": {
+                  "type": "string",
+                  "example": "已取消追蹤"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "boolean",
+                  "example": false
+                },
+                "message": {
+                  "type": "string",
+                  "example": "您無法取消追蹤自己"
                 }
               },
               "xml": {
@@ -1278,7 +1495,7 @@
                 },
                 "message": {
                   "type": "string",
-                  "example": "按讚已取消"
+                  "example": "已取消按讚"
                 }
               },
               "xml": {

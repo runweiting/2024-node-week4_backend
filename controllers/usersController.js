@@ -144,9 +144,76 @@ const users = {
       });
     if (postsList.length === 0) {
       return handleAppError(404, '目前沒有按讚貼文', next);
-    } else {
-      handleResponse(res, 200, '查詢成功', postsList);
     }
+    handleResponse(res, 200, '查詢成功', postsList);
+  },
+  // 取得追蹤名單
+  async getFollowingList(req, res, next) {
+    const followingList = await User.findById(
+      req.user.id,
+      'following',
+    ).populate({
+      path: 'following.user',
+      select: 'name photo',
+    });
+    if (!followingList) {
+      return handleAppError(404, '查無用戶追蹤名單', next);
+    }
+    handleResponse(res, 200, '查詢成功', followingList);
+  },
+  // 追蹤指定用戶
+  async followUser(req, res, next) {
+    if (req.user.id === req.params.id) {
+      return handleAppError(400, '您無法追蹤自己', next);
+    }
+    // 將指定用戶加入當前用戶的追蹤列表
+    await User.updateOne(
+      {
+        _id: req.user.id,
+        // 確保當前用戶 following 列表中不包含指定用戶
+        'following.user': { $ne: req.params.id },
+      },
+      {
+        $addToSet: { following: { user: req.params.id } },
+      },
+    );
+    // 將當前用戶加入指定用戶的被追蹤列表
+    await User.updateOne(
+      {
+        _id: req.params.id,
+        // 確保指定用戶 followers 列表中不包含當前用戶
+        'followers.user': { $ne: req.user.id },
+      },
+      {
+        $addToSet: { followers: { user: req.user.id } },
+      },
+    );
+    handleResponse(res, 201, '追蹤成功');
+  },
+  // 取消追蹤指定用戶
+  async unfollowUser(req, res, next) {
+    if (req.user.id === req.params.id) {
+      return handleAppError(400, '您無法取消追蹤自己', next);
+    }
+    // 將指定用戶移除當前用戶的追蹤列表
+    await User.updateOne(
+      {
+        _id: req.user.id,
+      },
+      {
+        $pull: { following: { user: req.params.id } },
+      },
+    );
+    // 將當前用戶移除指定用戶的被追蹤列表
+    await User.updateOne(
+      {
+        _id: req.params.id,
+      },
+      {
+        $pull: { followers: { user: req.user.id } },
+      },
+    );
+    handleResponse(res, 200, '已取消追蹤');
   },
 };
 

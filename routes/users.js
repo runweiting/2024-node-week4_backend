@@ -217,7 +217,7 @@ router.get(
   isAuth,
   handleErrorAsync(UsersController.getLikedPosts),
   /**
-   * #swagger.tags = ['會員功能 - 個人檔案 (users)']
+   * #swagger.tags = ['會員功能 - 追蹤及按讚文章 (users)']
    * #swagger.description = '取得個人按讚的文章列表 API'
    * #swagger.security = [{
       "apiKeyAuth": []
@@ -265,6 +265,101 @@ router.get(
       schema: {
         "status": false,
         "message": "目前沒有按讚貼文"
+      }
+    }
+   */
+);
+
+router.get(
+  '/following',
+  isAuth,
+  handleErrorAsync(UsersController.getFollowingList),
+  /**
+   * #swagger.tags = ['會員功能 - 追蹤及按讚文章 (users)']
+   * #swagger.description = '取得個人追蹤名單 API'
+   * #swagger.security = [{
+      "apiKeyAuth": []
+    }]
+   * #swagger.responses[200] = {
+      description: 'OK',
+      schema: {
+        "status": true,
+        "message": "查詢成功",
+        "data": {
+          "_id": "664c185bcd3fb...",
+          "following": [
+            {
+              "user": {
+                "_id": "664c185bcd3fb...",
+                "name": "example",
+                "photo": "圖片連結(https)"
+              },
+              "_id": "664c185bcd3fb...",
+              "createdAt": "2024...",
+            }
+          ]
+        },
+      }
+    }
+   * #swagger.responses[404] = {
+      description: 'Not Found',
+      schema: {
+        "status": false,
+        "message": "查無用戶追蹤名單"
+      }
+    }
+   */
+);
+
+router.post(
+  '/:id/follow',
+  isAuth,
+  handleErrorAsync(UsersController.followUser),
+  /**
+   * #swagger.tags = ['會員功能 - 追蹤及按讚文章 (users)']
+   * #swagger.description = '追蹤指定用戶 API'
+   * #swagger.security = [{
+      "apiKeyAuth": []
+    }]
+   * #swagger.responses[201] = {
+      description: 'OK',
+      schema: {
+        "status": true,
+        "message": "追蹤成功",
+      }
+    }
+   * #swagger.responses[400] = {
+      description: 'Bad Request',
+      schema: {
+        "status": false,
+        "message": "您無法追蹤自己"
+      }
+    }
+   */
+);
+
+router.delete(
+  '/:id/unfollow',
+  isAuth,
+  handleErrorAsync(UsersController.unfollowUser),
+  /**
+   * #swagger.tags = ['會員功能 - 追蹤及按讚文章 (users)']
+   * #swagger.description = '取消追蹤指定用戶 API'
+   * #swagger.security = [{
+      "apiKeyAuth": []
+    }]
+   * #swagger.responses[200] = {
+      description: 'OK',
+      schema: {
+        "status": true,
+        "message": "已取消追蹤",
+      }
+    }
+   * #swagger.responses[400] = {
+      description: 'Bad Request',
+      schema: {
+        "status": false,
+        "message": "您無法取消追蹤自己"
       }
     }
    */

@@ -55,21 +55,20 @@ const posts = {
     const targetPost = await Post.findById(req.params.id);
     if (!targetPost) {
       return handleAppError(404, '查無此貼文 id', next);
-    } else {
-      await Post.findByIdAndUpdate(
-        req.params.id,
-        {
-          content: content.trim(),
-          image: image,
-          tags: tags,
-        },
-        {
-          new: true,
-          runValidators: true,
-        },
-      );
-      handleResponse(res, 201, '更新成功');
     }
+    await Post.findByIdAndUpdate(
+      req.params.id,
+      {
+        content: content.trim(),
+        image: image,
+        tags: tags,
+      },
+      {
+        new: true,
+        runValidators: true,
+      },
+    );
+    handleResponse(res, 201, '更新成功');
   },
   async deleteAllPost(req, res, next) {
     await Post.deleteMany({});
@@ -79,10 +78,9 @@ const posts = {
     const targetPost = await Post.findById(req.params.id);
     if (!targetPost) {
       return handleAppError(404, '查無此貼文 id', next);
-    } else {
-      await Post.findByIdAndDelete(req.params.id);
-      handleResponse(res, 200, "刪除成功'");
     }
+    await Post.findByIdAndDelete(req.params.id);
+    handleResponse(res, 200, "刪除成功'");
   },
   // 取得指定貼文
   async getPost(req, res, next) {
@@ -90,9 +88,8 @@ const posts = {
     const targetPost = await Post.findById(postId);
     if (!targetPost) {
       return handleAppError(404, '查無此貼文 id');
-    } else {
-      handleResponse(res, 200, '查詢成功', targetPost);
     }
+    handleResponse(res, 200, '查詢成功', targetPost);
   },
   // 取得指定用戶所有貼文 (用戶牆)
   async getUserPosts(req, res, next) {
@@ -100,9 +97,8 @@ const posts = {
     const postsList = await Post.find({ user: userId });
     if (postsList.length === 0) {
       return handleAppError(404, '目前用戶沒有貼文', next);
-    } else {
-      handleResponse(res, 200, '查詢成功', postsList);
     }
+    handleResponse(res, 200, '查詢成功', postsList);
   },
   // 貼文按讚
   async likePost(req, res, next) {
@@ -110,30 +106,28 @@ const posts = {
     const targetPost = await Post.findById(req.params.id);
     if (!targetPost) {
       return handleAppError(404, '查無此貼文 id', next);
-    } else {
-      await Post.findByIdAndUpdate(req.params.id, {
-        // 在 likes 欄位加入此 req.user.id
-        $addToSet: {
-          likes: req.user.id,
-        },
-      });
-      handleResponse(res, 200, '按讚成功');
     }
+    await Post.findByIdAndUpdate(req.params.id, {
+      // 在 likes 欄位加入此 req.user.id
+      $addToSet: {
+        likes: req.user.id,
+      },
+    });
+    handleResponse(res, 200, '按讚成功');
   },
   // 取消指定貼文按讚
   async unlikePost(req, res, next) {
     const targetPost = await Post.findById(req.params.id);
     if (!targetPost) {
       return next(handleAppError(404, '查無此貼文 id', next));
-    } else {
-      await Post.findByIdAndUpdate(req.params.id, {
-        // 在 likes 欄位移除此 req.user.id
-        $pull: {
-          likes: req.user.id,
-        },
-      });
-      handleResponse(res, 200, '按讚已取消');
     }
+    await Post.findByIdAndUpdate(req.params.id, {
+      // 在 likes 欄位移除此 req.user.id
+      $pull: {
+        likes: req.user.id,
+      },
+    });
+    handleResponse(res, 200, '已取消按讚');
   },
   // 貼文留言
   async createComment(req, res, next) {
@@ -153,10 +147,9 @@ const posts = {
     const targetComment = await Comment.findById(req.params.id);
     if (!targetComment) {
       return handleAppError(404, '查無此留言 id', next);
-    } else {
-      await Comment.findByIdAndDelete(req.params.id);
-      handleResponse(res, 200, '刪除成功');
     }
+    await Comment.findByIdAndDelete(req.params.id);
+    handleResponse(res, 200, '刪除成功');
   },
 };
 

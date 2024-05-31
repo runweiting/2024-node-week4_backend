@@ -297,7 +297,7 @@ router.delete(
       description: 'OK',
       schema: {
         "status": true,
-        "message": "按讚已取消",
+        "message": "已取消按讚",
       }
     }
     * #swagger.responses[404] = {
