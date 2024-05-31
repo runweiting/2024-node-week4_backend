@@ -3,6 +3,7 @@ const {
   handleAppError,
 } = require('../middlewares/handleResponses');
 const Post = require('../models/postsModel');
+const Comment = require('../models/commentsModel');
 
 const posts = {
   async getPosts(req, res, next) {
@@ -18,6 +19,10 @@ const posts = {
         path: 'likes',
         select: 'name photo',
       })
+      .populate({
+        path: 'comments',
+        select: 'user comment',
+      })
       .sort(timeSort);
     handleResponse(res, 200, '查詢成功', posts);
   },
@@ -26,7 +31,7 @@ const posts = {
     if (!content.trim()) {
       return handleAppError(400, '貼文內容為必填', next);
     } else if (image && !String(image).startsWith('http')) {
-      return handleAppError(400, '圖片網址錯誤', next);
+      return handleAppError(400, '圖片格式錯誤', next);
     } else if (!tags || !Array.isArray(tags) || tags.length === 0) {
       return handleAppError(400, '標籤為必填', next);
     }
@@ -43,7 +48,7 @@ const posts = {
     if (!content.trim()) {
       return handleAppError(400, '貼文內容為必填', next);
     } else if (image && !String(image).startsWith('http')) {
-      return handleAppError(400, '圖片網址錯誤', next);
+      return handleAppError(400, '圖片格式錯誤', next);
     } else if (!tags || !Array.isArray(tags) || tags.length === 0) {
       return handleAppError(400, '標籤為必填', next);
     }
@@ -63,7 +68,7 @@ const posts = {
           runValidators: true,
         },
       );
-      handleResponse(res, 201, '貼文更新成功');
+      handleResponse(res, 201, '更新成功');
     }
   },
   async deleteAllPost(req, res, next) {
@@ -79,7 +84,27 @@ const posts = {
       handleResponse(res, 200, "刪除成功'");
     }
   },
-  // 按一則貼文的讚
+  // 取得指定貼文
+  async getPost(req, res, next) {
+    const postId = req.params.id;
+    const targetPost = await Post.findById(postId);
+    if (!targetPost) {
+      return handleAppError(404, '查無此貼文 id');
+    } else {
+      handleResponse(res, 200, '查詢成功', targetPost);
+    }
+  },
+  // 取得指定用戶所有貼文 (用戶牆)
+  async getUserPosts(req, res, next) {
+    const userId = req.params.id;
+    const postsList = await Post.find({ user: userId });
+    if (postsList.length === 0) {
+      return handleAppError(404, '目前用戶沒有貼文', next);
+    } else {
+      handleResponse(res, 200, '查詢成功', postsList);
+    }
+  },
+  // 貼文按讚
   async likePost(req, res, next) {
     // 驗證是否有此貼文 id
     const targetPost = await Post.findById(req.params.id);
@@ -92,10 +117,10 @@ const posts = {
           likes: req.user.id,
         },
       });
-      handleResponse(res, 200, '貼文按讚成功');
+      handleResponse(res, 200, '按讚成功');
     }
   },
-  // 取消一則貼文的讚
+  // 取消指定貼文按讚
   async unlikePost(req, res, next) {
     const targetPost = await Post.findById(req.params.id);
     if (!targetPost) {
@@ -107,17 +132,30 @@ const posts = {
           likes: req.user.id,
         },
       });
-      handleResponse(res, 200, '貼文按讚已取消');
+      handleResponse(res, 200, '按讚已取消');
     }
   },
-  // 取得個人所有貼文列表
-  async getUserPosts(req, res, next) {
-    const userId = req.params.id;
-    const postsList = await Post.find({ user: userId });
-    if (postsList.length === 0) {
-      return handleAppError(404, '目前沒有個人貼文', next);
+  // 貼文留言
+  async createComment(req, res, next) {
+    const { comment } = req.body;
+    if (!comment.trim()) {
+      return handleAppError(400, '留言為必填', next);
+    }
+    await Comment.create({
+      comment: comment,
+      post: req.params.id,
+      user: req.user,
+    });
+    handleResponse(res, 201, '新增成功');
+  },
+  // 刪除指定貼文留言
+  async deleteComment(req, res, next) {
+    const targetComment = await Comment.findById(req.params.id);
+    if (!targetComment) {
+      return handleAppError(404, '查無此留言 id', next);
     } else {
-      handleResponse(res, 200, '查詢成功', postsList);
+      await Comment.findByIdAndDelete(req.params.id);
+      handleResponse(res, 200, '刪除成功');
     }
   },
 };

@@ -10,7 +10,7 @@ router.post(
   '/sign-up',
   handleErrorAsync(UsersController.signUp),
   /**
-   * #swagger.tags = ['會員功能 - 登入註冊']
+   * #swagger.tags = ['會員功能 - 登入註冊 (users)']
    * #swagger.description = '用戶註冊 API'
    * #swagger.parameters['body'] = {
       in: 'body',
@@ -24,7 +24,7 @@ router.post(
       }
     }
    * #swagger.responses[201] = {
-      description: '註冊成功',
+      description: 'OK',
       schema: {
         "status": true,
         "message": "註冊成功",
@@ -42,7 +42,7 @@ router.post(
   '/sign-in',
   handleErrorAsync(UsersController.signIn),
   /**
-   * #swagger.tags = ['會員功能 - 登入註冊']
+   * #swagger.tags = ['會員功能 - 登入註冊 (users)']
    * #swagger.description = '用戶登入 API'
    * #swagger.parameters['body'] = {
       in: 'body',
@@ -54,7 +54,7 @@ router.post(
       }
     }
    * #swagger.responses[200] = {
-      description: '登入成功',
+      description: 'OK',
       schema: {
         "status": true,
         "message": "登入成功",
@@ -73,16 +73,17 @@ router.post(
   isAuth,
   UsersController.signOut,
   /**
-   * #swagger.tags = ['會員功能 - 登入註冊']
+   * #swagger.tags = ['會員功能 - 登入註冊 (users)']
    * #swagger.description = '用戶登出 API'
    * #swagger.security = [{
       "apiKeyAuth": []
     }]
    * #swagger.responses[200] = {
-      description: '登出成功',
-    }
-   * #swagger.responses[400] = {
-      description: 'Bad Request'
+      description: 'OK',
+      schema: {
+        "status": true,
+        "message": "登出成功"
+      }
     }
    */
 );
@@ -92,7 +93,7 @@ router.get(
   isAuth,
   handleErrorAsync(UsersController.getProfile),
   /**
-   * #swagger.tags = ['會員功能 - 個人檔案']
+   * #swagger.tags = ['會員功能 - 個人檔案 (users)']
    * #swagger.description = '取得個人檔案 API'
    * #swagger.security = [{
       "apiKeyAuth": []
@@ -113,9 +114,6 @@ router.get(
         }
       }
     }
-   * #swagger.responses[400] = {
-      description: 'Bad Request'
-    }
    */
 );
 
@@ -124,8 +122,8 @@ router.patch(
   isAuth,
   handleErrorAsync(UsersController.updatePassword),
   /**
-   * #swagger.tags = ['會員功能 - 個人檔案']
-   * #swagger.description = '更新個人密碼 API'
+   * #swagger.tags = ['會員功能 - 個人檔案 (users)']
+   * #swagger.description = '重設個人密碼 API'
    * #swagger.security = [{
       "apiKeyAuth": []
     }]
@@ -139,7 +137,7 @@ router.patch(
       }
     }
    * #swagger.responses[201] = {
-      description: '更新成功',
+      description: 'OK',
       schema: {
         "status": true,
         "message": "密碼更新成功",
@@ -153,12 +151,12 @@ router.patch(
    */
 );
 
-router.patch(
+router.put(
   '/profile',
   isAuth,
   handleErrorAsync(UsersController.updateProfile),
   /**
-   * #swagger.tags = ['會員功能 - 個人檔案']
+   * #swagger.tags = ['會員功能 - 個人檔案 (users)']
    * #swagger.description = '更新個人檔案 API'
    * #swagger.security = [{
       "apiKeyAuth": []
@@ -174,7 +172,7 @@ router.patch(
       }
     }
    * #swagger.responses[201] = {
-      description: '更新成功',
+      description: 'OK',
       schema: {
         "status": true,
         "message": "個人資料更新成功",
@@ -215,12 +213,12 @@ router.get(
 );
 
 router.get(
-  '/liked-post',
+  '/liked-posts',
   isAuth,
   handleErrorAsync(UsersController.getLikedPosts),
   /**
-   * #swagger.tags = ['動態貼文 - 按讚']
-   * #swagger.description = '取得按讚的文章列表 API'
+   * #swagger.tags = ['會員功能 - 個人檔案 (users)']
+   * #swagger.description = '取得個人按讚的文章列表 API'
    * #swagger.security = [{
       "apiKeyAuth": []
     }]
@@ -262,8 +260,12 @@ router.get(
         ]
       }
     }
-   * #swagger.responses[400] = {
-      description: 'Bad Request'
+   * #swagger.responses[404] = {
+      description: 'Not Found',
+      schema: {
+        "status": false,
+        "message": "目前沒有按讚貼文"
+      }
     }
    */
 );

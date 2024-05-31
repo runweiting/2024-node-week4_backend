@@ -1,11 +1,11 @@
 const mongoose = require('mongoose');
 const postsSchema = new mongoose.Schema(
   {
+    // 引用 References
     user: {
       type: mongoose.Schema.ObjectId,
       ref: 'User',
-      required: [true, '用戶 Id 未填寫'],
-      trim: true,
+      required: [true, '用戶Id為必填'],
     },
     content: {
       type: String,
@@ -17,16 +17,14 @@ const postsSchema = new mongoose.Schema(
       default: '',
       trim: true,
     },
+    // 引用 References
     likes: [
       {
         type: mongoose.Schema.ObjectId,
         ref: 'User',
+        unique: true, // 只能對貼文按讚一次
       },
     ],
-    comments: {
-      type: Number,
-      default: 0,
-    },
     tags: {
       // 字串陣列
       type: [String],
@@ -40,8 +38,25 @@ const postsSchema = new mongoose.Schema(
   {
     versionKey: false,
     timestamps: true,
+    // 轉換為 JSON 格式時，包含 virtual 欄位
+    toJSON: {
+      virtuals: true,
+    },
+    // 轉換為 JavaScript 物件時，包含 virtual 欄位
+    toObject: {
+      virtuals: true,
+    },
   },
 );
+/* 1:many 寫法
+步驟 1. 在主要 model 中定義虛擬欄位 comments
+建立 Post, Comment 的關連 */
+postsSchema.virtual('comments', {
+  ref: 'Comment', // 參考 model
+  localField: '_id', // 主要 model 欄位
+  foreignField: 'post', // 參考 model 欄位
+});
+
 const Post = mongoose.model('Post', postsSchema);
 
 module.exports = Post;

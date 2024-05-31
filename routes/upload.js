@@ -64,11 +64,10 @@ router.post(
     blobStream.end(file.buffer);
   }),
   /**
-   * #swagger.tags = ['用戶 - 圖片上傳 (Uploads)']
+   * #swagger.tags = ['會員功能 - 圖片上傳 (upload)']
    * #swagger.description = '用戶圖片上傳 API<br>請注意，僅限使用 jpg、jpeg 與 png 格式，檔案大小限制為 1MB 以下。<br><br>
-   ```
-   <form action="/upload/file" enctype="multipart/form-data" method="post"><input type="file" name="file-to-upload"><input type="submit" value="Upload"></form>
-   ```'
+   <pre>```<form action="/upload/file" enctype="multipart/form-data" method="post"><input type="file" name="file-to-upload"><input type="submit" value="Upload"></form>
+   ```</pre>'
    * #swagger.security = [{
       "apiKeyAuth": []
     }]
@@ -85,20 +84,20 @@ router.post(
       }
     }
    * #swagger.responses[200] = {
-      description: '上傳成功',
+      description: 'OK',
       schema: {
         "status": true,
         "message": "大頭照更新成功",
       }
     }
    * #swagger.responses[400] = {
-      description: '上傳失敗',
+      description: 'Bad Request',
       schema: {
         "status": false,
         "message": "大頭照更新失敗",
       }
     }
-   }
+  }
    */
 );
 

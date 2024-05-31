@@ -72,7 +72,7 @@ const users = {
       // 回應統一的錯誤訊息以避免資安問題
       return handleAppError(400, '帳號或密碼不正確', next);
     }
-    generateSendJWT(targetUser, 201, '登入成功', res);
+    generateSendJWT(targetUser, 200, '登入成功', res);
   },
   signOut(req, res, next) {
     res.clearCookie('myToken');
@@ -100,7 +100,7 @@ const users = {
     const targetUser = await User.findByIdAndUpdate(req.user.id, {
       password: newPassword,
     });
-    generateSendJWT(targetUser, 200, '密碼更新成功', res);
+    generateSendJWT(targetUser, 201, '密碼更新成功', res);
   },
   async updateProfile(req, res, next) {
     const { name, gender, photo } = req.body;
@@ -126,7 +126,7 @@ const users = {
     );
     handleResponse(res, 201, '個人資料更新成功', updateProfile);
   },
-  // 按讚的文章列表
+  // 取得個人按讚的文章
   async getLikedPosts(req, res, next) {
     const postsList = await Post.find({
       // 搜尋 likes 陣列欄位裡的 req.user.id
