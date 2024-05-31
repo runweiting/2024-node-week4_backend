@@ -19,6 +19,10 @@ const commentsSchema = new mongoose.Schema(
       ref: 'User',
       required: [true, '用戶Id為必填'],
     },
+    createdAt: {
+      type: Date,
+      default: Date.now,
+    },
   },
   {
     versionKey: false,
