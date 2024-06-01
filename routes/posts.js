@@ -29,14 +29,31 @@ router.get(
             },
             "content": "example",
             "image": "圖片連結(https)",
-            "likes": [],
-            "comments": 0,
+            "likes": [
+              {
+                "_id": "664c185bcd3fb...",
+                "name": "example",
+                "photo": "圖片連結(https)"
+              },
+            ],
             "tags": [
-              "example"
+              "example1", "example2", "example3"
             ],
             "isPublic": true,
             "createdAt": "2024...",
-            "updatedAt": "2024..."
+            "updatedAt": "2024...",
+            "comments": [
+              {
+                "_id": "664c185bcd3fb...",
+                "comment": "example",
+                "post": "664c185bcd3fb...",
+                "user": {
+                  "_id": "664c185bcd3fb...",
+                  "name": "example",
+                  "photo": "圖片連結(https)"
+                }
+              },
+            ],
           },
         ]
       }

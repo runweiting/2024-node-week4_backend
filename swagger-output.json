@@ -845,17 +845,30 @@
                       },
                       "likes": {
                         "type": "array",
-                        "example": [],
-                        "items": {}
-                      },
-                      "comments": {
-                        "type": "number",
-                        "example": 0
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "_id": {
+                              "type": "string",
+                              "example": "664c185bcd3fb..."
+                            },
+                            "name": {
+                              "type": "string",
+                              "example": "example"
+                            },
+                            "photo": {
+                              "type": "string",
+                              "example": "圖片連結(https)"
+                            }
+                          }
+                        }
                       },
                       "tags": {
                         "type": "array",
                         "example": [
-                          "example"
+                          "example1",
+                          "example2",
+                          "example3"
                         ],
                         "items": {
                           "type": "string"
@@ -872,6 +885,43 @@
                       "updatedAt": {
                         "type": "string",
                         "example": "2024..."
+                      },
+                      "comments": {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "_id": {
+                              "type": "string",
+                              "example": "664c185bcd3fb..."
+                            },
+                            "comment": {
+                              "type": "string",
+                              "example": "example"
+                            },
+                            "post": {
+                              "type": "string",
+                              "example": "664c185bcd3fb..."
+                            },
+                            "user": {
+                              "type": "object",
+                              "properties": {
+                                "_id": {
+                                  "type": "string",
+                                  "example": "664c185bcd3fb..."
+                                },
+                                "name": {
+                                  "type": "string",
+                                  "example": "example"
+                                },
+                                "photo": {
+                                  "type": "string",
+                                  "example": "圖片連結(https)"
+                                }
+                              }
+                            }
+                          }
+                        }
                       }
                     }
                   }
