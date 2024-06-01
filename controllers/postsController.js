@@ -21,7 +21,7 @@ const posts = {
       })
       .populate({
         path: 'comments',
-        select: 'user comment',
+        select: 'user comment createdAt',
       })
       .sort(timeSort);
     handleResponse(res, 200, '查詢成功', posts);
@@ -107,13 +107,13 @@ const posts = {
     if (!targetPost) {
       return handleAppError(404, '查無此貼文 id', next);
     }
-    const likePost = await Post.findByIdAndUpdate(req.params.id, {
+    await Post.findByIdAndUpdate(req.params.id, {
       // 在 likes 欄位加入此 req.user.id
       $addToSet: {
         likes: req.user.id,
       },
     });
-    handleResponse(res, 200, '按讚成功', likePost.likes);
+    handleResponse(res, 200, '按讚成功');
   },
   // 取消指定貼文按讚
   async unlikePost(req, res, next) {
