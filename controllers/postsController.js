@@ -107,13 +107,13 @@ const posts = {
     if (!targetPost) {
       return handleAppError(404, '查無此貼文 id', next);
     }
-    await Post.findByIdAndUpdate(req.params.id, {
+    const likePost = await Post.findByIdAndUpdate(req.params.id, {
       // 在 likes 欄位加入此 req.user.id
       $addToSet: {
         likes: req.user.id,
       },
     });
-    handleResponse(res, 200, '按讚成功');
+    handleResponse(res, 200, '按讚成功', likePost.likes);
   },
   // 取消指定貼文按讚
   async unlikePost(req, res, next) {
@@ -135,12 +135,12 @@ const posts = {
     if (!comment.trim()) {
       return handleAppError(400, '留言為必填', next);
     }
-    await Comment.create({
+    const newComment = await Comment.create({
       comment: comment,
       post: req.params.id,
       user: req.user,
     });
-    handleResponse(res, 201, '新增成功');
+    handleResponse(res, 201, '新增成功', newComment);
   },
   // 刪除指定貼文留言
   async deleteComment(req, res, next) {

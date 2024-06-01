@@ -287,6 +287,13 @@ router.post(
       schema: {
         "status": true,
         "message": "按讚成功",
+        "data": [
+          {
+            "_id": "664c185bcd3fb...",
+            "name": "example",
+            "photo": "圖片連結(https)"
+          },
+        ]
       }
     }
     * #swagger.responses[404] = {
@@ -343,7 +350,19 @@ router.post(
       schema: {
         "status": true,
         "message": "新增成功",
-      }
+        "data": [
+          {
+            "_id": "664c185bcd3fb...",
+            "comment": "example",
+            "post": "664c185bcd3fb...",
+            "user": {
+              "_id": "664c185bcd3fb...",
+              "name": "example",
+              "photo": "圖片連結(https)"
+            }
+          },
+        ]
+      },
     }
     * #swagger.responses[400] = {
       description: 'Bad Request',
