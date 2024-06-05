@@ -1,0 +1,648 @@
+{
+	"info": {
+		"_postman_id": "cbfce45f-05b9-44bd-a703-5b0858e5026a",
+		"name": "week8-Render",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "30755152"
+	},
+	"item": [
+		{
+			"name": "會員功能 - 登入註冊 (users)",
+			"item": [
+				{
+					"name": "註冊會員",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"test1234\",\n    \"email\": \"test@gmail.com\",\n    \"password\": \"test1234\",\n    \"confirmPassword\": \"test1234\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url-Render}}/users/sign-up",
+							"host": [
+								"{{url-Render}}"
+							],
+							"path": [
+								"users",
+								"sign-up"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "登入會員",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"test@gmail.com\",\n    \"password\": \"yellow12\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url-Render}}/users/sign-in",
+							"host": [
+								"{{url-Render}}"
+							],
+							"path": [
+								"users",
+								"sign-in"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "登出會員",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{url-Render}}/users/sign-out",
+							"host": [
+								"{{url-Render}}"
+							],
+							"path": [
+								"users",
+								"sign-out"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "會員功能 - 個人設定 (users)",
+			"item": [
+				{
+					"name": "取得個人資料",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{url-Render}}/users/profile",
+							"host": [
+								"{{url-Render}}"
+							],
+							"path": [
+								"users",
+								"profile"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "更新個人資料",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"我是阿黃\",\n    \"gender\": \"female\",\n    \"photo\": \"https://storage.googleapis.com/week7-53757.appspot.com/images/59cbe63b-f9ea-41dc-8c34-132eed94f143.jpg?GoogleAccessId=firebase-adminsdk-ox4qm%40week7-53757.iam.gserviceaccount.com&Expires=16756675200&Signature=Cl8WJMGEf7RsQ2cWHlnDwEc9u6IWhxwc2NslxK54BqCQ66uIM9XcTHE22sh1VrZN0kiwgAFrs45ga9F5QVczg88BLP8Wlb8n%2F5Y1cm3ipE6MH5gMMUsxpeP20eFajuko93rVkMp9WxV4e8ILY%2FuDkKmrrQJgJK5JdW1%2F8p1fceAYWjcAP3fQlunITflCsOvqnmOCvbvK%2FqXdRHt56T1vSthgyOmykhWOY9lZ25fb1QDDriXeBTgRHRfabPqSBocVOiR6F1ndIwKZIuA7dsIbQz%2B5qduAH62ZSIRu6%2B46F0OgvwtKxNBbkNlIm8DM1%2BheefrsLECPzBN%2BZXe%2B%2BSdUBQ%3D%3D\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url-Render}}/users/profile",
+							"host": [
+								"{{url-Render}}"
+							],
+							"path": [
+								"users",
+								"profile"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "重設個人密碼",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"password\": \"yellow1234\",\n    \"confirmPassword\": \"yellow1234\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url-Render}}/users/update-password",
+							"host": [
+								"{{url-Render}}"
+							],
+							"path": [
+								"users",
+								"update-password"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "會員功能 - 追蹤、編輯按讚貼文 (users)",
+			"item": [
+				{
+					"name": "取得追蹤名單",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{url-Render}}/users/following",
+							"host": [
+								"{{url-Render}}"
+							],
+							"path": [
+								"users",
+								"following"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "追蹤指定用戶",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{url-Render}}/users/{{followId}}/follow",
+							"host": [
+								"{{url-Render}}"
+							],
+							"path": [
+								"users",
+								"{{followId}}",
+								"follow"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "取消追蹤指定用戶",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{url-Render}}/users/{{followId}}/unfollow",
+							"host": [
+								"{{url-Render}}"
+							],
+							"path": [
+								"users",
+								"{{followId}}",
+								"unfollow"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "取得按讚貼文列表",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{url-Render}}/users/liked-posts",
+							"host": [
+								"{{url-Render}}"
+							],
+							"path": [
+								"users",
+								"liked-posts"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "刪除指定按讚貼文",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{url-Render}}/users/{{likedPostId}}/liked-post",
+							"host": [
+								"{{url-Render}}"
+							],
+							"path": [
+								"users",
+								"{{likedPostId}}",
+								"liked-post"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "社群動態 - 貼文 (posts)",
+			"item": [
+				{
+					"name": "取得所有貼文",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{url-Render}}/posts",
+							"host": [
+								"{{url-Render}}"
+							],
+							"path": [
+								"posts"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "取得指定貼文",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{url-Render}}/posts/{{postId}}",
+							"host": [
+								"{{url-Render}}"
+							],
+							"path": [
+								"posts",
+								"{{postId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "取得指定用戶所有貼文",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{url-Render}}/posts/user/{{userId}}",
+							"host": [
+								"{{url-Render}}"
+							],
+							"path": [
+								"posts",
+								"user",
+								"{{userId}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "個人動態 - 貼文、按讚及留言 (posts)",
+			"item": [
+				{
+					"name": "新增一則貼文",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"content\": \"超人氣日本繪本作家工藤紀子名作《野貓軍團》登上UT，描繪8隻流浪貓所組成的「野貓軍團」調皮又逗趣的故事\",\n    \"image\": \"https://www.uniqlo.com/tw/cms/94fe1667e461915442497ae8f76b3cfb.jpg\",\n    \"tags\": [\"音樂\", \"運動\", \"美食\"]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url-Render}}/posts",
+							"host": [
+								"{{url-Render}}"
+							],
+							"path": [
+								"posts"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "編輯指定貼文",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"content\": \"超人氣日本繪本作家工藤紀子名作《野貓軍團》登上UT，描繪8隻流浪貓所組成的「野貓軍團」調皮又逗趣的故事\",\n    \"image\": \"https://www.uniqlo.com/tw/cms/94fe1667e461915442497ae8f76b3cfb.jpg\",\n    \"tags\": [\"音樂\", \"旅遊\", \"其他\"]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url-Render}}/posts/{{postId}}",
+							"host": [
+								"{{url-Render}}"
+							],
+							"path": [
+								"posts",
+								"{{postId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "刪除指定貼文",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{url-Render}}/posts/{{postId}}",
+							"host": [
+								"{{url-Render}}"
+							],
+							"path": [
+								"posts",
+								"{{postId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "指定貼文按讚",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{url-Render}}/posts/{{postId}}/like",
+							"host": [
+								"{{url-Render}}"
+							],
+							"path": [
+								"posts",
+								"{{postId}}",
+								"like"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "取消指定貼文按讚",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{url-Render}}/posts/{{postId}}/unlike",
+							"host": [
+								"{{url-Render}}"
+							],
+							"path": [
+								"posts",
+								"{{postId}}",
+								"unlike"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "指定貼文留言",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"comment\": \"123456789\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url-Render}}/posts/{{postId}}/comment",
+							"host": [
+								"{{url-Render}}"
+							],
+							"path": [
+								"posts",
+								"{{postId}}",
+								"comment"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "刪除指定貼文留言",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{url-local}}/posts/{{commentId}}/uncomment",
+							"host": [
+								"{{url-local}}"
+							],
+							"path": [
+								"posts",
+								"{{commentId}}",
+								"uncomment"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "管理控制台 -  社群貼文 (posts)",
+			"item": [
+				{
+					"name": "刪除所有貼文",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{url-local}}/posts/all",
+							"host": [
+								"{{url-local}}"
+							],
+							"path": [
+								"posts",
+								"all"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "會員功能 - 圖片上傳 (upload)",
+			"item": [
+				{
+					"name": "圖片上傳",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2NDE2ODEwZjY1MDc1OWNiNzkyMzI3YSIsIm5hbWUiOiJjYXR0eSIsInBob3RvIjoiIiwiaWF0IjoxNzE2MzQ1MjIwLCJleHAiOjE3MTY5NTAwMjB9.gHY7hNbGn1lweGu93hMaXkVWMxTb5X4Y6oRNisjakrg"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "file",
+									"type": "file",
+									"src": "/Users/Apple/Downloads/victor-rosario-vPC39ANNgm4-unsplash (1).jpg"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{url-local}}/upload/file",
+							"host": [
+								"{{url-local}}"
+							],
+							"path": [
+								"upload",
+								"file"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
