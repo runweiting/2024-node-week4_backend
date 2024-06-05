@@ -4,6 +4,8 @@ const {
 } = require('../middlewares/handleResponses');
 const Post = require('../models/postsModel');
 const Comment = require('../models/commentsModel');
+const Like = require('../models/likesModel');
+const User = require('../models/usersModel');
 
 const posts = {
   async getPosts(req, res, next) {
@@ -17,7 +19,7 @@ const posts = {
       })
       .populate({
         path: 'likes',
-        select: 'name photo',
+        select: 'user',
       })
       .populate({
         path: 'comments',
@@ -36,7 +38,7 @@ const posts = {
       return handleAppError(400, '標籤為必填', next);
     }
     await Post.create({
-      user: req.user,
+      user: req.user.id,
       content: content.trim(),
       image: image,
       tags: tags,
@@ -85,7 +87,19 @@ const posts = {
   // 取得指定貼文
   async getPost(req, res, next) {
     const postId = req.params.id;
-    const targetPost = await Post.findById(postId);
+    const targetPost = await Post.findById(postId)
+      .populate({
+        path: 'user',
+        select: 'name photo',
+      })
+      .populate({
+        path: 'likes',
+        select: 'user',
+      })
+      .populate({
+        path: 'comments',
+        select: 'user comment createdAt',
+      });
     if (!targetPost) {
       return handleAppError(404, '查無此貼文 id');
     }
@@ -94,11 +108,41 @@ const posts = {
   // 取得指定用戶所有貼文 (用戶牆)
   async getUserPosts(req, res, next) {
     const userId = req.params.id;
-    const postsList = await Post.find({ user: userId });
-    if (postsList.length === 0) {
+    const timeSort = req.query.timeSort === 'asc' ? 'createdAt' : '-createdAt';
+    const q =
+      req.query.q !== undefined ? { content: new RegExp(req.query.q) } : {};
+    const query = {
+      user: userId,
+      ...q,
+    };
+    const posts = await Post.find(query)
+      .populate({
+        path: 'user',
+        select: 'name photo',
+      })
+      .populate({
+        path: 'likes',
+        select: 'user',
+      })
+      .populate({
+        path: 'comments',
+        select: 'user comment createdAt',
+      })
+      .sort(timeSort);
+    const targetUser = await User.findById(userId).select(
+      'name photo followers',
+    );
+    if (posts.length === 0) {
       return handleAppError(404, '目前用戶沒有貼文', next);
     }
-    handleResponse(res, 200, '查詢成功', postsList);
+    if (!targetUser) {
+      return handleAppError(404, '用戶不存在', next);
+    }
+    const newData = {
+      targetUser,
+      posts,
+    };
+    handleResponse(res, 200, '查詢成功', newData);
   },
   // 貼文按讚
   async likePost(req, res, next) {
@@ -107,26 +151,23 @@ const posts = {
     if (!targetPost) {
       return handleAppError(404, '查無此貼文 id', next);
     }
-    await Post.findByIdAndUpdate(req.params.id, {
-      // 在 likes 欄位加入此 req.user.id
-      $addToSet: {
-        likes: req.user.id,
-      },
-    });
+    // upsert 是 updateOne 和 updateMany 的參數，用於更新操作時如查詢條件未匹配到任何文檔，則創建一個新的文檔
+    await Like.updateOne(
+      { post: req.params.id, user: req.user.id }, // 查詢
+      { post: req.params.id, user: req.user.id }, // 更新
+      { upsert: true }, // 新建
+    );
     handleResponse(res, 200, '按讚成功');
   },
   // 取消指定貼文按讚
   async unlikePost(req, res, next) {
-    const targetPost = await Post.findById(req.params.id);
-    if (!targetPost) {
-      return next(handleAppError(404, '查無此貼文 id', next));
-    }
-    await Post.findByIdAndUpdate(req.params.id, {
-      // 在 likes 欄位移除此 req.user.id
-      $pull: {
-        likes: req.user.id,
-      },
+    const targetLike = await Like.findOneAndDelete({
+      post: req.params.id,
+      user: req.user.id,
     });
+    if (!targetLike) {
+      return handleAppError(404, '找不到按讚記錄', next);
+    }
     handleResponse(res, 200, '已取消按讚');
   },
   // 貼文留言

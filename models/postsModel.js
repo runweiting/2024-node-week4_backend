@@ -17,14 +17,6 @@ const postsSchema = new mongoose.Schema(
       default: '',
       trim: true,
     },
-    // 引用 References
-    likes: [
-      {
-        type: mongoose.Schema.ObjectId,
-        ref: 'User',
-        unique: true, // 只能對貼文按讚一次
-      },
-    ],
     tags: {
       // 字串陣列
       type: [String],
@@ -49,12 +41,17 @@ const postsSchema = new mongoose.Schema(
   },
 );
 /* 1:many 寫法
-步驟 1. 在主要 model 中定義虛擬欄位 comments
-建立 Post, Comment 的關連 */
+步驟 1. 在主要 model 中定義虛擬欄位
+建立 Post 和其他 model 的關連 */
 postsSchema.virtual('comments', {
   ref: 'Comment', // 參考 model
-  localField: '_id', // 主要 model 欄位
-  foreignField: 'post', // 參考 model 欄位
+  localField: '_id', // Post 中的欄位
+  foreignField: 'post', // Comment 中欄位
+});
+postsSchema.virtual('likes', {
+  ref: 'Like',
+  localField: '_id', // Post 中的欄位
+  foreignField: 'post', // Like 中的欄位
 });
 
 const Post = mongoose.model('Post', postsSchema);

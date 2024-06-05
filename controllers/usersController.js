@@ -2,6 +2,7 @@ const bcrypt = require('bcryptjs');
 const validator = require('validator');
 const User = require('../models/usersModel');
 const Post = require('../models/postsModel');
+const Like = require('../models/likesModel');
 const {
   handleResponse,
   handleAppError,
@@ -126,26 +127,29 @@ const users = {
     );
     handleResponse(res, 201, '個人資料更新成功', updateProfile);
   },
-  // 取得個人按讚的文章
+  // 取得個人按讚的貼文
   async getLikedPosts(req, res, next) {
-    const postsList = await Post.find({
-      // 搜尋 likes 陣列欄位裡的 req.user.id
-      likes: {
-        $in: [req.user.id],
-      },
+    const postsList = await Like.find({
+      user: req.user.id,
     })
       .populate({
-        path: 'user',
-        select: 'name photo',
+        path: 'post',
+        select: 'user content image tags createdAt',
+        populate: {
+          path: 'user',
+          select: 'name photo',
+        },
       })
-      .populate({
-        path: 'likes',
-        select: 'name photo',
-      });
-    if (postsList.length === 0) {
-      return handleAppError(404, '目前沒有按讚貼文', next);
-    }
+      .sort({ createdAt: -1 });
     handleResponse(res, 200, '查詢成功', postsList);
+  },
+  // 刪除個人按讚的貼文
+  async deleteLikedPost(req, res, next) {
+    const targetPost = await Like.findByIdAndDelete(req.params.id);
+    if (!targetPost) {
+      return handleAppError(404, '查無此貼文 id', next);
+    }
+    handleResponse(res, 200, '刪除成功');
   },
   // 取得追蹤名單
   async getFollowingList(req, res, next) {

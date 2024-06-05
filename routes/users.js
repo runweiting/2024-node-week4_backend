@@ -270,6 +270,12 @@ router.get(
    */
 );
 
+router.delete(
+  '/:id/liked-post',
+  isAuth,
+  handleErrorAsync(UsersController.deleteLikedPost),
+);
+
 router.get(
   '/following',
   isAuth,
