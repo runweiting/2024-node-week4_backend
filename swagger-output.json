@@ -195,9 +195,9 @@
     "/users/profile": {
       "get": {
         "tags": [
-          "會員功能 - 個人檔案 (users)"
+          "會員功能 - 個人設定 (users)"
         ],
-        "description": "取得個人檔案 API",
+        "description": "取得個人設定 API",
         "responses": {
           "200": {
             "description": "OK",
@@ -231,6 +231,46 @@
                       "type": "string",
                       "example": "圖片連結(https)"
                     },
+                    "followers": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "user": {
+                            "type": "string",
+                            "example": "664c185bcd3fb..."
+                          },
+                          "_id": {
+                            "type": "string",
+                            "example": "664c185bcd3fb..."
+                          },
+                          "createdAt": {
+                            "type": "string",
+                            "example": "2024..."
+                          }
+                        }
+                      }
+                    },
+                    "following": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "user": {
+                            "type": "string",
+                            "example": "664c185bcd3fb..."
+                          },
+                          "_id": {
+                            "type": "string",
+                            "example": "664c185bcd3fb..."
+                          },
+                          "createdAt": {
+                            "type": "string",
+                            "example": "2024..."
+                          }
+                        }
+                      }
+                    },
                     "createdAt": {
                       "type": "string",
                       "example": "2024..."
@@ -260,9 +300,9 @@
       },
       "put": {
         "tags": [
-          "會員功能 - 個人檔案 (users)"
+          "會員功能 - 個人設定 (users)"
         ],
-        "description": "更新個人檔案 API",
+        "description": "更新個人設定 API",
         "parameters": [
           {
             "name": "body",
@@ -325,6 +365,46 @@
                       "type": "string",
                       "example": "圖片連結(https)"
                     },
+                    "followers": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "user": {
+                            "type": "string",
+                            "example": "664c185bcd3fb..."
+                          },
+                          "_id": {
+                            "type": "string",
+                            "example": "664c185bcd3fb..."
+                          },
+                          "createdAt": {
+                            "type": "string",
+                            "example": "2024..."
+                          }
+                        }
+                      }
+                    },
+                    "following": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "user": {
+                            "type": "string",
+                            "example": "664c185bcd3fb..."
+                          },
+                          "_id": {
+                            "type": "string",
+                            "example": "664c185bcd3fb..."
+                          },
+                          "createdAt": {
+                            "type": "string",
+                            "example": "2024..."
+                          }
+                        }
+                      }
+                    },
                     "createdAt": {
                       "type": "string",
                       "example": "2024..."
@@ -359,7 +439,7 @@
     "/users/update-password": {
       "patch": {
         "tags": [
-          "會員功能 - 個人檔案 (users)"
+          "會員功能 - 個人設定 (users)"
         ],
         "description": "重設個人密碼 API",
         "parameters": [
@@ -428,9 +508,9 @@
     "/users/liked-posts": {
       "get": {
         "tags": [
-          "會員功能 - 追蹤及按讚文章 (users)"
+          "會員功能 - 追蹤、編輯按讚貼文 (users)"
         ],
-        "description": "取得個人按讚的文章列表 API",
+        "description": "取得按讚貼文列表 API",
         "responses": {
           "200": {
             "description": "OK",
@@ -471,50 +551,56 @@
                           }
                         }
                       },
-                      "content": {
-                        "type": "string",
-                        "example": "example"
-                      },
-                      "image": {
-                        "type": "string",
-                        "example": "圖片連結(https)"
-                      },
-                      "likes": {
-                        "type": "array",
-                        "items": {
-                          "type": "object",
-                          "properties": {
-                            "_id": {
-                              "type": "string",
-                              "example": "664c185bcd3fb..."
-                            },
-                            "name": {
-                              "type": "string",
-                              "example": "example"
-                            },
-                            "photo": {
-                              "type": "string",
-                              "example": "圖片連結(https)"
+                      "post": {
+                        "type": "object",
+                        "properties": {
+                          "_id": {
+                            "type": "string",
+                            "example": "664c185bcd3fb..."
+                          },
+                          "user": {
+                            "type": "object",
+                            "properties": {
+                              "_id": {
+                                "type": "string",
+                                "example": "664c185bcd3fb..."
+                              },
+                              "name": {
+                                "type": "string",
+                                "example": "example"
+                              },
+                              "photo": {
+                                "type": "string",
+                                "example": "圖片連結(https)"
+                              }
                             }
+                          },
+                          "content": {
+                            "type": "string",
+                            "example": "example"
+                          },
+                          "image": {
+                            "type": "string",
+                            "example": "圖片連結(https)"
+                          },
+                          "tags": {
+                            "type": "array",
+                            "example": [
+                              "example"
+                            ],
+                            "items": {
+                              "type": "string"
+                            }
+                          },
+                          "createdAt": {
+                            "type": "string",
+                            "example": "2024..."
+                          },
+                          "id": {
+                            "type": "string",
+                            "example": "664c185bcd3fb..."
                           }
                         }
-                      },
-                      "comments": {
-                        "type": "number",
-                        "example": 0
-                      },
-                      "tags": {
-                        "type": "array",
-                        "example": [
-                          "example"
-                        ],
-                        "items": {
-                          "type": "string"
-                        }
-                      },
-                      "isPublic": {
-                        "type": "boolean",
-                        "example": true
                       },
                       "createdAt": {
                         "type": "string",
@@ -526,6 +612,48 @@
                       }
                     }
                   }
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "apiKeyAuth": []
+          }
+        ]
+      }
+    },
+    "/users/{id}/liked-post": {
+      "delete": {
+        "tags": [
+          "會員功能 - 追蹤、編輯按讚貼文 (users)"
+        ],
+        "description": "刪除指定按讚貼文 API",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "boolean",
+                  "example": true
+                },
+                "message": {
+                  "type": "string",
+                  "example": "刪除成功"
                 }
               },
               "xml": {
@@ -544,7 +672,7 @@
                 },
                 "message": {
                   "type": "string",
-                  "example": "目前沒有按讚貼文"
+                  "example": "查無此貼文 id"
                 }
               },
               "xml": {
@@ -563,9 +691,9 @@
     "/users/following": {
       "get": {
         "tags": [
-          "會員功能 - 追蹤及按讚文章 (users)"
+          "會員功能 - 追蹤、編輯按讚貼文 (users)"
         ],
-        "description": "取得個人追蹤名單 API",
+        "description": "取得追蹤名單 API",
         "responses": {
           "200": {
             "description": "OK",
@@ -581,43 +709,25 @@
                   "example": "查詢成功"
                 },
                 "data": {
-                  "type": "object",
-                  "properties": {
-                    "_id": {
-                      "type": "string",
-                      "example": "664c185bcd3fb..."
-                    },
-                    "following": {
-                      "type": "array",
-                      "items": {
-                        "type": "object",
-                        "properties": {
-                          "user": {
-                            "type": "object",
-                            "properties": {
-                              "_id": {
-                                "type": "string",
-                                "example": "664c185bcd3fb..."
-                              },
-                              "name": {
-                                "type": "string",
-                                "example": "example"
-                              },
-                              "photo": {
-                                "type": "string",
-                                "example": "圖片連結(https)"
-                              }
-                            }
-                          },
-                          "_id": {
-                            "type": "string",
-                            "example": "664c185bcd3fb..."
-                          },
-                          "createdAt": {
-                            "type": "string",
-                            "example": "2024..."
-                          }
-                        }
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "_id": {
+                        "type": "string",
+                        "example": "664c185bcd3fb..."
+                      },
+                      "name": {
+                        "type": "string",
+                        "example": "example"
+                      },
+                      "photo": {
+                        "type": "string",
+                        "example": "圖片連結(https)"
+                      },
+                      "createdAt": {
+                        "type": "string",
+                        "example": "2024..."
                       }
                     }
                   }
@@ -658,7 +768,7 @@
     "/users/{id}/follow": {
       "post": {
         "tags": [
-          "會員功能 - 追蹤及按讚文章 (users)"
+          "會員功能 - 追蹤、編輯按讚貼文 (users)"
         ],
         "description": "追蹤指定用戶 API",
         "parameters": [
@@ -719,7 +829,7 @@
     "/users/{id}/unfollow": {
       "delete": {
         "tags": [
-          "會員功能 - 追蹤及按讚文章 (users)"
+          "會員功能 - 追蹤、編輯按讚貼文 (users)"
         ],
         "description": "取消追蹤指定用戶 API",
         "parameters": [
@@ -843,26 +953,6 @@
                         "type": "string",
                         "example": "圖片連結(https)"
                       },
-                      "likes": {
-                        "type": "array",
-                        "items": {
-                          "type": "object",
-                          "properties": {
-                            "_id": {
-                              "type": "string",
-                              "example": "664c185bcd3fb..."
-                            },
-                            "name": {
-                              "type": "string",
-                              "example": "example"
-                            },
-                            "photo": {
-                              "type": "string",
-                              "example": "圖片連結(https)"
-                            }
-                          }
-                        }
-                      },
                       "tags": {
                         "type": "array",
                         "example": [
@@ -919,9 +1009,50 @@
                                   "example": "圖片連結(https)"
                                 }
                               }
+                            },
+                            "createdAt": {
+                              "type": "string",
+                              "example": "2024..."
                             }
                           }
                         }
+                      },
+                      "likes": {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "_id": {
+                              "type": "string",
+                              "example": "664c185bcd3fb..."
+                            },
+                            "user": {
+                              "type": "object",
+                              "properties": {
+                                "_id": {
+                                  "type": "string",
+                                  "example": "664c185bcd3fb..."
+                                },
+                                "name": {
+                                  "type": "string",
+                                  "example": "example"
+                                },
+                                "photo": {
+                                  "type": "string",
+                                  "example": "圖片連結(https)"
+                                }
+                              }
+                            },
+                            "post": {
+                              "type": "string",
+                              "example": "664c185bcd3fb..."
+                            }
+                          }
+                        }
+                      },
+                      "id": {
+                        "type": "string",
+                        "example": "664c185bcd3fb..."
                       }
                     }
                   }
@@ -941,7 +1072,7 @@
       },
       "post": {
         "tags": [
-          "個人動態 - 貼文 (posts)"
+          "個人動態 - 貼文、按讚及留言 (posts)"
         ],
         "description": "個人新增貼文 API",
         "parameters": [
@@ -1065,8 +1196,21 @@
                         "example": "664c185bcd3fb..."
                       },
                       "user": {
-                        "type": "string",
-                        "example": "664c185bcd3fb..."
+                        "type": "object",
+                        "properties": {
+                          "_id": {
+                            "type": "string",
+                            "example": "664c185bcd3fb..."
+                          },
+                          "name": {
+                            "type": "string",
+                            "example": "example"
+                          },
+                          "photo": {
+                            "type": "string",
+                            "example": "圖片連結(https)"
+                          }
+                        }
                       },
                       "content": {
                         "type": "string",
@@ -1075,30 +1219,6 @@
                       "image": {
                         "type": "string",
                         "example": "圖片連結(https)"
-                      },
-                      "likes": {
-                        "type": "array",
-                        "items": {
-                          "type": "object",
-                          "properties": {
-                            "_id": {
-                              "type": "string",
-                              "example": "664c185bcd3fb..."
-                            },
-                            "name": {
-                              "type": "string",
-                              "example": "example"
-                            },
-                            "photo": {
-                              "type": "string",
-                              "example": "圖片連結(https)"
-                            }
-                          }
-                        }
-                      },
-                      "comments": {
-                        "type": "number",
-                        "example": 0
                       },
                       "tags": {
                         "type": "array",
@@ -1120,6 +1240,84 @@
                       "updatedAt": {
                         "type": "string",
                         "example": "2024..."
+                      },
+                      "comments": {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "_id": {
+                              "type": "string",
+                              "example": "664c185bcd3fb..."
+                            },
+                            "comment": {
+                              "type": "string",
+                              "example": "example"
+                            },
+                            "post": {
+                              "type": "string",
+                              "example": "664c185bcd3fb..."
+                            },
+                            "user": {
+                              "type": "object",
+                              "properties": {
+                                "_id": {
+                                  "type": "string",
+                                  "example": "664c185bcd3fb..."
+                                },
+                                "name": {
+                                  "type": "string",
+                                  "example": "example"
+                                },
+                                "photo": {
+                                  "type": "string",
+                                  "example": "圖片連結(https)"
+                                }
+                              }
+                            },
+                            "createdAt": {
+                              "type": "string",
+                              "example": "2024..."
+                            }
+                          }
+                        }
+                      },
+                      "likes": {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "_id": {
+                              "type": "string",
+                              "example": "664c185bcd3fb..."
+                            },
+                            "user": {
+                              "type": "object",
+                              "properties": {
+                                "_id": {
+                                  "type": "string",
+                                  "example": "664c185bcd3fb..."
+                                },
+                                "name": {
+                                  "type": "string",
+                                  "example": "example"
+                                },
+                                "photo": {
+                                  "type": "string",
+                                  "example": "圖片連結(https)"
+                                }
+                              }
+                            },
+                            "post": {
+                              "type": "string",
+                              "example": "664c185bcd3fb..."
+                            }
+                          }
+                        }
+                      },
+                      "id": {
+                        "type": "string",
+                        "example": "664c185bcd3fb..."
                       }
                     }
                   }
@@ -1158,7 +1356,7 @@
       },
       "put": {
         "tags": [
-          "個人動態 - 貼文 (posts)"
+          "個人動態 - 貼文、按讚及留言 (posts)"
         ],
         "description": "個人更新指定貼文 API",
         "parameters": [
@@ -1270,7 +1468,7 @@
       },
       "delete": {
         "tags": [
-          "個人動態 - 貼文 (posts)"
+          "個人動態 - 貼文、按讚及留言 (posts)"
         ],
         "description": "個人刪除指定貼文 API",
         "parameters": [
@@ -1357,70 +1555,179 @@
                   "example": "查詢成功"
                 },
                 "data": {
-                  "type": "array",
-                  "items": {
-                    "type": "object",
-                    "properties": {
-                      "_id": {
-                        "type": "string",
-                        "example": "664c185bcd3fb..."
-                      },
-                      "user": {
-                        "type": "string",
-                        "example": "664c185bcd3fb..."
-                      },
-                      "content": {
-                        "type": "string",
-                        "example": "example"
-                      },
-                      "image": {
-                        "type": "string",
-                        "example": "圖片連結(https)"
-                      },
-                      "likes": {
-                        "type": "array",
-                        "items": {
-                          "type": "object",
-                          "properties": {
-                            "_id": {
-                              "type": "string",
-                              "example": "664c185bcd3fb..."
-                            },
-                            "name": {
-                              "type": "string",
-                              "example": "example"
-                            },
-                            "photo": {
-                              "type": "string",
-                              "example": "圖片連結(https)"
+                  "type": "object",
+                  "properties": {
+                    "targetUser": {
+                      "type": "object",
+                      "properties": {
+                        "_id": {
+                          "type": "string",
+                          "example": "664c185bcd3fb..."
+                        },
+                        "name": {
+                          "type": "string",
+                          "example": "example"
+                        },
+                        "photo": {
+                          "type": "string",
+                          "example": "圖片連結(https)"
+                        },
+                        "followers": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "user": {
+                                "type": "string",
+                                "example": "664c185bcd3fb..."
+                              },
+                              "_id": {
+                                "type": "string",
+                                "example": "664c185bcd3fb..."
+                              },
+                              "createdAt": {
+                                "type": "string",
+                                "example": "2024..."
+                              }
                             }
                           }
                         }
-                      },
-                      "comments": {
-                        "type": "number",
-                        "example": 0
-                      },
-                      "tags": {
-                        "type": "array",
-                        "example": [
-                          "example"
-                        ],
-                        "items": {
-                          "type": "string"
+                      }
+                    },
+                    "posts": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "_id": {
+                            "type": "string",
+                            "example": "664c185bcd3fb..."
+                          },
+                          "user": {
+                            "type": "object",
+                            "properties": {
+                              "_id": {
+                                "type": "string",
+                                "example": "664c185bcd3fb..."
+                              },
+                              "name": {
+                                "type": "string",
+                                "example": "example"
+                              },
+                              "photo": {
+                                "type": "string",
+                                "example": "圖片連結(https)"
+                              }
+                            }
+                          },
+                          "content": {
+                            "type": "string",
+                            "example": "example"
+                          },
+                          "image": {
+                            "type": "string",
+                            "example": "圖片連結(https)"
+                          },
+                          "tags": {
+                            "type": "array",
+                            "example": [
+                              "example"
+                            ],
+                            "items": {
+                              "type": "string"
+                            }
+                          },
+                          "isPublic": {
+                            "type": "boolean",
+                            "example": true
+                          },
+                          "createdAt": {
+                            "type": "string",
+                            "example": "2024..."
+                          },
+                          "updatedAt": {
+                            "type": "string",
+                            "example": "2024..."
+                          },
+                          "comments": {
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "properties": {
+                                "_id": {
+                                  "type": "string",
+                                  "example": "664c185bcd3fb..."
+                                },
+                                "comment": {
+                                  "type": "string",
+                                  "example": "example"
+                                },
+                                "post": {
+                                  "type": "string",
+                                  "example": "664c185bcd3fb..."
+                                },
+                                "user": {
+                                  "type": "object",
+                                  "properties": {
+                                    "_id": {
+                                      "type": "string",
+                                      "example": "664c185bcd3fb..."
+                                    },
+                                    "name": {
+                                      "type": "string",
+                                      "example": "example"
+                                    },
+                                    "photo": {
+                                      "type": "string",
+                                      "example": "圖片連結(https)"
+                                    }
+                                  }
+                                },
+                                "createdAt": {
+                                  "type": "string",
+                                  "example": "2024..."
+                                }
+                              }
+                            }
+                          },
+                          "likes": {
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "properties": {
+                                "_id": {
+                                  "type": "string",
+                                  "example": "664c185bcd3fb..."
+                                },
+                                "user": {
+                                  "type": "object",
+                                  "properties": {
+                                    "_id": {
+                                      "type": "string",
+                                      "example": "664c185bcd3fb..."
+                                    },
+                                    "name": {
+                                      "type": "string",
+                                      "example": "example"
+                                    },
+                                    "photo": {
+                                      "type": "string",
+                                      "example": "圖片連結(https)"
+                                    }
+                                  }
+                                },
+                                "post": {
+                                  "type": "string",
+                                  "example": "664c185bcd3fb..."
+                                }
+                              }
+                            }
+                          },
+                          "id": {
+                            "type": "string",
+                            "example": "665c3626ede2fa710bee5efd"
+                          }
                         }
-                      },
-                      "isPublic": {
-                        "type": "boolean",
-                        "example": true
-                      },
-                      "createdAt": {
-                        "type": "string",
-                        "example": "2024..."
-                      },
-                      "updatedAt": {
-                        "type": "string",
-                        "example": "2024..."
                       }
                     }
                   }
@@ -1461,7 +1768,7 @@
     "/posts/{id}/like": {
       "post": {
         "tags": [
-          "個人動態 - 貼文 (posts)"
+          "個人動態 - 貼文、按讚及留言 (posts)"
         ],
         "description": "指定貼文按讚 API",
         "parameters": [
@@ -1485,26 +1792,6 @@
                 "message": {
                   "type": "string",
                   "example": "按讚成功"
-                },
-                "data": {
-                  "type": "array",
-                  "items": {
-                    "type": "object",
-                    "properties": {
-                      "_id": {
-                        "type": "string",
-                        "example": "664c185bcd3fb..."
-                      },
-                      "name": {
-                        "type": "string",
-                        "example": "example"
-                      },
-                      "photo": {
-                        "type": "string",
-                        "example": "圖片連結(https)"
-                      }
-                    }
-                  }
                 }
               },
               "xml": {
@@ -1542,7 +1829,7 @@
     "/posts/{id}/unlike": {
       "delete": {
         "tags": [
-          "個人動態 - 貼文 (posts)"
+          "個人動態 - 貼文、按讚及留言 (posts)"
         ],
         "description": "取消指定貼文按讚 API",
         "parameters": [
@@ -1603,7 +1890,7 @@
     "/posts/{id}/comment": {
       "post": {
         "tags": [
-          "個人動態 - 貼文 (posts)"
+          "個人動態 - 貼文、按讚及留言 (posts)"
         ],
         "description": "指定貼文留言 API",
         "parameters": [
@@ -1633,10 +1920,6 @@
                   "items": {
                     "type": "object",
                     "properties": {
-                      "_id": {
-                        "type": "string",
-                        "example": "664c185bcd3fb..."
-                      },
                       "comment": {
                         "type": "string",
                         "example": "example"
@@ -1656,11 +1939,79 @@
                             "type": "string",
                             "example": "example"
                           },
+                          "role": {
+                            "type": "string",
+                            "example": "guest"
+                          },
                           "photo": {
                             "type": "string",
                             "example": "圖片連結(https)"
+                          },
+                          "followers": {
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "properties": {
+                                "user": {
+                                  "type": "string",
+                                  "example": "664c185bcd3fb..."
+                                },
+                                "_id": {
+                                  "type": "string",
+                                  "example": "664c185bcd3fb..."
+                                },
+                                "createdAt": {
+                                  "type": "string",
+                                  "example": "2024..."
+                                }
+                              }
+                            }
+                          },
+                          "following": {
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "properties": {
+                                "user": {
+                                  "type": "string",
+                                  "example": "664c185bcd3fb..."
+                                },
+                                "_id": {
+                                  "type": "string",
+                                  "example": "664c185bcd3fb..."
+                                },
+                                "createdAt": {
+                                  "type": "string",
+                                  "example": "2024..."
+                                }
+                              }
+                            }
+                          },
+                          "createdAt": {
+                            "type": "string",
+                            "example": "2024..."
+                          },
+                          "updatedAt": {
+                            "type": "string",
+                            "example": "2024..."
+                          },
+                          "gender": {
+                            "type": "string",
+                            "example": "example"
                           }
                         }
+                      },
+                      "_id": {
+                        "type": "string",
+                        "example": "664c185bcd3fb..."
+                      },
+                      "createdAt": {
+                        "type": "string",
+                        "example": "2024..."
+                      },
+                      "updatedAt": {
+                        "type": "string",
+                        "example": "2024..."
                       }
                     }
                   }
@@ -1701,7 +2052,7 @@
     "/posts/{id}/uncomment": {
       "delete": {
         "tags": [
-          "個人動態 - 貼文 (posts)"
+          "個人動態 - 貼文、按讚及留言 (posts)"
         ],
         "description": "刪除指定貼文留言 API",
         "parameters": [

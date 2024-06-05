@@ -93,8 +93,8 @@ router.get(
   isAuth,
   handleErrorAsync(UsersController.getProfile),
   /**
-   * #swagger.tags = ['會員功能 - 個人檔案 (users)']
-   * #swagger.description = '取得個人檔案 API'
+   * #swagger.tags = ['會員功能 - 個人設定 (users)']
+   * #swagger.description = '取得個人設定 API'
    * #swagger.security = [{
       "apiKeyAuth": []
     }]
@@ -108,6 +108,20 @@ router.get(
           "name": "example",
           "role": "example",
           "photo": "圖片連結(https)",
+          "followers": [
+            {
+              "user": "664c185bcd3fb...",
+              "_id": "664c185bcd3fb...",
+              "createdAt": "2024..."
+            },
+          ],
+          "following": [
+            {
+              "user": "664c185bcd3fb...",
+              "_id": "664c185bcd3fb...",
+              "createdAt": "2024..."
+            },
+          ],
           "createdAt": "2024...",
           "updatedAt": "2024...",
           "gender": "example"
@@ -122,7 +136,7 @@ router.patch(
   isAuth,
   handleErrorAsync(UsersController.updatePassword),
   /**
-   * #swagger.tags = ['會員功能 - 個人檔案 (users)']
+   * #swagger.tags = ['會員功能 - 個人設定 (users)']
    * #swagger.description = '重設個人密碼 API'
    * #swagger.security = [{
       "apiKeyAuth": []
@@ -156,8 +170,8 @@ router.put(
   isAuth,
   handleErrorAsync(UsersController.updateProfile),
   /**
-   * #swagger.tags = ['會員功能 - 個人檔案 (users)']
-   * #swagger.description = '更新個人檔案 API'
+   * #swagger.tags = ['會員功能 - 個人設定 (users)']
+   * #swagger.description = '更新個人設定 API'
    * #swagger.security = [{
       "apiKeyAuth": []
     }]
@@ -181,6 +195,20 @@ router.put(
           "name": "example",
           "role": "example",
           "photo": "圖片連結(https)",
+          "followers": [
+            {
+              "user": "664c185bcd3fb...",
+              "_id": "664c185bcd3fb...",
+              "createdAt": "2024..."
+            },
+          ],
+          "following": [
+            {
+              "user": "664c185bcd3fb...",
+              "_id": "664c185bcd3fb...",
+              "createdAt": "2024..."
+            },
+          ],
           "createdAt": "2024...",
           "updatedAt": "2024...",
           "gender": "example"
@@ -194,31 +222,12 @@ router.put(
 );
 
 router.get(
-  '/google',
-  passport.authenticate('google', { scope: ['email', 'profile'] }),
-  /**
-   * #swagger.ignore = true
-   */
-);
-
-router.get(
-  '/google/callback',
-  passport.authenticate('google', { session: false }),
-  (req, res) => {
-    generateUrlJWT(req.user, res);
-  },
-  /**
-   * #swagger.ignore = true
-   */
-);
-
-router.get(
   '/liked-posts',
   isAuth,
   handleErrorAsync(UsersController.getLikedPosts),
   /**
-   * #swagger.tags = ['會員功能 - 追蹤及按讚文章 (users)']
-   * #swagger.description = '取得個人按讚的文章列表 API'
+   * #swagger.tags = ['會員功能 - 追蹤、編輯按讚貼文 (users)']
+   * #swagger.description = '取得按讚貼文列表 API'
    * #swagger.security = [{
       "apiKeyAuth": []
     }]
@@ -235,36 +244,25 @@ router.get(
               "name": "example",
               "photo": "圖片連結(https)"
             },
-            "content": "example",
-            "image": "圖片連結(https)",
-            "likes": [
-              {
+            "post": {
+              "_id": "664c185bcd3fb...",
+              "user": {
                 "_id": "664c185bcd3fb...",
                 "name": "example",
                 "photo": "圖片連結(https)"
               },
-              {
-                "_id": "664c185bcd3fb...",
-                "name": "example",
-                "photo": "圖片連結(https)"
-              },
-            ],
-            "comments": 0,
-            "tags": [
-              "example"
-            ],
-            "isPublic": true,
+              "content": "example",
+              "image": "圖片連結(https)",
+              "tags": [
+                "example"
+              ],
+              "createdAt": "2024...",
+              "id": "664c185bcd3fb..."
+            },
             "createdAt": "2024...",
             "updatedAt": "2024..."
           },
         ]
-      }
-    }
-   * #swagger.responses[404] = {
-      description: 'Not Found',
-      schema: {
-        "status": false,
-        "message": "目前沒有按讚貼文"
       }
     }
    */
@@ -274,6 +272,27 @@ router.delete(
   '/:id/liked-post',
   isAuth,
   handleErrorAsync(UsersController.deleteLikedPost),
+  /**
+   * #swagger.tags = ['會員功能 - 追蹤、編輯按讚貼文 (users)']
+   * #swagger.description = '刪除指定按讚貼文 API'
+   * #swagger.security = [{
+      "apiKeyAuth": []
+    }]
+   * #swagger.responses[200] = {
+      description: 'OK',
+      schema: {
+        "status": true,
+        "message": "刪除成功",
+      }
+    }
+   * #swagger.responses[404] = {
+      description: 'Not Found',
+      schema: {
+        "status": false,
+        "message": "查無此貼文 id"
+      }
+    }
+   */
 );
 
 router.get(
@@ -281,8 +300,8 @@ router.get(
   isAuth,
   handleErrorAsync(UsersController.getFollowingList),
   /**
-   * #swagger.tags = ['會員功能 - 追蹤及按讚文章 (users)']
-   * #swagger.description = '取得個人追蹤名單 API'
+   * #swagger.tags = ['會員功能 - 追蹤、編輯按讚貼文 (users)']
+   * #swagger.description = '取得追蹤名單 API'
    * #swagger.security = [{
       "apiKeyAuth": []
     }]
@@ -291,20 +310,14 @@ router.get(
       schema: {
         "status": true,
         "message": "查詢成功",
-        "data": {
-          "_id": "664c185bcd3fb...",
-          "following": [
-            {
-              "user": {
-                "_id": "664c185bcd3fb...",
-                "name": "example",
-                "photo": "圖片連結(https)"
-              },
-              "_id": "664c185bcd3fb...",
-              "createdAt": "2024...",
-            }
-          ]
-        },
+        "data": [
+          {
+            "_id": "664c185bcd3fb...",
+            "name": "example",
+            "photo": "圖片連結(https)",
+            "createdAt": "2024..."
+          }
+        ]
       }
     }
    * #swagger.responses[404] = {
@@ -322,7 +335,7 @@ router.post(
   isAuth,
   handleErrorAsync(UsersController.followUser),
   /**
-   * #swagger.tags = ['會員功能 - 追蹤及按讚文章 (users)']
+   * #swagger.tags = ['會員功能 - 追蹤、編輯按讚貼文 (users)']
    * #swagger.description = '追蹤指定用戶 API'
    * #swagger.security = [{
       "apiKeyAuth": []
@@ -349,7 +362,7 @@ router.delete(
   isAuth,
   handleErrorAsync(UsersController.unfollowUser),
   /**
-   * #swagger.tags = ['會員功能 - 追蹤及按讚文章 (users)']
+   * #swagger.tags = ['會員功能 - 追蹤、編輯按讚貼文 (users)']
    * #swagger.description = '取消追蹤指定用戶 API'
    * #swagger.security = [{
       "apiKeyAuth": []
@@ -368,6 +381,25 @@ router.delete(
         "message": "您無法取消追蹤自己"
       }
     }
+   */
+);
+
+router.get(
+  '/google',
+  passport.authenticate('google', { scope: ['email', 'profile'] }),
+  /**
+   * #swagger.ignore = true
+   */
+);
+
+router.get(
+  '/google/callback',
+  passport.authenticate('google', { session: false }),
+  (req, res) => {
+    generateUrlJWT(req.user, res);
+  },
+  /**
+   * #swagger.ignore = true
    */
 );
 

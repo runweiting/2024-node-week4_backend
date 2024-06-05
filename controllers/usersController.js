@@ -143,7 +143,7 @@ const users = {
       .sort({ createdAt: -1 });
     handleResponse(res, 200, '查詢成功', postsList);
   },
-  // 刪除個人按讚的貼文
+  // 刪除指定按讚的貼文
   async deleteLikedPost(req, res, next) {
     const targetPost = await Like.findByIdAndDelete(req.params.id);
     if (!targetPost) {
@@ -153,16 +153,15 @@ const users = {
   },
   // 取得追蹤名單
   async getFollowingList(req, res, next) {
-    const followingList = await User.findById(
-      req.user.id,
-      'following',
-    ).populate({
+    const targetUser = await User.findById(req.user.id).populate({
       path: 'following.user',
-      select: 'name photo',
+      select: 'name photo createdAt',
     });
-    if (!followingList) {
+    if (!targetUser || !targetUser.following) {
       return handleAppError(404, '查無用戶追蹤名單', next);
     }
+    // 直接回傳 following 陣列
+    const followingList = targetUser.following.map((f) => f.user);
     handleResponse(res, 200, '查詢成功', followingList);
   },
   // 追蹤指定用戶

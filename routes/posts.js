@@ -29,13 +29,6 @@ router.get(
             },
             "content": "example",
             "image": "圖片連結(https)",
-            "likes": [
-              {
-                "_id": "664c185bcd3fb...",
-                "name": "example",
-                "photo": "圖片連結(https)"
-              },
-            ],
             "tags": [
               "example1", "example2", "example3"
             ],
@@ -51,9 +44,22 @@ router.get(
                   "_id": "664c185bcd3fb...",
                   "name": "example",
                   "photo": "圖片連結(https)"
-                }
+                },
+                "createdAt": "2024..."
+              }
+            ],
+            "likes": [
+              {
+                "_id": "664c185bcd3fb...",
+                "user": {
+                  "_id": "664c185bcd3fb...",
+                  "name": "example",
+                  "photo": "圖片連結(https)"
+                },
+                "post": "664c185bcd3fb..."
               },
             ],
+            "id": "664c185bcd3fb..."
           },
         ]
       }
@@ -80,23 +86,44 @@ router.get(
         "data": [
           {
             "_id": "664c185bcd3fb...",
-            "user": "664c185bcd3fb...",
+            "user": {
+              "_id": "664c185bcd3fb...",
+              "name": "example",
+              "photo": "圖片連結(https)"
+            },
             "content": "example",
             "image": "圖片連結(https)",
-            "likes": [
-              {
-                "_id": "664c185bcd3fb...",
-                "name": "example",
-                "photo": "圖片連結(https)"
-              },
-            ],
-            "comments": 0,
             "tags": [
               "example"
             ],
             "isPublic": true,
             "createdAt": "2024...",
-            "updatedAt": "2024..."
+            "updatedAt": "2024...",
+            "comments": [
+              {
+                "_id": "664c185bcd3fb...",
+                "comment": "example",
+                "post": "664c185bcd3fb...",
+                "user": {
+                  "_id": "664c185bcd3fb...",
+                  "name": "example",
+                  "photo": "圖片連結(https)"
+                },
+                "createdAt": "2024..."
+              }
+            ],
+            "likes": [
+              {
+                "_id": "664c185bcd3fb...",
+                "user": {
+                  "_id": "664c185bcd3fb...",
+                  "name": "example",
+                  "photo": "圖片連結(https)"
+                },
+                "post": "664c185bcd3fb..."
+              },
+            ],
+            "id": "664c185bcd3fb..."
           },
         ]
       }
@@ -127,28 +154,63 @@ router.get(
       schema: {
         "status": true,
         "message": "查詢成功",
-        "data": [
-          {
+        "data": {
+          "targetUser": {
             "_id": "664c185bcd3fb...",
-            "user": "664c185bcd3fb...",
-            "content": "example",
-            "image": "圖片連結(https)",
-            "likes": [
+            "name": "example",
+            "photo": "圖片連結(https)",
+            "followers": [
               {
+                "user": "664c185bcd3fb...",
+                "_id": "664c185bcd3fb...",
+                "createdAt": "2024..."
+              }
+            ]
+          },
+          "posts": [
+            {
+              "_id": "664c185bcd3fb...",
+              "user": {
                 "_id": "664c185bcd3fb...",
                 "name": "example",
                 "photo": "圖片連結(https)"
               },
-            ],
-            "comments": 0,
-            "tags": [
-              "example"
-            ],
-            "isPublic": true,
-            "createdAt": "2024...",
-            "updatedAt": "2024..."
-          },
-        ]
+              "content": "example",
+              "image": "圖片連結(https)",
+              "tags": [
+                  "example"
+              ],
+              "isPublic": true,
+              "createdAt": "2024...",
+              "updatedAt": "2024...",
+              "comments": [
+                {
+                  "_id": "664c185bcd3fb...",
+                  "comment": "example",
+                  "post": "664c185bcd3fb...",
+                  "user": {
+                    "_id": "664c185bcd3fb...",
+                    "name": "example",
+                    "photo": "圖片連結(https)"
+                  },
+                  "createdAt": "2024..."
+                }
+              ],
+              "likes": [
+                {
+                  "_id": "664c185bcd3fb...",
+                  "user": {
+                    "_id": "664c185bcd3fb...",
+                    "name": "example",
+                    "photo": "圖片連結(https)"
+                  },
+                  "post": "664c185bcd3fb..."
+                },
+              ],
+              "id": "665c3626ede2fa710bee5efd"
+            }
+          ]
+        }
       }
     }
     * #swagger.responses[404] = {
@@ -166,7 +228,7 @@ router.post(
   isAuth,
   handleErrorAsync(PostsController.createPost),
   /**
-   * #swagger.tags = ['個人動態 - 貼文 (posts)']
+   * #swagger.tags = ['個人動態 - 貼文、按讚及留言 (posts)']
    * #swagger.description = '個人新增貼文 API'
    * #swagger.security = [{
       "apiKeyAuth": []
@@ -204,7 +266,7 @@ router.put(
   isAuth,
   handleErrorAsync(PostsController.updatePost),
   /**
-   * #swagger.tags = ['個人動態 - 貼文 (posts)']
+   * #swagger.tags = ['個人動態 - 貼文、按讚及留言 (posts)']
    * #swagger.description = '個人更新指定貼文 API'
    * #swagger.security = [{
       "apiKeyAuth": []
@@ -249,7 +311,7 @@ router.delete(
   isAuth,
   handleErrorAsync(PostsController.deletePost),
   /**
-   * #swagger.tags = ['個人動態 - 貼文 (posts)']
+   * #swagger.tags = ['個人動態 - 貼文、按讚及留言 (posts)']
    * #swagger.description = '個人刪除指定貼文 API'
    * #swagger.security = [{
       "apiKeyAuth": []
@@ -277,7 +339,7 @@ router.post(
   isAuth,
   handleErrorAsync(PostsController.likePost),
   /**
-   * #swagger.tags = ['個人動態 - 貼文 (posts)']
+   * #swagger.tags = ['個人動態 - 貼文、按讚及留言 (posts)']
    * #swagger.description = '指定貼文按讚 API'
    * #swagger.security = [{
       "apiKeyAuth": []
@@ -287,13 +349,6 @@ router.post(
       schema: {
         "status": true,
         "message": "按讚成功",
-        "data": [
-          {
-            "_id": "664c185bcd3fb...",
-            "name": "example",
-            "photo": "圖片連結(https)"
-          },
-        ]
       }
     }
     * #swagger.responses[404] = {
@@ -312,7 +367,7 @@ router.delete(
   isAuth,
   handleErrorAsync(PostsController.unlikePost),
   /**
-   * #swagger.tags = ['個人動態 - 貼文 (posts)']
+   * #swagger.tags = ['個人動態 - 貼文、按讚及留言 (posts)']
    * #swagger.description = '取消指定貼文按讚 API'
    * #swagger.security = [{
       "apiKeyAuth": []
@@ -340,7 +395,7 @@ router.post(
   isAuth,
   handleErrorAsync(PostsController.createComment),
   /**
-   * #swagger.tags = ['個人動態 - 貼文 (posts)']
+   * #swagger.tags = ['個人動態 - 貼文、按讚及留言 (posts)']
    * #swagger.description = '指定貼文留言 API'
    * #swagger.security = [{
       "apiKeyAuth": []
@@ -352,15 +407,35 @@ router.post(
         "message": "新增成功",
         "data": [
           {
-            "_id": "664c185bcd3fb...",
             "comment": "example",
             "post": "664c185bcd3fb...",
             "user": {
               "_id": "664c185bcd3fb...",
               "name": "example",
-              "photo": "圖片連結(https)"
-            }
-          },
+              "role": "guest",
+              "photo": "圖片連結(https)",
+              "followers": [
+                {
+                  "user": "664c185bcd3fb...",
+                  "_id": "664c185bcd3fb...",
+                  "createdAt": "2024..."
+                },
+              ],
+              "following": [
+                {
+                  "user": "664c185bcd3fb...",
+                  "_id": "664c185bcd3fb...",
+                  "createdAt": "2024..."
+                },
+              ],
+              "createdAt": "2024...",
+              "updatedAt": "2024...",
+              "gender": "example"
+            },
+            "_id": "664c185bcd3fb...",
+            "createdAt": "2024...",
+            "updatedAt": "2024..."
+          }
         ]
       },
     }
@@ -380,7 +455,7 @@ router.delete(
   isAuth,
   handleErrorAsync(PostsController.deleteComment),
   /**
-   * #swagger.tags = ['個人動態 - 貼文 (posts)']
+   * #swagger.tags = ['個人動態 - 貼文、按讚及留言 (posts)']
    * #swagger.description = '刪除指定貼文留言 API'
    * #swagger.security = [{
       "apiKeyAuth": []
