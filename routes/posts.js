@@ -229,7 +229,7 @@ router.post(
   handleErrorAsync(PostsController.createPost),
   /**
    * #swagger.tags = ['個人動態 - 貼文、按讚及留言 (posts)']
-   * #swagger.description = '個人新增貼文 API'
+   * #swagger.description = '新增個人貼文 API'
    * #swagger.security = [{
       "apiKeyAuth": []
     }]
@@ -267,7 +267,7 @@ router.put(
   handleErrorAsync(PostsController.updatePost),
   /**
    * #swagger.tags = ['個人動態 - 貼文、按讚及留言 (posts)']
-   * #swagger.description = '個人更新指定貼文 API'
+   * #swagger.description = '更新個人貼文 API'
    * #swagger.security = [{
       "apiKeyAuth": []
     }]
@@ -312,7 +312,7 @@ router.delete(
   handleErrorAsync(PostsController.deletePost),
   /**
    * #swagger.tags = ['個人動態 - 貼文、按讚及留言 (posts)']
-   * #swagger.description = '個人刪除指定貼文 API'
+   * #swagger.description = '刪除個人貼文 API'
    * #swagger.security = [{
       "apiKeyAuth": []
     }]
