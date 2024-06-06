@@ -592,9 +592,9 @@
 							}
 						],
 						"url": {
-							"raw": "{{url-local}}/posts/all",
+							"raw": "{{url-Render}}/posts/all",
 							"host": [
-								"{{url-local}}"
+								"{{url-Render}}"
 							],
 							"path": [
 								"posts",
@@ -616,7 +616,7 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2NDE2ODEwZjY1MDc1OWNiNzkyMzI3YSIsIm5hbWUiOiJjYXR0eSIsInBob3RvIjoiIiwiaWF0IjoxNzE2MzQ1MjIwLCJleHAiOjE3MTY5NTAwMjB9.gHY7hNbGn1lweGu93hMaXkVWMxTb5X4Y6oRNisjakrg"
+								"value": "{{token}}"
 							}
 						],
 						"body": {
@@ -630,9 +630,9 @@
 							]
 						},
 						"url": {
-							"raw": "{{url-local}}/upload/file",
+							"raw": "{{url-Render}}/upload/file",
 							"host": [
-								"{{url-local}}"
+								"{{url-Render}}"
 							],
 							"path": [
 								"upload",
