@@ -172,8 +172,12 @@ const posts = {
     if (!comment.trim()) {
       return handleAppError(400, '留言為必填', next);
     }
+    const targetPost = await Post.findById(req.params.id);
+    if (!targetPost) {
+      return handleAppError(400, '查無此貼文 id', next);
+    }
     const newComment = await Comment.create({
-      comment: comment,
+      comment: comment.trim(),
       post: req.params.id,
       user: req.user,
     });

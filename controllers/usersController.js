@@ -169,8 +169,12 @@ const users = {
     if (req.user.id === req.params.id) {
       return handleAppError(400, '您無法追蹤自己', next);
     }
+    const targetUser = await User.findById(req.params.id);
+    if (!targetUser) {
+      return handleAppError(400, '查無此用戶 id', next);
+    }
     // 將指定用戶加入當前用戶的追蹤列表
-    await User.updateOne(
+    const updateCurrentUser = User.updateOne(
       {
         _id: req.user.id,
         // 確保當前用戶 following 列表中不包含指定用戶
@@ -181,7 +185,7 @@ const users = {
       },
     );
     // 將當前用戶加入指定用戶的被追蹤列表
-    await User.updateOne(
+    const updateTargetUser = User.updateOne(
       {
         _id: req.params.id,
         // 確保指定用戶 followers 列表中不包含當前用戶
@@ -191,6 +195,7 @@ const users = {
         $addToSet: { followers: { user: req.user.id } },
       },
     );
+    await Promise.all([updateCurrentUser, updateTargetUser]);
     handleResponse(res, 201, '追蹤成功');
   },
   // 取消追蹤指定用戶
