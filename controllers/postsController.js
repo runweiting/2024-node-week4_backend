@@ -45,7 +45,7 @@ const posts = {
         select: 'user comment createdAt',
       });
     if (!targetPost) {
-      return handleAppError(404, '查無此貼文 id');
+      return handleAppError(404, '查無此貼文 id', next);
     }
     handleResponse(res, 200, '查詢成功', targetPost);
   },
