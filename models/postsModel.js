@@ -30,13 +30,28 @@ const postsSchema = new mongoose.Schema(
   {
     versionKey: false,
     timestamps: true,
-    // 轉換為 JSON 格式時，包含 virtual 欄位
+    // 轉換為 JSON 格式時
     toJSON: {
+      // 包含 virtual 欄位
       virtuals: true,
+      // transform 將 _id 替換為 id
+      transform: (doc, ret) => {
+        // ret 代表 Mongoose document 的 JSON 或物件格式
+        ret.id = ret._id;
+        delete ret._id;
+        delete ret.__v;
+        return ret;
+      },
     },
-    // 轉換為 JavaScript 物件時，包含 virtual 欄位
+    // 轉換為 JavaScript 物件時
     toObject: {
       virtuals: true,
+      transform: (doc, ret) => {
+        ret.id = ret._id;
+        delete ret._id;
+        delete ret.__v;
+        return ret;
+      },
     },
   },
 );

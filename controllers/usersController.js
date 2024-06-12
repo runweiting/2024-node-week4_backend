@@ -204,7 +204,7 @@ const users = {
       return handleAppError(400, '您無法取消追蹤自己', next);
     }
     // 將指定用戶移除當前用戶的追蹤列表
-    await User.updateOne(
+    const updateCurrentUser = User.updateOne(
       {
         _id: req.user.id,
       },
@@ -213,7 +213,7 @@ const users = {
       },
     );
     // 將當前用戶移除指定用戶的被追蹤列表
-    await User.updateOne(
+    const updateTargetUser = User.updateOne(
       {
         _id: req.params.id,
       },
@@ -221,6 +221,7 @@ const users = {
         $pull: { followers: { user: req.user.id } },
       },
     );
+    await Promise.all([updateCurrentUser, updateTargetUser]);
     handleResponse(res, 200, '已取消追蹤');
   },
 };
