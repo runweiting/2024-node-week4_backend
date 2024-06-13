@@ -40,6 +40,7 @@ router.post(
 
 router.post(
   '/sign-in',
+  isAuth,
   handleErrorAsync(UsersController.signIn),
   /**
    * #swagger.tags = ['會員功能 - 登入註冊 (users)']

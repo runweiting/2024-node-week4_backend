@@ -19,7 +19,13 @@ const isAuth = handleErrorAsync(async (req, res, next) => {
     // jwt.verify 使用 callbackFn (err, payload) 進行非同步操作
     jwt.verify(token, process.env.JWT_SECRET, (err, payload) => {
       if (err) {
-        reject(err);
+        if (err.name === 'TokenExpiredError') {
+          return handleAppError(401, 'token 已過期，請重新登入', next);
+        } else if (err.name === 'JsonWebTokenError') {
+          return handleAppError(403, '無效的 token，請重新登入', next);
+        } else {
+          return handleAppError(500, '驗證 token 時發生錯誤', next);
+        }
       } else {
         resolve(payload);
       }
