@@ -1,7 +1,4 @@
 const jwt = require('jsonwebtoken');
-const { handleAppError } = require('../middlewares/handleResponses');
-
-const verifyJWT = (req, res, next) => {};
 
 const generateSendJWT = (user, statusCode, message, res, next) => {
   try {
