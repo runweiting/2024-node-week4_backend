@@ -4,16 +4,15 @@ const User = require('../models/usersModel');
 
 const isAuth = handleErrorAsync(async (req, res, next) => {
   let token;
+  // 確認 authorization header 是否存在
+  if (!req.headers.authorization) {
+    return handleAppError(400, 'authorization header 缺失', next);
+  }
+  // 確認 token 是否符合 Bearer 格式
   if (!req.headers.authorization.startsWith('Bearer ')) {
     return handleAppError(400, 'token 格式錯誤', next);
   }
-  // 確認 token 是否存在
-  if (
-    req.headers.authorization &&
-    req.headers.authorization.startsWith('Bearer')
-  ) {
-    token = req.headers.authorization.split(' ')[1];
-  }
+  token = req.headers.authorization.split(' ')[1];
   if (!token) {
     return handleAppError(401, '使用者尚未登入', next);
   }
