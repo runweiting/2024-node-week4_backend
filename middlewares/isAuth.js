@@ -14,24 +14,36 @@ const isAuth = handleErrorAsync(async (req, res, next) => {
   if (!token) {
     return handleAppError(401, '使用者尚未登入', next);
   }
+  if (!req.headers.authorization.startsWith('Bearer ')) {
+    return handleAppError(400, 'token 格式錯誤', next);
+  }
   // 再解析 token 夾帶的 payload 是否正確
-  const decoded = await new Promise((resolve, reject) => {
-    // jwt.verify 使用 callbackFn (err, payload) 進行非同步操作
-    jwt.verify(token, process.env.JWT_SECRET, (err, payload) => {
-      if (err) {
-        if (err.name === 'TokenExpiredError') {
-          return handleAppError(401, 'token 已過期，請重新登入', next);
-        } else if (err.name === 'JsonWebTokenError') {
-          return handleAppError(403, '無效的 token，請重新登入', next);
+  let decoded;
+  try {
+    decoded = await new Promise((resolve, reject) => {
+      // jwt.verify 使用 callbackFn (err, payload) 進行非同步操作
+      jwt.verify(token, process.env.JWT_SECRET, (err, payload) => {
+        if (err) {
+          if (err.name === 'TokenExpiredError') {
+            reject(handleAppError(401, 'token 已過期，請重新登入', next));
+          } else if (err.name === 'JsonWebTokenError') {
+            reject(handleAppError(403, '無效的 token，請重新登入', next));
+          } else {
+            reject(handleAppError(500, '驗證 token 時發生錯誤', next));
+          }
         } else {
-          return handleAppError(500, '驗證 token 時發生錯誤', next);
+          resolve(payload);
         }
-      } else {
-        resolve(payload);
-      }
+      });
     });
-  });
+  } catch (err) {
+    // handleAppError 已處理錯誤，因此直接返回
+    return;
+  }
   req.user = await User.findById(decoded.id);
+  if (!req.user) {
+    return handleAppError(401, '使用者不存在', next);
+  }
   next();
 });
 
