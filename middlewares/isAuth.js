@@ -4,7 +4,10 @@ const User = require('../models/usersModel');
 
 const isAuth = handleErrorAsync(async (req, res, next) => {
   let token;
-  // 先確認 token 是否存在
+  if (!req.headers.authorization.startsWith('Bearer ')) {
+    return handleAppError(400, 'token 格式錯誤', next);
+  }
+  // 確認 token 是否存在
   if (
     req.headers.authorization &&
     req.headers.authorization.startsWith('Bearer')
@@ -13,9 +16,6 @@ const isAuth = handleErrorAsync(async (req, res, next) => {
   }
   if (!token) {
     return handleAppError(401, '使用者尚未登入', next);
-  }
-  if (!req.headers.authorization.startsWith('Bearer ')) {
-    return handleAppError(400, 'token 格式錯誤', next);
   }
   // 再解析 token 夾帶的 payload 是否正確
   let decoded;

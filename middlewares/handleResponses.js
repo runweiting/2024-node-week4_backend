@@ -87,14 +87,20 @@ const handleGlobalError = (err, req, res, next) => {
   if (err.name === 'AxiosError') {
     err.isOperational = true;
     err.message = 'axios 連線錯誤';
+    // Bad Gateway
+    err.statusCode = 502;
     return handleProError(err, res);
   } else if (err.name === 'ValidationError') {
     err.isOperational = true;
     err.message = '資料欄位未正確填寫，請重新輸入！';
+    // Bad Request
+    err.statusCode = 400;
     return handleProError(err, res);
   } else if (err.name === 'CastError') {
     err.isOperational = true;
     err.message = '參數錯誤';
+    // Bad Request
+    err.statusCode = 400;
     return handleProError(err, res);
   }
   // 都不是，判斷是否為自定錯誤，不然就是 500
