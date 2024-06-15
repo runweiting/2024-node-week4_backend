@@ -8,7 +8,7 @@ const {
 const isAuth = require('../middlewares/isAuth');
 const validator = require('validator');
 const nodemailer = require('nodemailer');
-const google = require('googleapis');
+const { google } = require('googleapis');
 // 建立 OAuth2Client 實體
 const OAuth2 = google.auth.OAuth2;
 
