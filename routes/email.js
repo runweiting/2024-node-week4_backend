@@ -10,7 +10,7 @@ const validator = require('validator');
 const nodemailer = require('nodemailer');
 const google = require('googleapis');
 // 建立 OAuth2Client 實體
-const OAuth2 = google.Auth.OAuth2Client;
+const OAuth2 = google.auth.OAuth2;
 
 router.post(
   '/sign-up',
