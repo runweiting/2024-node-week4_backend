@@ -33,7 +33,7 @@ router.post(
     OAuth2Client.setCredentials({
       refresh_token: process.env.GOOGLE_GMAIL_REFRESH_TOKEN,
     });
-    const accessToken = OAuth2Client.getAccessToken();
+    const accessToken = await OAuth2Client.getAccessToken();
     // 建立 smth 認證資料
     const transport = nodemailer.createTransport({
       service: 'gmail',
@@ -49,8 +49,8 @@ router.post(
     const mailOptions = {
       from: process.env.NODEMAILER_TRANSPORT_USER,
       to,
-      title,
-      content,
+      subject: title,
+      text: content,
     };
     await transport.sendMail(mailOptions);
     handleResponse(res, 200, '信件發送成功');
