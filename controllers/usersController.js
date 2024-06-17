@@ -1,3 +1,4 @@
+const crypto = require('crypto');
 const bcrypt = require('bcryptjs');
 const validator = require('validator');
 const User = require('../models/usersModel');
@@ -8,6 +9,7 @@ const {
   handleAppError,
 } = require('../middlewares/handleResponses');
 const { generateSendJWT } = require('../middlewares/generateJWT');
+const { sendVerificationEmail } = require('../middlewares/sendEmail');
 
 const users = {
   async signUp(req, res, next) {
@@ -38,16 +40,28 @@ const users = {
       // 回應統一的錯誤訊息以避免資安問題
       return handleAppError(400, '該帳號已存在', next);
     }
-    // 雜湊 Hash Function(要加密的字串, 要加鹽的字串長度)
+    // 雜湊 Hash(要加密的字串, 要加鹽的字串長度)
     password = await bcrypt.hash(password, 12);
+    // 生成六位數字的註冊信箱驗證碼
+    const verificationToken = Math.floor(
+      100000 + Math.random() * 900000,
+    ).toString();
+    // 設置驗證碼的過期時間為一小時後
+    const verificationTokenExpires = Date.now() + 60 * 60 * 1000;
     const newUser = await User.create({
       name,
       email,
       password,
+      verificationToken,
+      verificationTokenExpires,
     });
-    // *可以考慮在這裡發送 Email 驗證信
-    // *sendVerificationEmail(newUser);
-    generateSendJWT(newUser, 201, '註冊成功', res);
+    // 當郵件發送失敗時，記錄錯誤並返回 handleAppError 建立一個操作性錯誤，傳遞給 next，讓 handleGlobalError 接手處理
+    const emailResponse = await sendVerificationEmail(newUser);
+    if (!emailResponse.status) {
+      console.error('郵件發送失敗', emailResponse.error);
+      return handleAppError(500, '註冊成功，但郵件發送失敗，請稍後再試', next);
+    }
+    generateSendJWT(newUser, 201, '註冊成功，請檢查您的郵件以完成驗證', res);
   },
   async signIn(req, res, next) {
     const { email, password } = req.body;

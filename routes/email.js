@@ -7,13 +7,39 @@ const {
 } = require('../middlewares/handleResponses');
 const isAuth = require('../middlewares/isAuth');
 const validator = require('validator');
-const nodemailer = require('nodemailer');
-const { google } = require('googleapis');
-// 建立 OAuth2Client 實體
-const OAuth2 = google.auth.OAuth2;
+const { sendEmail } = require('../middlewares/sendEmail');
+const User = require('../models/usersModel');
+const users = require('../controllers/usersController');
 
+// 驗證註冊信箱
+router.get(
+  '/verify-email',
+  isAuth,
+  handleAppError(async (req, res, next) => {
+    const { verificationToken } = req.body;
+    if (!verificationToken) {
+      return handleAppError(400, '無效的驗證請求', next);
+    }
+    const targetUser = User.findOne({ verificationToken });
+    if (!targetUser) {
+      return handleAppError(400, '驗證碼無效或已過期', next);
+    }
+    if (targetUser.verificationToken !== verificationToken) {
+      return handleAppError(400, '驗證碼無效', next);
+    }
+    if (targetUser.verificationTokenExpires < Date.now()) {
+      return handleAppError(400, '驗證碼已過期', next);
+    }
+    targetUser.verificationToken = undefined;
+    targetUser.verificationTokenExpires = undefined;
+    await targetUser.save();
+    handleResponse(200, '註冊信箱驗證成功');
+  }),
+);
+
+// 自定回覆郵件（需由前端輸入郵件內容）
 router.post(
-  '/sign-up',
+  '/personalEmail',
   isAuth,
   handleErrorAsync(async (req, res, next) => {
     const { to, subject, text } = req.body;
@@ -21,40 +47,13 @@ router.post(
       return handleAppError(400, 'email格式錯誤', next);
     }
     if (!subject.trim() || !text.trim()) {
-      return handleAppError(400, '標題和內容為必填', next);
+      return handleAppError(400, '標題及內容為必填', next);
     }
-    // 建立 OAuth2Client 資料
-    const oauth2Client = new OAuth2(
-      process.env.GOOGLE_GMAIL_CLIENT_ID,
-      process.env.GOOGLE_GMAIL_CLIENT_SECRET,
-      'https://developers.google.com/oauthplayground',
-    );
-    // 建立憑證
-    oauth2Client.setCredentials({
-      refresh_token: process.env.GOOGLE_GMAIL_REFRESH_TOKEN,
-    });
-    const accessToken = await oauth2Client.getAccessToken();
-
-    // 建立 smth 認證資料
-    let transport = nodemailer.createTransport({
-      service: 'gmail',
-      auth: {
-        type: 'OAuth2',
-        user: process.env.NODEMAILER_TRANSPORT_USER,
-        clientId: process.env.GOOGLE_GMAIL_CLIENT_ID,
-        clientSecret: process.env.GOOGLE_GMAIL_CLIENT_SECRET,
-        refreshToken: process.env.GOOGLE_GMAIL_REFRESH_TOKEN,
-        accessToken: accessToken,
-      },
-    });
-    const mailOptions = {
-      from: process.env.NODEMAILER_TRANSPORT_USER,
-      to,
-      subject,
-      text,
-    };
-    await transport.sendMail(mailOptions);
-    handleResponse(res, 200, '信件發送成功');
+    const result = await sendEmail(to, subject, text, null);
+    if (!result.status) {
+      return handleAppError(500, '郵件發送失敗', next);
+    }
+    handleResponse(res, 200, '郵件發送成功');
   }),
   /**
    * #swagger.ignore = true

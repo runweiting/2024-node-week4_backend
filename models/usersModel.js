@@ -65,6 +65,12 @@ const usersSchema = new mongoose.Schema(
     googleId: {
       type: String,
     },
+    verificationToken: {
+      type: String,
+    },
+    verificationTokenExpires: {
+      type: Date,
+    },
   },
   {
     versionKey: false,
