@@ -28,7 +28,7 @@ const doc = {
   securityDefinitions: {
     apiKeyAuth: {
       type: 'apiKey',
-      in: 'headers',
+      in: 'header',
       name: 'authorization',
       description: '請加上 API Token',
     },
