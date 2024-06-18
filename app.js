@@ -30,6 +30,11 @@ require('./connections/passport');
 handleUncaughtException();
 handleUnhandledRejection();
 
+const DB = process.env.MONGODB_ATLAS_URL.replace(
+  '<password>',
+  process.env.MONGODB_ATLAS_PASSWORD,
+);
+
 // Middlewares
 app.use(cors());
 app.use(logger('dev'));
@@ -44,7 +49,7 @@ app.use(
     saveUninitialized: true,
     store: MongoStore.create({
       // 指定 MongoDB URI
-      mongoUrl: process.env.MONGODB_ATLAS_URL,
+      mongoUrl: DB,
       // 存儲集合的名稱
       collectionName: 'sessions',
     }),
