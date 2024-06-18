@@ -6,6 +6,8 @@ const cors = require('cors');
 const swaggerUI = require('swagger-ui-express');
 const swaggerFile = require('./swagger-output.json');
 const session = require('express-session');
+// 將 session 數據保存到 MongoDB 數據庫中，如此可在分佈式環境中共享 session，並且在伺服器重啟或崩潰後仍能保留用戶的 session 資料
+const MongoStore = require('connect-mongo');
 require('dotenv').config({ path: './config.env' });
 
 const {
@@ -40,6 +42,12 @@ app.use(
     secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: true,
+    store: MongoStore.create({
+      // 指定 MongoDB URI
+      mongoUrl: process.env.MONGODB_ATLAS_URL,
+      // 存儲集合的名稱
+      collectionName: 'sessions',
+    }),
     // 正式環境 secure: true，測試環境 secure: false
     cookie: {
       secure: process.env.NODE_ENV === 'pro',
