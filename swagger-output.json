@@ -5,7 +5,7 @@
     "description": "MetaWall API 練習文件。<br>注意事項：登入成功後請點「Authorize」輸入 Token。<br><br>範例程式碼：<br><br>\n```javascript\nconst config = {\n  headers: { Authorization: token },\n};\naxios.post('/V2/api/user/check', {}, config)\n  .then((res) => {\n    console.log(res.data);\n  })\n  .catch((error) => {\n    console.log(error.response.data);\n  });\n```\n",
     "version": "1.0.0"
   },
-  "host": "https://two024-node-week4.onrender.com",
+  "host": "localhost:3010",
   "basePath": "/",
   "schemes": [
     "http",

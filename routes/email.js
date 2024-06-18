@@ -9,18 +9,17 @@ const isAuth = require('../middlewares/isAuth');
 const validator = require('validator');
 const { sendEmail } = require('../middlewares/sendEmail');
 const User = require('../models/usersModel');
-const users = require('../controllers/usersController');
 
 // 驗證註冊信箱
 router.get(
   '/verify-email',
   isAuth,
-  handleAppError(async (req, res, next) => {
+  handleErrorAsync(async (req, res, next) => {
     const { verificationToken } = req.body;
     if (!verificationToken) {
       return handleAppError(400, '無效的驗證請求', next);
     }
-    const targetUser = User.findOne({ verificationToken });
+    const targetUser = await User.findOne({ verificationToken });
     if (!targetUser) {
       return handleAppError(400, '驗證碼無效或已過期', next);
     }
@@ -33,8 +32,11 @@ router.get(
     targetUser.verificationToken = undefined;
     targetUser.verificationTokenExpires = undefined;
     await targetUser.save();
-    handleResponse(200, '註冊信箱驗證成功');
+    handleResponse(res, 200, '註冊信箱驗證成功');
   }),
+  /**
+   * #swagger.ignore = true
+   */
 );
 
 // 自定回覆郵件（需由前端輸入郵件內容）

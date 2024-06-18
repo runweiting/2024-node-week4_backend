@@ -23,7 +23,7 @@ const doc = {
       '範例程式碼：<br><br>' +
       axiosExample,
   },
-  host: 'https://two024-node-week4.onrender.com',
+  host: 'two024-node-week4.onrender.com',
   schemes: ['http', 'https'],
   securityDefinitions: {
     apiKeyAuth: {

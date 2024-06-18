@@ -1,4 +1,3 @@
-const crypto = require('crypto');
 const bcrypt = require('bcryptjs');
 const validator = require('validator');
 const User = require('../models/usersModel');
@@ -55,6 +54,7 @@ const users = {
       verificationToken,
       verificationTokenExpires,
     });
+    console.log('newUser:', newUser);
     // 當郵件發送失敗時，記錄錯誤並返回 handleAppError 建立一個操作性錯誤，傳遞給 next，讓 handleGlobalError 接手處理
     const emailResponse = await sendVerificationEmail(newUser);
     if (!emailResponse.status) {

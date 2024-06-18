@@ -18,7 +18,7 @@ const usersRouter = require('./routes/users');
 const postsRouter = require('./routes/posts');
 const uploadRouter = require('./routes/upload');
 const authRouter = require('./routes/auth');
-// const emailRouter = require('./routes/email');
+const emailRouter = require('./routes/email');
 const notFound = require('./routes/notFound');
 
 const app = express();
@@ -54,7 +54,7 @@ app.use('/posts', postsRouter);
 app.use('/upload', uploadRouter);
 app.use('/api-doc', swaggerUI.serve, swaggerUI.setup(swaggerFile));
 app.use('/auth', authRouter);
-// app.use('/email', emailRouter);
+app.use('/email', emailRouter);
 app.use(notFound);
 // Global Error Handling
 app.use(handleGlobalError);
