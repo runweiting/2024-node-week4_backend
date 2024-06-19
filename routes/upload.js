@@ -11,7 +11,7 @@ const {
 const { v4: uuidv4 } = require('uuid');
 const isAuth = require('../middlewares/isAuth');
 const isImage = require('../middlewares/isImage');
-const firebaseAdmin = require('../tools/firebase');
+const firebaseAdmin = require('../config/firebase');
 // 建立 bucket 物件，以操作 storage 的儲存桶
 const bucket = firebaseAdmin.storage().bucket();
 const User = require('../models/usersModel');

@@ -3,6 +3,7 @@ const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const cors = require('cors');
+const corsOptions = require('./config/corsOptions');
 const swaggerUI = require('swagger-ui-express');
 const swaggerFile = require('./swagger-output.json');
 const session = require('express-session');
@@ -36,7 +37,7 @@ const DB = process.env.MONGODB_ATLAS_URL.replace(
 );
 
 // Middlewares
-app.use(cors());
+app.use(cors(corsOptions));
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));

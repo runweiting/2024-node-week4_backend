@@ -83,6 +83,10 @@ const handleGlobalError = (err, req, res, next) => {
   if (process.env.NODE_ENV === 'dev') {
     return handleDevError(err, res);
   }
+  // 處理 CORS error
+  if (err.isOperational) {
+    return handleProError(err, res);
+  }
   // 過濾是否為各種 npm 錯誤訊息 = 翻譯 npm 錯誤給使用者看
   if (err.name === 'AxiosError') {
     err.isOperational = true;
