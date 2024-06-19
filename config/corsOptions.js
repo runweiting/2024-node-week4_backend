@@ -16,4 +16,6 @@ const corsOptions = {
       callback(error);
     }
   },
+  // 僅暴露 Content-Type
+  exposedHeaders: ['Content-Type'],
 };
