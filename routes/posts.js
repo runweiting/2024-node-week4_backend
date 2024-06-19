@@ -64,10 +64,6 @@ router.get(
         ]
       }
     }
-   * #swagger.headers['Content-Type'] = {
-      description: 'The content type',
-      type: 'string'
-    }
   */
 );
 
@@ -138,10 +134,6 @@ router.get(
         "status": false,
         "message": "查無此貼文 id",
       }
-    }
-   * #swagger.headers['Content-Type'] = {
-      description: 'The content type',
-      type: 'string'
     }
   */
 );
@@ -228,10 +220,6 @@ router.get(
         "message": "目前用戶沒有貼文",
       }
     }
-   * #swagger.headers['Content-Type'] = {
-      description: 'The content type',
-      type: 'string'
-    }
   */
 );
 
@@ -269,10 +257,6 @@ router.post(
         "status": false,
         "message": "圖片格式錯誤"
       }
-    }
-   * #swagger.headers['Content-Type'] = {
-      description: 'The content type',
-      type: 'string'
     }
    */
 );
@@ -319,10 +303,6 @@ router.put(
         "message": "查無此貼文 id",
       }
     }
-   * #swagger.headers['Content-Type'] = {
-      description: 'The content type',
-      type: 'string'
-    }
    */
 );
 
@@ -349,10 +329,6 @@ router.delete(
         "status": false,
         "message": "查無此貼文 id",
       }
-    }
-   * #swagger.headers['Content-Type'] = {
-      description: 'The content type',
-      type: 'string'
     }
    */
 );
@@ -382,10 +358,6 @@ router.post(
         "message": "查無此貼文 id",
       }
     }
-   * #swagger.headers['Content-Type'] = {
-      description: 'The content type',
-      type: 'string'
-    }
   */
 );
 
@@ -413,10 +385,6 @@ router.delete(
         "status": false,
         "message": "查無此貼文 id",
       }
-    }
-   * #swagger.headers['Content-Type'] = {
-      description: 'The content type',
-      type: 'string'
     }
   */
 );
@@ -478,10 +446,6 @@ router.post(
         "message": "留言為必填",
       }
     }
-   * #swagger.headers['Content-Type'] = {
-      description: 'The content type',
-      type: 'string'
-    }
   */
 );
 
@@ -510,10 +474,6 @@ router.delete(
         "message": "查無此貼文 id",
       }
     }
-   * #swagger.headers['Content-Type'] = {
-      description: 'The content type',
-      type: 'string'
-    }
   */
 );
 
@@ -533,10 +493,6 @@ router.delete(
         "status": true,
         "message": "全部刪除成功",
       }
-    }
-   * #swagger.headers['Content-Type'] = {
-      description: 'The content type',
-      type: 'string'
     }
    */
 );

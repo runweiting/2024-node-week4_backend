@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const oauth2Client = require('../config/googleOAuth2Client');
+const oauth2Client = require('../configs/googleOAuth2Client');
 
 // 定義授權範圍
 const SCOPES = ['https://mail.google.com/'];

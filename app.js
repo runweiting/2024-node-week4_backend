@@ -2,8 +2,10 @@ const express = require('express');
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
+const helmet = require('helmet');
 const cors = require('cors');
-const corsOptions = require('./config/corsOptions');
+const corsOptions = require('./configs/corsOptions');
+const credentials = require('./middlewares/credentials');
 const swaggerUI = require('swagger-ui-express');
 const swaggerFile = require('./swagger-output.json');
 const session = require('express-session');
@@ -31,12 +33,9 @@ require('./connections/passport');
 handleUncaughtException();
 handleUnhandledRejection();
 
-const DB = process.env.MONGODB_ATLAS_URL.replace(
-  '<password>',
-  process.env.MONGODB_ATLAS_PASSWORD,
-);
-
 // Middlewares
+app.use(helmet());
+app.use(credentials);
 app.use(cors(corsOptions));
 app.use(logger('dev'));
 app.use(express.json());
@@ -50,7 +49,7 @@ app.use(
     saveUninitialized: true,
     store: MongoStore.create({
       // 指定 MongoDB URI
-      mongoUrl: DB,
+      mongoUrl: process.env.MONGODB_ATLAS_URL,
       // 存儲集合的名稱
       collectionName: 'sessions',
     }),

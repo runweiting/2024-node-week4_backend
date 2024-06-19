@@ -5,11 +5,10 @@
     "description": "MetaWall API 練習文件。<br>注意事項：登入成功後請點「Authorize」輸入 Token。<br><br>範例程式碼：<br><br>\n```javascript\nconst config = {\n  headers: { Authorization: token },\n};\naxios.post('/V2/api/user/check', {}, config)\n  .then((res) => {\n    console.log(res.data);\n  })\n  .catch((error) => {\n    console.log(error.response.data);\n  });\n```\n",
     "version": "1.0.0"
   },
-  "host": "two024-node-week4.onrender.com",
   "basePath": "/",
   "schemes": [
-    "https",
-    "http"
+    "http",
+    "https"
   ],
   "securityDefinitions": {
     "apiKeyAuth": {
@@ -27,6 +26,11 @@
         ],
         "description": "用戶註冊 API",
         "parameters": [
+          {
+            "name": "origin",
+            "in": "header",
+            "type": "string"
+          },
           {
             "name": "body",
             "in": "body",
@@ -86,6 +90,12 @@
               "xml": {
                 "name": "main"
               }
+            },
+            "headers": {
+              "Content-Type": {
+                "description": "The content type",
+                "type": "string"
+              }
             }
           },
           "400": {
@@ -101,6 +111,11 @@
         ],
         "description": "用戶登入 API",
         "parameters": [
+          {
+            "name": "origin",
+            "in": "header",
+            "type": "string"
+          },
           {
             "name": "body",
             "in": "body",
@@ -150,6 +165,12 @@
               "xml": {
                 "name": "main"
               }
+            },
+            "headers": {
+              "Content-Type": {
+                "description": "The content type",
+                "type": "string"
+              }
             }
           },
           "400": {
@@ -164,6 +185,13 @@
           "會員功能 - 登入註冊 (users)"
         ],
         "description": "用戶登出 API",
+        "parameters": [
+          {
+            "name": "origin",
+            "in": "header",
+            "type": "string"
+          }
+        ],
         "responses": {
           "200": {
             "description": "OK",
@@ -198,6 +226,13 @@
           "會員功能 - 個人設定 (users)"
         ],
         "description": "取得個人設定 API",
+        "parameters": [
+          {
+            "name": "origin",
+            "in": "header",
+            "type": "string"
+          }
+        ],
         "responses": {
           "200": {
             "description": "OK",
@@ -304,6 +339,11 @@
         ],
         "description": "更新個人設定 API",
         "parameters": [
+          {
+            "name": "origin",
+            "in": "header",
+            "type": "string"
+          },
           {
             "name": "body",
             "in": "body",
@@ -444,6 +484,11 @@
         "description": "重設個人密碼 API",
         "parameters": [
           {
+            "name": "origin",
+            "in": "header",
+            "type": "string"
+          },
+          {
             "name": "body",
             "in": "body",
             "required": true,
@@ -511,6 +556,13 @@
           "會員功能 - 追蹤、編輯按讚貼文 (users)"
         ],
         "description": "取得按讚貼文列表 API",
+        "parameters": [
+          {
+            "name": "origin",
+            "in": "header",
+            "type": "string"
+          }
+        ],
         "responses": {
           "200": {
             "description": "OK",
@@ -639,6 +691,11 @@
             "in": "path",
             "required": true,
             "type": "string"
+          },
+          {
+            "name": "origin",
+            "in": "header",
+            "type": "string"
           }
         ],
         "responses": {
@@ -694,6 +751,13 @@
           "會員功能 - 追蹤、編輯按讚貼文 (users)"
         ],
         "description": "取得追蹤名單 API",
+        "parameters": [
+          {
+            "name": "origin",
+            "in": "header",
+            "type": "string"
+          }
+        ],
         "responses": {
           "200": {
             "description": "OK",
@@ -777,6 +841,11 @@
             "in": "path",
             "required": true,
             "type": "string"
+          },
+          {
+            "name": "origin",
+            "in": "header",
+            "type": "string"
           }
         ],
         "responses": {
@@ -838,6 +907,11 @@
             "in": "path",
             "required": true,
             "type": "string"
+          },
+          {
+            "name": "origin",
+            "in": "header",
+            "type": "string"
           }
         ],
         "responses": {
@@ -894,6 +968,11 @@
         ],
         "description": "取得社群所有貼文 API",
         "parameters": [
+          {
+            "name": "origin",
+            "in": "header",
+            "type": "string"
+          },
           {
             "name": "timeSort",
             "in": "query",
@@ -1077,6 +1156,11 @@
         "description": "新增個人貼文 API",
         "parameters": [
           {
+            "name": "origin",
+            "in": "header",
+            "type": "string"
+          },
+          {
             "name": "body",
             "in": "body",
             "required": true,
@@ -1169,6 +1253,11 @@
             "name": "id",
             "in": "path",
             "required": true,
+            "type": "string"
+          },
+          {
+            "name": "origin",
+            "in": "header",
             "type": "string"
           }
         ],
@@ -1367,6 +1456,11 @@
             "type": "string"
           },
           {
+            "name": "origin",
+            "in": "header",
+            "type": "string"
+          },
+          {
             "name": "body",
             "in": "body",
             "required": true,
@@ -1477,6 +1571,11 @@
             "in": "path",
             "required": true,
             "type": "string"
+          },
+          {
+            "name": "origin",
+            "in": "header",
+            "type": "string"
           }
         ],
         "responses": {
@@ -1537,6 +1636,11 @@
             "name": "id",
             "in": "path",
             "required": true,
+            "type": "string"
+          },
+          {
+            "name": "origin",
+            "in": "header",
             "type": "string"
           }
         ],
@@ -1777,6 +1881,11 @@
             "in": "path",
             "required": true,
             "type": "string"
+          },
+          {
+            "name": "origin",
+            "in": "header",
+            "type": "string"
           }
         ],
         "responses": {
@@ -1838,6 +1947,11 @@
             "in": "path",
             "required": true,
             "type": "string"
+          },
+          {
+            "name": "origin",
+            "in": "header",
+            "type": "string"
           }
         ],
         "responses": {
@@ -1898,6 +2012,11 @@
             "name": "id",
             "in": "path",
             "required": true,
+            "type": "string"
+          },
+          {
+            "name": "origin",
+            "in": "header",
             "type": "string"
           }
         ],
@@ -2061,6 +2180,11 @@
             "in": "path",
             "required": true,
             "type": "string"
+          },
+          {
+            "name": "origin",
+            "in": "header",
+            "type": "string"
           }
         ],
         "responses": {
@@ -2116,6 +2240,13 @@
           "管理控制台 - 社群貼文 (posts)"
         ],
         "description": "刪除全部社群貼文 API",
+        "parameters": [
+          {
+            "name": "origin",
+            "in": "header",
+            "type": "string"
+          }
+        ],
         "responses": {
           "200": {
             "description": "OK",
@@ -2151,6 +2282,11 @@
         ],
         "description": "用戶圖片上傳 API<br>請注意，僅限使用 jpg、jpeg 與 png 格式，檔案大小限制為 1MB 以下。<br><br>  <pre>```<form action=\"/upload/file\" enctype=\"multipart/form-data\" method=\"post\"><input type=\"file\" name=\"file-to-upload\"><input type=\"submit\" value=\"Upload\"></form>  ```</pre>",
         "parameters": [
+          {
+            "name": "origin",
+            "in": "header",
+            "type": "string"
+          },
           {
             "name": "upload",
             "in": "body",

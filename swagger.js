@@ -23,9 +23,9 @@ const doc = {
       '範例程式碼：<br><br>' +
       axiosExample,
   },
-  host: 'two024-node-week4.onrender.com',
+  host: process.env.SWAGGER_LOCALHOST,
   // 預設使用 HTTPS 協定來生成 API 請求的 request url
-  schemes: ['https', 'http'],
+  schemes: ['http', 'https'],
   securityDefinitions: {
     apiKeyAuth: {
       type: 'apiKey',

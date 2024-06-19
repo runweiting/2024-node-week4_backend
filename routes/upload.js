@@ -11,7 +11,7 @@ const {
 const { v4: uuidv4 } = require('uuid');
 const isAuth = require('../middlewares/isAuth');
 const isImage = require('../middlewares/isImage');
-const firebaseAdmin = require('../config/firebase');
+const firebaseAdmin = require('../configs/firebase');
 // 建立 bucket 物件，以操作 storage 的儲存桶
 const bucket = firebaseAdmin.storage().bucket();
 const User = require('../models/usersModel');
@@ -96,10 +96,6 @@ router.post(
         "status": false,
         "message": "大頭照更新失敗",
       }
-    }
-   * #swagger.headers['Content-Type'] = {
-      description: 'The content type',
-      type: 'string'
     }
    */
 );

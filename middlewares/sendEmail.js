@@ -1,5 +1,5 @@
 const nodemailer = require('nodemailer');
-const oauth2Client = require('../config/googleOAuth2Client');
+const oauth2Client = require('../configs/googleOAuth2Client');
 
 const createTransporter = async () => {
   const accessToken = await oauth2Client.getAccessToken();
