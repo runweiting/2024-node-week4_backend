@@ -24,7 +24,8 @@ const doc = {
       axiosExample,
   },
   host: 'two024-node-week4.onrender.com',
-  schemes: ['http', 'https'],
+  // 預設使用 HTTPS 協定來生成 API 請求的 request url
+  schemes: ['https', 'http'],
   securityDefinitions: {
     apiKeyAuth: {
       type: 'apiKey',
