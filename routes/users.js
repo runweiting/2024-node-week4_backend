@@ -35,6 +35,10 @@ router.post(
    * #swagger.responses[400] = {
       description: 'Bad Request'
     }
+   * #swagger.headers['Content-Type'] = {
+      description: 'The content type',
+      type: 'string'
+    }
    */
 );
 
@@ -65,6 +69,10 @@ router.post(
    * #swagger.responses[400] = {
       description: 'Bad Request'
     }
+   * #swagger.headers['Content-Type'] = {
+      description: 'The content type',
+      type: 'string'
+    }
    */
 );
 
@@ -84,6 +92,10 @@ router.post(
         "status": true,
         "message": "登出成功"
       }
+    }
+   * #swagger.headers['Content-Type'] = {
+      description: 'The content type',
+      type: 'string'
     }
    */
 );
@@ -128,6 +140,10 @@ router.get(
         }
       }
     }
+   * #swagger.headers['Content-Type'] = {
+      description: 'The content type',
+      type: 'string'
+    }
    */
 );
 
@@ -161,6 +177,10 @@ router.patch(
     }
    * #swagger.responses[400] = {
       description: 'Bad Request'
+    }
+   * #swagger.headers['Content-Type'] = {
+      description: 'The content type',
+      type: 'string'
     }
    */
 );
@@ -218,6 +238,10 @@ router.put(
    * #swagger.responses[400] = {
       description: 'Bad Request'
     }
+   * #swagger.headers['Content-Type'] = {
+      description: 'The content type',
+      type: 'string'
+    }
    */
 );
 
@@ -265,6 +289,10 @@ router.get(
         ]
       }
     }
+   * #swagger.headers['Content-Type'] = {
+      description: 'The content type',
+      type: 'string'
+    }
    */
 );
 
@@ -291,6 +319,10 @@ router.delete(
         "status": false,
         "message": "查無此貼文 id"
       }
+    }
+   * #swagger.headers['Content-Type'] = {
+      description: 'The content type',
+      type: 'string'
     }
    */
 );
@@ -327,6 +359,10 @@ router.get(
         "message": "查無用戶追蹤名單"
       }
     }
+   * #swagger.headers['Content-Type'] = {
+      description: 'The content type',
+      type: 'string'
+    }
    */
 );
 
@@ -354,6 +390,10 @@ router.post(
         "message": "您無法追蹤自己"
       }
     }
+   * #swagger.headers['Content-Type'] = {
+      description: 'The content type',
+      type: 'string'
+    }
    */
 );
 
@@ -380,6 +420,10 @@ router.delete(
         "status": false,
         "message": "您無法取消追蹤自己"
       }
+    }
+   * #swagger.headers['Content-Type'] = {
+      description: 'The content type',
+      type: 'string'
     }
    */
 );

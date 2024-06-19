@@ -97,7 +97,10 @@ router.post(
         "message": "大頭照更新失敗",
       }
     }
-  }
+   * #swagger.headers['Content-Type'] = {
+      description: 'The content type',
+      type: 'string'
+    }
    */
 );
 

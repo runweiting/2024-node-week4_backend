@@ -64,6 +64,10 @@ router.get(
         ]
       }
     }
+   * #swagger.headers['Content-Type'] = {
+      description: 'The content type',
+      type: 'string'
+    }
   */
 );
 
@@ -78,7 +82,7 @@ router.get(
    * #swagger.security = [{
       "apiKeyAuth": []
     }]
-    * #swagger.responses[200] = {
+   * #swagger.responses[200] = {
       description: 'OK',
       schema: {
         "status": true,
@@ -128,12 +132,16 @@ router.get(
         ]
       }
     }
-    * #swagger.responses[404] = {
+   * #swagger.responses[404] = {
       description: 'Not Found',
       schema: {
         "status": false,
         "message": "查無此貼文 id",
       }
+    }
+   * #swagger.headers['Content-Type'] = {
+      description: 'The content type',
+      type: 'string'
     }
   */
 );
@@ -149,7 +157,7 @@ router.get(
    * #swagger.security = [{
       "apiKeyAuth": []
     }]
-    * #swagger.responses[200] = {
+   * #swagger.responses[200] = {
       description: 'OK',
       schema: {
         "status": true,
@@ -213,12 +221,16 @@ router.get(
         }
       }
     }
-    * #swagger.responses[404] = {
+   * #swagger.responses[404] = {
       description: 'Not Found',
       schema: {
         "status": false,
         "message": "目前用戶沒有貼文",
       }
+    }
+   * #swagger.headers['Content-Type'] = {
+      description: 'The content type',
+      type: 'string'
     }
   */
 );
@@ -257,6 +269,10 @@ router.post(
         "status": false,
         "message": "圖片格式錯誤"
       }
+    }
+   * #swagger.headers['Content-Type'] = {
+      description: 'The content type',
+      type: 'string'
     }
    */
 );
@@ -303,6 +319,10 @@ router.put(
         "message": "查無此貼文 id",
       }
     }
+   * #swagger.headers['Content-Type'] = {
+      description: 'The content type',
+      type: 'string'
+    }
    */
 );
 
@@ -330,6 +350,10 @@ router.delete(
         "message": "查無此貼文 id",
       }
     }
+   * #swagger.headers['Content-Type'] = {
+      description: 'The content type',
+      type: 'string'
+    }
    */
 );
 
@@ -344,19 +368,23 @@ router.post(
    * #swagger.security = [{
       "apiKeyAuth": []
     }]
-    * #swagger.responses[200] = {
+   * #swagger.responses[200] = {
       description: 'OK',
       schema: {
         "status": true,
         "message": "按讚成功",
       }
     }
-    * #swagger.responses[404] = {
+   * #swagger.responses[404] = {
       description: 'Not Found',
       schema: {
         "status": false,
         "message": "查無此貼文 id",
       }
+    }
+   * #swagger.headers['Content-Type'] = {
+      description: 'The content type',
+      type: 'string'
     }
   */
 );
@@ -372,19 +400,23 @@ router.delete(
    * #swagger.security = [{
       "apiKeyAuth": []
     }]
-    * #swagger.responses[200] = {
+   * #swagger.responses[200] = {
       description: 'OK',
       schema: {
         "status": true,
         "message": "已取消按讚",
       }
     }
-    * #swagger.responses[404] = {
+   * #swagger.responses[404] = {
       description: 'Not Found',
       schema: {
         "status": false,
         "message": "查無此貼文 id",
       }
+    }
+   * #swagger.headers['Content-Type'] = {
+      description: 'The content type',
+      type: 'string'
     }
   */
 );
@@ -400,7 +432,7 @@ router.post(
    * #swagger.security = [{
       "apiKeyAuth": []
     }]
-    * #swagger.responses[201] = {
+   * #swagger.responses[201] = {
       description: 'OK',
       schema: {
         "status": true,
@@ -439,12 +471,16 @@ router.post(
         ]
       },
     }
-    * #swagger.responses[400] = {
+   * #swagger.responses[400] = {
       description: 'Bad Request',
       schema: {
         "status": false,
         "message": "留言為必填",
       }
+    }
+   * #swagger.headers['Content-Type'] = {
+      description: 'The content type',
+      type: 'string'
     }
   */
 );
@@ -460,19 +496,23 @@ router.delete(
    * #swagger.security = [{
       "apiKeyAuth": []
     }]
-    * #swagger.responses[200] = {
+   * #swagger.responses[200] = {
       description: 'OK',
       schema: {
         "status": true,
         "message": "刪除成功",
       }
     }
-    * #swagger.responses[404] = {
+   * #swagger.responses[404] = {
       description: 'Not Found',
       schema: {
         "status": false,
         "message": "查無此貼文 id",
       }
+    }
+   * #swagger.headers['Content-Type'] = {
+      description: 'The content type',
+      type: 'string'
     }
   */
 );
@@ -493,6 +533,10 @@ router.delete(
         "status": true,
         "message": "全部刪除成功",
       }
+    }
+   * #swagger.headers['Content-Type'] = {
+      description: 'The content type',
+      type: 'string'
     }
    */
 );
