@@ -16,7 +16,13 @@ const createTransporter = async () => {
     },
   });
 };
-const sendEmail = async (to, subject, text = null, html = null) => {
+const sendEmail = async (
+  to,
+  subject,
+  text = null,
+  html = null,
+  retryCount = 0,
+) => {
   const transporter = await createTransporter();
   const mailOptions = {
     from: process.env.NODEMAILER_TRANSPORT_USER,
@@ -31,6 +37,11 @@ const sendEmail = async (to, subject, text = null, html = null) => {
     return { status: true, message: '郵件發送成功' };
   } catch (err) {
     console.error('郵件發送失敗:', err);
+    // 設置重試邏輯
+    if (retryCount < 3) {
+      console.log(`重試發送郵件 (${retryCount + 1}/3)`);
+      return sendEmail(to, subject, text, html, retryCount + 1);
+    }
     return { status: false, message: '郵件發送失敗', error: err };
   }
 };
