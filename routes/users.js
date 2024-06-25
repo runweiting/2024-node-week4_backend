@@ -30,12 +30,6 @@ router.post(
         "message": "註冊成功",
         "token": "eyJhbGciOiJSUzI1NiIsImtpZCI6InRCME0yQSJ9....",
         "expired": 1630734430297
-      },
-      headers: {
-        'Content-Type': {
-          description: 'The content type',
-          type: 'string'
-        }
       }
     }
    * #swagger.responses[400] = {
@@ -67,12 +61,6 @@ router.post(
         "token": "eyJhbGciOiJSUzI1NiIsImtpZCI6InRCME0yQSJ9....",
         "expired": 1630734430297
       },
-      headers: {
-        'Content-Type': {
-          description: 'The content type',
-          type: 'string'
-        }
-      }
     }
    * #swagger.responses[400] = {
       description: 'Bad Request'

@@ -90,12 +90,6 @@
               "xml": {
                 "name": "main"
               }
-            },
-            "headers": {
-              "Content-Type": {
-                "description": "The content type",
-                "type": "string"
-              }
             }
           },
           "400": {
@@ -164,12 +158,6 @@
               },
               "xml": {
                 "name": "main"
-              }
-            },
-            "headers": {
-              "Content-Type": {
-                "description": "The content type",
-                "type": "string"
               }
             }
           },
