@@ -65,7 +65,19 @@ app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/posts', postsRouter);
 app.use('/upload', uploadRouter);
-app.use('/api-doc', swaggerUI.serve, swaggerUI.setup(swaggerFile));
+app.use(
+  '/api-doc',
+  swaggerUI.serve,
+  swaggerUI.setup(swaggerFile, {
+    swaggerOptions: {
+      // 設置回應攔截器，只保留回應 headers 的 content-type
+      responseInterceptor: (response) => {
+        response.headers = { 'content-type': response.headers['content-type'] };
+        return response;
+      },
+    },
+  }),
+);
 app.use('/auth', authRouter);
 app.use('/email', emailRouter);
 app.use(notFound);
