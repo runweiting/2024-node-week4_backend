@@ -6,8 +6,8 @@ const ordersSchema = new mongoose.Schema(
       type: String,
     },
     timestamp: {
-      type: Number,
-      default: () => Math.floor(Date.now() / 1000),
+      type: String,
+      default: () => Math.floor(Date.now() / 1000).toString(),
     },
     merchantOrderNo: {
       type: String,
