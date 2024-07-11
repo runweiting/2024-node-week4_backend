@@ -65,6 +65,11 @@ function getTradeInfo(targetOrder) {
     TradeSha: shaEncrypt,
     Version: VERSION,
   };
+  console.log('data', data);
+  console.log('dataChain', dataChain);
+  console.log('aesEncrypt', aesEncrypt);
+  console.log('shaEncrypt', shaEncrypt);
+  console.log('tradeInfo', tradeInfo);
   return tradeInfo;
 }
 
@@ -79,20 +84,27 @@ const payment = {
     if (!targetOrder) {
       return handleAppError(404, '查無此訂單 id', next);
     }
-    // 執行加密函式，再回傳，需要更新 isPaid
     const tradeInfo = getTradeInfo(targetOrder);
-    console.log('tradeInfo', tradeInfo);
-    try {
-      const url = `${PAYGATEWAY_CURL}`;
-      const res = await axios.post(url, tradeInfo);
-      console.log('res', res);
-      // await Order.findByIdAndUpdate(id, {
-      //   isPaid: true,
-      // });
-    } catch (err) {
-      console.error('err.response ', err.response);
-      console.error('err.message ', err.message);
-    }
+    res.render('payment', {
+      title: 'NewebPay Payment',
+      PayGateWay: PAYGATEWAY_CURL,
+      NotifyUrl: NOTIFY_URL,
+      ReturnUrl: RETURN_URL,
+      targetOrder,
+      tradeInfo,
+    });
+
+    // 執行加密函式，再回傳，需要更新 isPaid
+    // try {
+    //   const url = `${PAYGATEWAY_CURL}`;
+    //   const res = await axios.post(url, tradeInfo);
+    //   console.log('res', res);
+    //   await Order.findByIdAndUpdate(id, {
+    //     isPaid: true,
+    //   });
+    // } catch (err) {
+    //   console.error('err.message ', err.message);
+    // }
   },
 };
 
