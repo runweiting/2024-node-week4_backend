@@ -30,9 +30,9 @@ function create_mpg_aes_encrypt(dataChain) {
   return enc + encrypt.final('hex');
 }
 // SHA-256 加密驗證資料
-function create_mpg_sha_encrypt(dataChain) {
+function create_mpg_sha_encrypt(aesEncrypt) {
   const sha = crypto.createHash('sha256');
-  const plainText = `HashKey=${HASH_KEY}&${dataChain}&HashIV=${HASH_IV}`;
+  const plainText = `HashKey=${HASH_KEY}&${aesEncrypt}&HashIV=${HASH_IV}`;
   return sha.update(plainText).digest('hex').toUpperCase();
 }
 // 提交藍新訂單
@@ -52,13 +52,13 @@ function getTradeInfo(targetOrder) {
     NotifyURL: encodeURIComponent(NOTIFY_URL),
   };
   const dataChain = genDataChain(data);
-  const mpg_aes_encrypt = create_mpg_aes_encrypt(dataChain);
-  const mpg_sha_encrypt = create_mpg_sha_encrypt(dataChain);
+  const aesEncrypt = create_mpg_aes_encrypt(dataChain);
+  const shaEncrypt = create_mpg_sha_encrypt(aesEncrypt);
   // 提交資料
   const tradeInfo = {
     MerchantID: MERCHANT_ID,
-    TradeInfo: mpg_aes_encrypt,
-    TradeSha: mpg_sha_encrypt,
+    TradeInfo: aesEncrypt,
+    TradeSha: shaEncrypt,
     Version: VERSION,
   };
   return tradeInfo;
@@ -75,11 +75,7 @@ const payment = {
     const tradeInfo = getTradeInfo(targetOrder);
     const url = `${PAYGATEWAY_CURL}`;
     try {
-      const res = await axios.post(url, tradeInfo, {
-        headers: {
-          'Content-Type': 'application/x-www-form-urlencoded', // 根据 API 文档设置合适的 Content-Type
-        },
-      });
+      const res = await axios.post(url, tradeInfo);
       console.log('res', res);
     } catch (err) {
       console.error(

@@ -14,7 +14,7 @@ const orders = {
     }
     const targetOrder = await Order.create({
       user: userId,
-      amt,
+      amt: parseInt(amt),
       itemDesc,
     });
     handleResponse(res, 201, '新增成功', targetOrder._id);
