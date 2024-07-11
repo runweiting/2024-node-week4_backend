@@ -1,3 +1,4 @@
+// 正確的 CORS 設置只應用前端和後端的來源
 const allowedOrigins = [
   'https://two024-node-week4.onrender.com',
   'http://two024-node-week4.onrender.com',
