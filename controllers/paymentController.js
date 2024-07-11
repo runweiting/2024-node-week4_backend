@@ -25,7 +25,13 @@ function genDataChain(data) {
 }
 // AES-256-CBC 加密訂單資料
 function create_mpg_aes_encrypt(dataChain) {
-  const encrypt = crypto.createCipheriv('aes-256-cbc', HASH_KEY, HASH_IV);
+  console.log('HASH_KEY', HASH_KEY);
+  console.log('HASH_IV', HASH_IV);
+  const key = Buffer.from(HASH_KEY, 'utf8');
+  const iv = Buffer.from(HASH_IV, 'utf8');
+  console.log('key', key);
+  console.log('iv', iv);
+  const encrypt = crypto.createCipheriv('aes-256-cbc', key, iv);
   const enc = encrypt.update(genDataChain(dataChain), 'utf8', 'hex');
   return enc + encrypt.final('hex');
 }
@@ -73,15 +79,15 @@ const payment = {
     }
     // 執行加密函式，再回傳，需要更新 isPaid
     const tradeInfo = getTradeInfo(targetOrder);
-    const url = `${PAYGATEWAY_CURL}`;
     try {
-      const res = await axios.post(url, tradeInfo);
+      const res = await axios.post(PAYGATEWAY_CURL, tradeInfo);
       console.log('res', res);
+      await Order.findByIdAndUpdate(id, {
+        isPaid: true,
+      });
     } catch (err) {
-      console.error(
-        'Payment request failed:',
-        err.response ? err.response.data : err.message,
-      );
+      console.error('err.response ', err.response);
+      console.error('err.message ', err.message);
     }
   },
 };
