@@ -15,6 +15,7 @@ const {
   RETURN_URL,
   NOTIFY_URL,
   PAYGATEWAY_CURL,
+  CLIENTBACK_URL,
 } = process.env;
 
 // 排列參數並串聯
@@ -44,12 +45,15 @@ function getTradeInfo(targetOrder) {
     TimeStamp: targetOrder.timestamp,
     Version: VERSION,
     MerchantOrderNo: targetOrder.merchantOrderNo,
+    LoginType: 0,
+    OrderComment: 'OrderComment',
     Amt: targetOrder.amt,
     ItemDesc: encodeURIComponent(targetOrder.itemDesc),
-    OrderComment: encodeURIComponent('OrderComment'),
-    TradeLimit: 900,
+    Email: encodeURIComponent(targetOrder.user.email),
     ReturnURL: encodeURIComponent(RETURN_URL),
     NotifyURL: encodeURIComponent(NOTIFY_URL),
+    ClientBackURL: encodeURIComponent(CLIENTBACK_URL),
+    TradeLimit: 900,
   };
   const dataChain = genDataChain(data);
   const aesEncrypt = create_mpg_aes_encrypt(dataChain);
@@ -67,18 +71,24 @@ function getTradeInfo(targetOrder) {
 const payment = {
   async createPayment(req, res, next) {
     const { id } = req.body;
-    const targetOrder = await Order.findById(id);
+    const targetOrder = await Order.findById(id).populate({
+      path: 'user',
+      select: 'email',
+    });
+    console.log('targetOrder', targetOrder);
     if (!targetOrder) {
       return handleAppError(404, '查無此訂單 id', next);
     }
     // 執行加密函式，再回傳，需要更新 isPaid
     const tradeInfo = getTradeInfo(targetOrder);
+    console.log('tradeInfo', tradeInfo);
     try {
-      const res = await axios.post(PAYGATEWAY_CURL, tradeInfo);
+      const url = `${PAYGATEWAY_CURL}`;
+      const res = await axios.post(url, tradeInfo);
       console.log('res', res);
-      await Order.findByIdAndUpdate(id, {
-        isPaid: true,
-      });
+      // await Order.findByIdAndUpdate(id, {
+      //   isPaid: true,
+      // });
     } catch (err) {
       console.error('err.response ', err.response);
       console.error('err.message ', err.message);
