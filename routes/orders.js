@@ -34,7 +34,8 @@ router.post('/', isAuth, async (req, res, next) => {
     amt,
     itemDesc,
   });
-  handleResponse(res, 201, '新增成功', newOrder._id);
+  console.log(newOrder);
+  handleResponse(res, 201, '新增成功', newOrder._id.toString());
 });
 
 // 取得訂單
