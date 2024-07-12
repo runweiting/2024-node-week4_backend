@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= title %></title>
+    <link rel="stylesheet" href="/stylesheets/style.css" />
+  </head>
+  <body>
+    <div id="app">
+      <span>步驟一、選擇預購方案</span>
+      <form @submit.prevent="createOrder">
+        <div class="mb-3">
+          <label for="Email">email</label>
+          <input v-model="order.email" type="email" name="email" />
+        </div>
+        <div class="mb-3">
+          <label for="Amt">商品數量</label>
+          <input v-model.number="order.amt" type="number" name="Amt" />
+        </div>
+        <div class="mb-3">
+          <label for="ItemDesc">商品描述</label>
+          <input v-model="order.itemDesc" type="text" name="ItemDesc" />
+        </div>
+        <button type="submit">確認方案</button>
+      </form>
+    </div>
+    <script type="module">
+      import { createApp } from 'https://cdnjs.cloudflare.com/ajax/libs/vue/3.4.31/vue.esm-browser.min.js';
+      const axios = require('axios');
+
+      const app = {
+        data() {
+          return {
+            order: {
+              email: 'abc@gmail.com',
+              amt: 1000,
+              itemDesc: '這是一個棒棒商品',
+            },
+          };
+        },
+        methods: {
+          createOrder() {
+            const url = `/createOrder`;
+            axios.post(url, this.order).then((res) => {
+              console.log(res);
+            });
+          },
+        },
+      };
+
+      createApp(app).mount('#app');
+    </script>
+  </body>
+</html>

@@ -2,9 +2,6 @@ const mongoose = require('mongoose');
 
 const ordersSchema = new mongoose.Schema(
   {
-    merchantID: {
-      type: String,
-    },
     timestamp: {
       type: String,
       default: () => Math.floor(Date.now() / 1000).toString(),
@@ -20,6 +17,11 @@ const ordersSchema = new mongoose.Schema(
     itemDesc: {
       type: String,
       required: [true, '商品描述為必填'],
+      trim: true,
+    },
+    orderEmail: {
+      type: String,
+      required: [true, '訂購Email為必填'],
       trim: true,
     },
     isPaid: {

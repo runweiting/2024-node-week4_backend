@@ -25,7 +25,6 @@ const uploadRouter = require('./routes/upload');
 const authRouter = require('./routes/auth');
 const emailRouter = require('./routes/email');
 const ordersRouter = require('./routes/orders');
-const paymentRouter = require('./routes/payment');
 const notFound = require('./routes/notFound');
 
 const app = express();
@@ -87,8 +86,8 @@ app.use(
 app.use('/auth', authRouter);
 app.use('/email', emailRouter);
 app.use('/orders', ordersRouter);
-app.use('/payment', paymentRouter);
 app.use(notFound);
+
 // Global Error Handling
 app.use(handleGlobalError);
 
