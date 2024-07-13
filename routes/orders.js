@@ -60,7 +60,9 @@ router.post('/newebpay_return', async (req, res, next) => {
   // 更新訂單狀態等
   const data = req.body;
   console.log('return', data);
-  res.json(req.body);
+  // Send the response data to the Vue3 frontend
+  await Promise.resolve(res.json(data)); // Ensure response is sent before redirect
+  // Redirect to the specified URL after sending the response
   res.redirect(
     'https://runweiting.github.io/2024-node-week4_frontend/#/dashboard/payment-result',
   );
