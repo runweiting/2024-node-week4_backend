@@ -34,10 +34,6 @@ require('./connections/passport');
 handleUncaughtException();
 handleUnhandledRejection();
 
-// 設置 EJS 作為視圖引擎
-// app.set('views', path.join(__dirname, 'views'));
-// app.set('view engine', 'ejs');
-
 // Middlewares
 app.use(helmet());
 app.use(credentials);

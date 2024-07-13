@@ -63,6 +63,7 @@ router.get('/:id', isAuth, async (req, res, next) => {
 router.post('/newebpay_return', async (req, res, next) => {
   // 更新訂單狀態等
   console.log('req.body', req.body);
+  console.log('req.headers.origin', req.headers.origin);
   res.json({ message: 'Payment received!' });
   // res.redirect(`${FRONTEND_URL}/#/dashboard/payment-result`);
 });

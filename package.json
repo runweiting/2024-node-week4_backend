@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "nodemon ./bin/www",
+    "start": "node ./bin/www",
     "start:dev": "NODE_ENV=dev nodemon ./bin/www",
     "start:pro": "NODE_ENV=pro nodemon ./bin/www",
     "swagger": "node ./swagger.js"
