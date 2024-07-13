@@ -5,6 +5,7 @@ const allowedOrigins = [
   'http://localhost:3010',
   'https://runweiting.github.io',
   'http://localhost:5173',
+  'https://ccore.newebpay.com',
 ];
 
 module.exports = allowedOrigins;

@@ -19,6 +19,7 @@ const {
   NOTIFY_URL,
   PAYGATEWAY_CURL,
   CLIENTBACK_URL,
+  FRONTEND_URL,
 } = process.env;
 
 // 建立訂單
@@ -34,7 +35,6 @@ router.post('/', isAuth, async (req, res, next) => {
     amt,
     itemDesc,
   });
-  console.log(newOrder);
   handleResponse(res, 201, '新增成功', newOrder._id.toString());
 });
 
@@ -50,13 +50,26 @@ router.get('/:id', isAuth, async (req, res, next) => {
   const shaEncrypt = create_mpg_sha_encrypt(aesEncrypt);
   // 回傳加密
   const tradeInfo = {
-    MerchantID: MERCHANT_ID,
+    MerchantID: MERCHANT_ID.toString(),
     TradeInfo: aesEncrypt,
     TradeSha: shaEncrypt,
     Version: VERSION,
     PayGateWay: PAYGATEWAY_CURL,
   };
   handleResponse(res, 200, '查詢成功', tradeInfo);
+});
+
+// newebpay_return
+router.post('/newebpay_return', async (req, res, next) => {
+  // 更新訂單狀態等
+  console.log('req.body', req.body);
+  res.json({ message: 'Payment received!' });
+  // res.redirect(`${FRONTEND_URL}/#/dashboard/payment-result`);
+});
+
+// newebpay_notify
+router.post('/newebpay_notify', async (req, res, next) => {
+  console.log('req.body', req.body);
 });
 
 // 1. 生成請求字串：排列參數並串聯
@@ -68,20 +81,19 @@ function genDataChain(order) {
     TimeStamp: order.timestamp,
     Version: VERSION,
     MerchantOrderNo: order.merchantOrderNo,
-    LoginType: 0,
-    OrderComment: 'OrderComment',
     Amt: order.amt,
     ItemDesc: encodeURIComponent(order.itemDesc),
+    // NotifyURL: encodeURIComponent(NOTIFY_URL),
+    // ReturnURL: encodeURIComponent(RETURN_URL),
+    // ClientBackURL: encodeURIComponent(CLIENTBACK_URL),
     Email: encodeURIComponent(order.orderEmail),
-    ReturnURL: encodeURIComponent(RETURN_URL),
-    NotifyURL: encodeURIComponent(NOTIFY_URL),
-    ClientBackURL: encodeURIComponent(CLIENTBACK_URL),
-    TradeLimit: 900,
+    // LoginType: 0,
+    // TradeLimit: 900,
+    // OrderComment: 'OrderComment',
   };
   const dataChain = Object.entries(data)
     .map(([key, value]) => `${key}=${value}`)
     .join('&');
-  console.log('dataChain', dataChain);
   return dataChain;
 }
 // 2. 將請求字串加密：AES-256-CBC 加密訂單資料
