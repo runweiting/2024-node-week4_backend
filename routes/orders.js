@@ -65,7 +65,7 @@ router.post('/newebpay_return', async (req, res, next) => {
   const response = req.body;
   // 解密從 tradeInfo 取出 email
   const data = create_mpg_aes_decrypt(response.TradeInfo);
-  console.log('data', data);
+  console.log('return', data);
   res.json('付款成功');
 
   // 導向回前端，生成 token, expires
@@ -89,7 +89,6 @@ CBC (Cipher Block Chaining) 是 AES 的一種區塊加密模式。
 解密過程: 解密時，每個密文區塊會先通過解密算法解密，然後再與上一個密文區塊（或 IV）進行 XOR，以恢復原始明文。
 如此使得每個區塊的加密結果依賴於前一個區塊，增強了加密的強度。
 */
-
 function create_mpg_aes_encrypt(order) {
   const encrypt = crypto.createCipheriv('aes-256-cbc', HASH_KEY, HASH_IV);
   const enc = encrypt.update(genDataChain(order), 'utf8', 'hex');
@@ -126,14 +125,21 @@ function create_mpg_sha_encrypt(aesEncrypt) {
 
 // 4. 將 AES 加密字串進行解密
 function create_mpg_aes_decrypt(tradeInfo) {
-  const decrypt = crypto.createDecipheriv('aes-256-cbc', HASH_KEY, HASH_IV);
-  // 禁用自動填充（padding）
-  decrypt.setAutoPadding(false);
-  const text = decrypt.update(tradeInfo, 'hex', 'utf8');
-  const plainText = text + decrypt.final('utf8');
-  // 移除解密後結果中的控制字元（如空白字元和填充字元）
-  const result = plainText.replace(/[\x00-\x20]+/g, '');
-  return JSON.parse(result);
+  try {
+    const decrypt = crypto.createDecipheriv('aes-256-cbc', HASH_KEY, HASH_IV);
+    // 自動填充（padding）
+    decrypt.setAutoPadding(true);
+    let text = decrypt.update(tradeInfo, 'hex', 'utf8');
+    text += decrypt.final('utf8');
+    // 中間結果檢查
+    console.log('解密後的字符串:', text);
+    // 移除解密後結果中的控制字元（如空白字元和填充字元）
+    const result = text.replace(/[\x00-\x20]+/g, '');
+    console.log('去除填充字符後的字符串:', result);
+    return JSON.parse(result);
+  } catch (err) {
+    console.error('解密過程中出現錯誤:', error);
+  }
 }
 
 module.exports = router;
