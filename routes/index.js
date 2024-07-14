@@ -4,7 +4,7 @@ const router = express.Router();
 router.get(
   '/',
   function (req, res, next) {
-    res.render('index', { title: 'index' });
+    res.send('index');
   },
   /**
    * #swagger.ignore = true

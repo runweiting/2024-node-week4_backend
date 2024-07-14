@@ -19,11 +19,6 @@ const ordersSchema = new mongoose.Schema(
       required: [true, '商品描述為必填'],
       trim: true,
     },
-    orderEmail: {
-      type: String,
-      required: [true, '訂購Email為必填'],
-      trim: true,
-    },
     isPaid: {
       type: Boolean,
       default: false,
@@ -45,7 +40,7 @@ ordersSchema.pre('save', function (next) {
   if (!this.merchantOrderNo) {
     const date = new Date().toISOString().split('T')[0].replace(/-/g, '');
     dailyOrderCount += 1;
-    this.merchantOrderNo = `ORD${date}_B1_${dailyOrderCount
+    this.merchantOrderNo = `ORD${date}_E1_${dailyOrderCount
       .toString()
       .padStart(4, '0')}`;
   }

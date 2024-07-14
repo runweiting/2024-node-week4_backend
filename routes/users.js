@@ -4,7 +4,7 @@ const passport = require('passport');
 const UsersController = require('../controllers/usersController');
 const { handleErrorAsync } = require('../middlewares/handleResponses');
 const isAuth = require('../middlewares/isAuth');
-const { generateUrlJWT } = require('../middlewares/generateJWT');
+const { genGoogleCallbackUrlJWT } = require('../middlewares/generateJWT');
 
 router.post(
   '/sign-up',
@@ -396,7 +396,7 @@ router.get(
   '/google/callback',
   passport.authenticate('google', { session: false }),
   (req, res) => {
-    generateUrlJWT(req.user, res);
+    genGoogleCallbackUrlJWT(req.user, res);
   },
   /**
    * #swagger.ignore = true
