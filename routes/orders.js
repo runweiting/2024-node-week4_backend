@@ -138,7 +138,7 @@ function create_mpg_aes_decrypt(tradeInfo) {
     console.log('去除填充字符後的字符串:', result);
     return JSON.parse(result);
   } catch (err) {
-    console.error('解密過程中出現錯誤:', error);
+    console.log('解密過程中出現錯誤:', err);
   }
 }
 
