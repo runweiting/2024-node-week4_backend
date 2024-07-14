@@ -109,6 +109,7 @@ function genDataChain(order) {
     Email: encodeURIComponent(order.user.email),
     NotifyURL: encodeURIComponent(NOTIFY_URL),
     ReturnURL: encodeURIComponent(RETURN_URL),
+    ClientBackURL: encodeURIComponent(CLIENTBACK_URL),
   };
   const dataChain = Object.entries(data)
     .map(([key, value]) => `${key}=${value}`)
@@ -129,13 +130,10 @@ function create_mpg_aes_decrypt(tradeInfo) {
     const decrypt = crypto.createDecipheriv('aes-256-cbc', HASH_KEY, HASH_IV);
     // 關閉自動填充（padding）
     decrypt.setAutoPadding(false);
-    let text = decrypt.update(tradeInfo, 'hex', 'utf8');
-    text += decrypt.final('utf8');
-    // 中間結果檢查
-    console.log('解密後的字符串:', text);
-    // 移除解密後結果中的控制字元（如空白字元和填充字元）
-    const result = text.replace(/[\x00-\x20]+/g, '');
-    console.log('去除填充字符後的字符串:', result);
+    const text = decrypt.update(tradeInfo, 'hex', 'utf8');
+    const plainText = text + decrypt.final('utf8');
+    const result = plainText.replace(/[\x00-\x20]+/g, '');
+    console.log('result:', result);
     return JSON.parse(result);
   } catch (err) {
     console.log('解密過程中出現錯誤:', err);
