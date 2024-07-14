@@ -19,6 +19,7 @@ const {
   NOTIFY_URL,
   RETURN_URL,
   PAYGATEWAY_CURL,
+  CLIENTBACK_URL,
 } = process.env;
 
 // 建立訂單
@@ -62,12 +63,29 @@ router.get('/:id', isAuth, async (req, res, next) => {
 
 // newebpay_return
 router.post('/newebpay_return', async (req, res, next) => {
+  // 可能因測試機 response 沒有顯示 CheckCode (手冊有寫 p.23, p.50)
   const response = req.body;
-  // 解密從 tradeInfo 取出 email
-  const data = create_mpg_aes_decrypt(response.TradeInfo);
+  console.log('response', response);
+  const data = JSON.parse(create_mpg_aes_decrypt(response.TradeInfo));
   console.log('return', data);
+  // 驗證一、查詢資料庫是否有相符的訂單
+  const targetOrder = await Order.findOne({
+    merchantOrderNo: data.Result.MerchantOrderNo,
+  }).select('_id');
+  if (!targetOrder) {
+    return handleAppError(404, '此筆訂單不存在', next);
+  }
+  // 驗證二、使用 HASH 再次 SHA 加密字串，確保比對一致
+  const shaEncryptTest = create_mpg_sha_encrypt(response.TradeInfo);
+  if (response.TradeSha !== shaEncryptTest) {
+    return handleAppError(404, '付款失敗：TradeSha 不一致', next);
+  }
+  await Order.findByIdAndUpdate(targetOrder._id, {
+    isPaid: true,
+  });
+  // 交易完成，將成功資訊儲存於資料庫
+  console.log('付款完成！訂單編號：', data.Result.MerchantOrderNo);
   res.json('付款成功');
-
   // 導向回前端，生成 token, expires
 });
 
@@ -133,8 +151,7 @@ function create_mpg_aes_decrypt(tradeInfo) {
     const text = decrypt.update(tradeInfo, 'hex', 'utf8');
     const plainText = text + decrypt.final('utf8');
     const result = plainText.replace(/[\x00-\x20]+/g, '');
-    console.log('result:', result);
-    return JSON.parse(result);
+    return result;
   } catch (err) {
     console.log('解密過程中出現錯誤:', err);
   }

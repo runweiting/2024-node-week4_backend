@@ -40,7 +40,7 @@ ordersSchema.pre('save', function (next) {
   if (!this.merchantOrderNo) {
     const date = new Date().toISOString().split('T')[0].replace(/-/g, '');
     dailyOrderCount += 1;
-    this.merchantOrderNo = `ORD${date}_I1_${dailyOrderCount
+    this.merchantOrderNo = `ORD${date}_J1_${dailyOrderCount
       .toString()
       .padStart(4, '0')}`;
   }
