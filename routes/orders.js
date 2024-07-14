@@ -127,9 +127,9 @@ function create_mpg_sha_encrypt(aesEncrypt) {
 function create_mpg_aes_decrypt(tradeInfo) {
   try {
     const decrypt = crypto.createDecipheriv('aes-256-cbc', HASH_KEY, HASH_IV);
-    // 自動填充（padding）
-    decrypt.setAutoPadding(true);
-    let text = decrypt.update(tradeInfo, 'hex', 'utf8');
+    // 關閉自動填充（padding）
+    decrypt.setAutoPadding(false);
+    const text = decrypt.update(tradeInfo, 'hex', 'utf8');
     text += decrypt.final('utf8');
     // 中間結果檢查
     console.log('解密後的字符串:', text);
