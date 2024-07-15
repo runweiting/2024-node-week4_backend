@@ -54,7 +54,7 @@ const orders = {
     handleResponse(res, 200, '查詢成功', tradeInfo);
   },
   async newebpayNotify(req, res, next) {
-    const decryptData = decryptTradeInfo(req.body);
+    const decryptData = JSON.parse(create_mpg_aes_decrypt(req.body.TradeInfo));
     // 驗證一、檢查訂單是否已付款
     if (req.targetOrder.isPaid) {
       console.log(`訂單編號：${req.targetOrder.merchantOrderNo} 已付款。`);
@@ -156,11 +156,5 @@ function formattedPayTimeStr(payTime) {
   const formattedStr = payTime.slice(0, 10) + ' ' + payTime.slice(10);
   return new Date(formattedStr);
 }
-
-// 共用函式：解密 TradeInfo
-const decryptTradeInfo = (response) => {
-  const decryptData = JSON.parse(create_mpg_aes_decrypt(response.TradeInfo));
-  return decryptData;
-};
 
 module.exports = orders;

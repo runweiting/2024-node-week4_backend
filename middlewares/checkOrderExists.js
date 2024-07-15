@@ -21,15 +21,10 @@ function create_mpg_aes_decrypt(tradeInfo) {
   }
 }
 
-const decryptTradeInfo = (response) => {
-  const decryptData = JSON.parse(create_mpg_aes_decrypt(response.TradeInfo));
-  return decryptData;
-};
-
 // 共用中介軟體：檢查訂單是否存在
 const checkOrderExists = handleErrorAsync(async (req, res, next) => {
   // 可能因測試機 response 沒有顯示 CheckCode (手冊有寫 p.23, p.50)
-  const decryptData = decryptTradeInfo(req.body);
+  const decryptData = JSON.parse(create_mpg_aes_decrypt(req.body.TradeInfo));
   const targetOrder = await Order.findOne({
     merchantOrderNo: decryptData.Result.MerchantOrderNo,
   }).populate({
