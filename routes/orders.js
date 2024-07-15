@@ -11,15 +11,15 @@ const {
 const isAuth = require('../middlewares/isAuth');
 const { genNewebpayReturnUrlJWT } = require('../middlewares/generateJWT');
 const {
-  MERCHANT_ID,
-  HASH_KEY,
-  HASH_IV,
-  VERSION,
-  RESPOND_TYPE,
-  NOTIFY_URL,
-  RETURN_URL,
-  PAYGATEWAY_CURL,
-  CLIENTBACK_URL,
+  NEWEBPAY_MERCHANT_ID,
+  NEWEBPAY_HASH_KEY,
+  NEWEBPAY_HASH_IV,
+  NEWEBPAY_VERSION,
+  NEWEBPAY_RESPOND_TYPE,
+  NEWEBPAY_NOTIFY_URL,
+  NEWEBPAY_RETURN_URL,
+  NEWEBPAY_CCORE,
+  NEWEBPAY_CLIENTBACK_URL,
 } = process.env;
 
 // 建立訂單
@@ -52,11 +52,11 @@ router.get('/:id', isAuth, async (req, res, next) => {
   const shaEncrypt = create_mpg_sha_encrypt(aesEncrypt);
   // 回傳加密
   const tradeInfo = {
-    MerchantID: MERCHANT_ID.toString(),
+    MerchantID: NEWEBPAY_MERCHANT_ID.toString(),
     TradeInfo: aesEncrypt,
     TradeSha: shaEncrypt,
-    Version: VERSION,
-    PayGateWay: PAYGATEWAY_CURL,
+    Version: NEWEBPAY_VERSION,
+    PayGateWay: NEWEBPAY_CCORE,
   };
   handleResponse(res, 200, '查詢成功', tradeInfo);
 });
@@ -127,7 +127,11 @@ CBC (Cipher Block Chaining) 是 AES 的一種區塊加密模式。
 如此使得每個區塊的加密結果依賴於前一個區塊，增強了加密的強度。
 */
 function create_mpg_aes_encrypt(order) {
-  const encrypt = crypto.createCipheriv('aes-256-cbc', HASH_KEY, HASH_IV);
+  const encrypt = crypto.createCipheriv(
+    'aes-256-cbc',
+    NEWEBPAY_HASH_KEY,
+    NEWEBPAY_HASH_IV,
+  );
   const enc = encrypt.update(genDataChain(order), 'utf8', 'hex');
   return enc + encrypt.final('hex');
 }
@@ -136,17 +140,17 @@ function create_mpg_aes_encrypt(order) {
 function genDataChain(order) {
   // 基本資料
   const data = {
-    MerchantID: MERCHANT_ID,
-    RespondType: RESPOND_TYPE,
+    MerchantID: NEWEBPAY_MERCHANT_ID,
+    RespondType: NEWEBPAY_RESPOND_TYPE,
     TimeStamp: order.timestamp,
-    Version: VERSION,
+    NEWEBPAY_VERSION: NEWEBPAY_VERSION,
     MerchantOrderNo: order.merchantOrderNo,
     Amt: order.amt,
     ItemDesc: encodeURIComponent(order.itemDesc),
     Email: encodeURIComponent(order.user.email),
-    NotifyURL: encodeURIComponent(NOTIFY_URL),
-    ReturnURL: encodeURIComponent(RETURN_URL),
-    ClientBackURL: encodeURIComponent(CLIENTBACK_URL),
+    NotifyURL: encodeURIComponent(NEWEBPAY_NOTIFY_URL),
+    ReturnURL: encodeURIComponent(NEWEBPAY_RETURN_URL),
+    ClientBackURL: encodeURIComponent(NEWEBPAY_CLIENTBACK_URL),
   };
   const dataChain = Object.entries(data)
     .map(([key, value]) => `${key}=${value}`)
@@ -157,14 +161,18 @@ function genDataChain(order) {
 // 3. 將 AES 加密字串產生檢查碼：SHA-256 加密驗證資料
 function create_mpg_sha_encrypt(aesEncrypt) {
   const sha = crypto.createHash('sha256');
-  const plainText = `HashKey=${HASH_KEY}&${aesEncrypt}&HashIV=${HASH_IV}`;
+  const plainText = `HashKey=${NEWEBPAY_HASH_KEY}&${aesEncrypt}&HashIV=${NEWEBPAY_HASH_IV}`;
   return sha.update(plainText).digest('hex').toUpperCase();
 }
 
 // 4. 將 AES 加密字串進行解密
 function create_mpg_aes_decrypt(tradeInfo) {
   try {
-    const decrypt = crypto.createDecipheriv('aes-256-cbc', HASH_KEY, HASH_IV);
+    const decrypt = crypto.createDecipheriv(
+      'aes-256-cbc',
+      NEWEBPAY_HASH_KEY,
+      NEWEBPAY_HASH_IV,
+    );
     // 關閉自動填充（padding）
     decrypt.setAutoPadding(false);
     const text = decrypt.update(tradeInfo, 'hex', 'utf8');

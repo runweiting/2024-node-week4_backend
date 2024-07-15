@@ -58,7 +58,7 @@ const genNewebpayReturnUrlJWT = (user, res) => {
       Date.now() + parseInt(process.env.JWT_EXPIRES_DAY) * 24 * 60 * 60 * 1000,
     ).toUTCString();
     res.redirect(
-      `${process.env.PAYGATEWAY_REDIRECT}/#/callback?token=${token}&expires=${expires}&source=${process.env.PAYGATEWAY_REDIRECT_SOURCE}`,
+      `${process.env.NEWEBPAY_REDIRECT}/#/callback?token=${token}&expires=${expires}&source=${process.env.NEWEBPAY_REDIRECT_SOURCE}`,
     );
   } catch (err) {
     next(err);
