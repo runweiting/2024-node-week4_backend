@@ -28,6 +28,17 @@ const ordersSchema = new mongoose.Schema(
       ref: 'User',
       required: [true, '用戶Id為必填'],
     },
+    tradeInfo: {
+      status: { type: String },
+      message: { type: String },
+      tradeNo: { type: String },
+      ip: { type: String },
+      escrowBank: { type: String },
+      paymentType: { type: String },
+      payTime: { type: Date },
+      payerAccount5Code: { type: String },
+      payBankCode: { type: String },
+    },
   },
   {
     versionKey: false,

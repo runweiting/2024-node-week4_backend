@@ -38,7 +38,7 @@ const genGoogleCallbackUrlJWT = (user, res) => {
     ).toUTCString();
     // 使用者透過 ‘/user/google’ 登入 google，不是透過 API，故需重新導向 res.redirect
     res.redirect(
-      `${process.env.GOOGLE_OAUTH_RESOURCE_OWNER_REDIRECT}/#/callback?token=${token}&expires=${expires}`,
+      `${process.env.GOOGLE_OAUTH_RESOURCE_OWNER_REDIRECT}/#/callback?token=${token}&expires=${expires}&source=${process.env.GOOGLE_OAUTH_REDIRECT_SOURCE}`,
     );
   } catch (err) {
     next(err);
@@ -58,7 +58,7 @@ const genNewebpayReturnUrlJWT = (user, res) => {
       Date.now() + parseInt(process.env.JWT_EXPIRES_DAY) * 24 * 60 * 60 * 1000,
     ).toUTCString();
     res.redirect(
-      `${process.env.PAYGATEWAY_REDIRECT}/#/dashboard/payment-result?token=${token}&expires=${expires}`,
+      `${process.env.PAYGATEWAY_REDIRECT}/#/callback?token=${token}&expires=${expires}&source=${process.env.PAYGATEWAY_REDIRECT_SOURCE}`,
     );
   } catch (err) {
     next(err);
