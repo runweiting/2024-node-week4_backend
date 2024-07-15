@@ -3,8 +3,8 @@ const mongoose = require('mongoose');
 const ordersSchema = new mongoose.Schema(
   {
     timestamp: {
-      type: String,
-      default: () => Math.floor(Date.now() / 1000).toString(),
+      type: Date,
+      default: Date.now,
     },
     merchantOrderNo: {
       type: String,
@@ -12,7 +12,7 @@ const ordersSchema = new mongoose.Schema(
     },
     amt: {
       type: Number,
-      required: [true, '商品描述為必填'],
+      required: [true, '金額為必填'],
     },
     itemDesc: {
       type: String,
@@ -51,7 +51,7 @@ ordersSchema.pre('save', function (next) {
   if (!this.merchantOrderNo) {
     const date = new Date().toISOString().split('T')[0].replace(/-/g, '');
     dailyOrderCount += 1;
-    this.merchantOrderNo = `ORD${date}_J1_${dailyOrderCount
+    this.merchantOrderNo = `ORD${date}_L_${dailyOrderCount
       .toString()
       .padStart(4, '0')}`;
   }

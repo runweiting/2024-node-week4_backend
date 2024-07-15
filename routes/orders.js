@@ -75,6 +75,7 @@ router.post('/newebpay_return', async (req, res, next) => {
     path: 'user',
     select: '_id',
   });
+  console.log('targetOrder', targetOrder);
   if (!targetOrder) {
     return handleAppError(404, '此筆訂單不存在', next);
   }
@@ -97,7 +98,7 @@ router.post('/newebpay_return', async (req, res, next) => {
       ip: data.Result.IP,
       escrowBank: data.Result.EscrowBank,
       paymentType: data.Result.PaymentType,
-      payTime: new Date(data.Result.PayTime),
+      payTime: formattedPayTimeStr(data.Result.PayTime),
       payerAccount5Code: data.Result.PayerAccount5Code,
       payBankCode: data.Result.PayBankCode,
     },
@@ -142,8 +143,8 @@ function genDataChain(order) {
   const data = {
     MerchantID: NEWEBPAY_MERCHANT_ID,
     RespondType: NEWEBPAY_RESPOND_TYPE,
-    TimeStamp: order.timestamp,
-    NEWEBPAY_VERSION: NEWEBPAY_VERSION,
+    TimeStamp: Math.floor(order.timestamp / 1000).toString(),
+    Version: NEWEBPAY_VERSION,
     MerchantOrderNo: order.merchantOrderNo,
     Amt: order.amt,
     ItemDesc: encodeURIComponent(order.itemDesc),
@@ -182,6 +183,11 @@ function create_mpg_aes_decrypt(tradeInfo) {
   } catch (err) {
     console.log('解密過程中出現錯誤:', err);
   }
+}
+
+function formattedPayTimeStr(payTime) {
+  const formattedStr = payTime.slice(0, 10) + ' ' + payTime.slice(10);
+  return new Date(formattedStr);
 }
 
 module.exports = router;
