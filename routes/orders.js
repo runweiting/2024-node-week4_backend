@@ -17,8 +17,9 @@ router.post(
   '/newebpay_return',
   checkOrderExists,
   handleErrorAsync(async (req, res, next) => {
+    console.log('return 收到付款通知');
     // 生成 token, expires 並導向回 UserCallback
-    genNewebpayReturnUrlJWT(req.targetOrder.user, res);
+    genNewebpayReturnUrlJWT(req.targetOrder, res);
   }),
 );
 

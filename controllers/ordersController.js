@@ -48,7 +48,10 @@ const orders = {
     handleResponse(res, 200, '查詢成功', tradeInfo);
   },
   async newebpayNotify(req, res, next) {
+    console.log('notify 收到付款通知');
     const decryptData = JSON.parse(create_mpg_aes_decrypt(req.body.TradeInfo));
+    console.log('notify 解密資料:', decryptData);
+    console.log('notify targetOrder', req.targetOrder);
     // 驗證一、檢查訂單是否已付款
     if (req.targetOrder.isPaid) {
       console.log(`訂單編號：${req.targetOrder.merchantOrderNo} 已付款。`);
