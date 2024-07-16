@@ -80,9 +80,10 @@ const orders = {
       },
       { new: true },
     );
-    console.log('req.order.isPaid', req.order.isPaid);
     // 更新 req.order 狀態
     req.order.isPaid = updatedOrder.isPaid;
+    console.log('updatedOrder.isPaid', updatedOrder.isPaid);
+    console.log('req.order.isPaid', req.order.isPaid);
     // 交易完成，將成功資訊儲存於資料庫
     console.log('notify 付款完成！訂單編號：', req.order.merchantOrderNo);
   },
