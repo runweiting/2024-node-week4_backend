@@ -16,8 +16,13 @@ const checkOrderExists = handleErrorAsync(async (req, res, next) => {
   if (!targetOrder) {
     return handleAppError(404, '此筆訂單不存在', next);
   }
-  req.targetOrder = targetOrder;
-  console.log('checkOrderExists req.targetOrder', req.targetOrder);
+  req.order = {
+    isPaid: targetOrder.isPaid,
+    id: targetOrder._id,
+    merchantOrderNo: targetOrder.merchantOrderNo,
+    userId: targetOrder.user._id,
+  };
+  console.log('req.order', req.order);
   next();
 });
 

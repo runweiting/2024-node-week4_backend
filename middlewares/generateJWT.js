@@ -45,24 +45,23 @@ const genGoogleCallbackUrlJWT = (user, res, next) => {
   }
 };
 
-const genNewebpayReturnUrlJWT = (targetOrder, res, next) => {
+const genNewebpayReturnUrlJWT = (order, res, next) => {
   try {
     // 將 user _id 作為 payload 生成 token
-    const token = jwt.sign(
-      { id: targetOrder.user._id },
-      process.env.JWT_SECRET,
-      {
-        expiresIn: process.env.JWT_EXPIRES_DAY,
-      },
-    );
-    user.password = undefined;
+    const token = jwt.sign({ id: order.userId }, process.env.JWT_SECRET, {
+      expiresIn: process.env.JWT_EXPIRES_DAY,
+    });
     // 將 token 到期日一併回傳，讓前台夾帶在 document.cookie
     // 新增 Date(當前時間戳 + 天數 * 24 * 60 * 60 * 1000(毫秒)).轉換為 UTC 格式字串
     const expires = new Date(
       Date.now() + parseInt(process.env.JWT_EXPIRES_DAY) * 24 * 60 * 60 * 1000,
     ).toUTCString();
     res.redirect(
-      `${process.env.NEWEBPAY_REDIRECT}/#/callback?token=${token}&expires=${expires}&source=${process.env.NEWEBPAY_REDIRECT_SOURCE}&order=${targetOrder._id}`,
+      `${
+        process.env.NEWEBPAY_REDIRECT
+      }/#/callback?token=${token}&expires=${expires}&source=${
+        process.env.NEWEBPAY_REDIRECT_SOURCE
+      }&order=${order._id.toString()}`,
     );
   } catch (err) {
     next(err);
