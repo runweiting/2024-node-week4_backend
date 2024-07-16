@@ -1,27 +1,8 @@
-const crypto = require('crypto');
 const { handleAppError, handleErrorAsync } = require('./handleResponses');
 const Order = require('../models/ordersModel');
-const { NEWEBPAY_HASH_KEY, NEWEBPAY_HASH_IV } = process.env;
+const { create_mpg_aes_decrypt } = require('../middlewares/encryption');
 
-function create_mpg_aes_decrypt(tradeInfo) {
-  try {
-    const decrypt = crypto.createDecipheriv(
-      'aes-256-cbc',
-      NEWEBPAY_HASH_KEY,
-      NEWEBPAY_HASH_IV,
-    );
-    // 關閉自動填充（padding）
-    decrypt.setAutoPadding(false);
-    const text = decrypt.update(tradeInfo, 'hex', 'utf8');
-    const plainText = text + decrypt.final('utf8');
-    const result = plainText.replace(/[\x00-\x20]+/g, '');
-    return result;
-  } catch (err) {
-    console.log('解密過程中出現錯誤:', err);
-  }
-}
-
-// 共用中介軟體：檢查訂單是否存在
+// 檢查訂單是否存在
 const checkOrderExists = handleErrorAsync(async (req, res, next) => {
   // 可能因測試機 response 沒有顯示 CheckCode (手冊有寫 p.23, p.50)
   const decryptData = JSON.parse(create_mpg_aes_decrypt(req.body.TradeInfo));
