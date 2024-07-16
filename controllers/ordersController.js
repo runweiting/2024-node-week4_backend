@@ -62,20 +62,27 @@ const orders = {
     if (req.body.TradeSha !== testShaEncrypt) {
       return handleAppError(404, '付款失敗：TradeSha 不一致', next);
     }
-    await Order.findByIdAndUpdate(req.order._id, {
-      isPaid: true,
-      tradeInfo: {
-        status: decryptData.Status,
-        message: decryptData.Message,
-        tradeNo: decryptData.Result.TradeNo,
-        ip: decryptData.Result.IP,
-        escrowBank: decryptData.Result.EscrowBank,
-        paymentType: decryptData.Result.PaymentType,
-        payTime: formattedPayTimeStr(decryptData.Result.PayTime),
-        payerAccount5Code: decryptData.Result.PayerAccount5Code,
-        payBankCode: decryptData.Result.PayBankCode,
+    const updatedOrder = await Order.findByIdAndUpdate(
+      req.order._id,
+      {
+        isPaid: true,
+        tradeInfo: {
+          status: decryptData.Status,
+          message: decryptData.Message,
+          tradeNo: decryptData.Result.TradeNo,
+          ip: decryptData.Result.IP,
+          escrowBank: decryptData.Result.EscrowBank,
+          paymentType: decryptData.Result.PaymentType,
+          payTime: formattedPayTimeStr(decryptData.Result.PayTime),
+          payerAccount5Code: decryptData.Result.PayerAccount5Code,
+          payBankCode: decryptData.Result.PayBankCode,
+        },
       },
-    });
+      { new: true },
+    );
+    console.log('req.order.isPaid', req.order.isPaid);
+    // 更新 req.order 狀態
+    req.order.isPaid = updatedOrder.isPaid;
     // 交易完成，將成功資訊儲存於資料庫
     console.log('notify 付款完成！訂單編號：', req.order.merchantOrderNo);
   },
