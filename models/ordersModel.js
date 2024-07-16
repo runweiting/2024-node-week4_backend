@@ -39,6 +39,19 @@ const ordersSchema = new mongoose.Schema(
       payerAccount5Code: { type: String },
       payBankCode: { type: String },
     },
+    status: {
+      type: String,
+      enum: [
+        '未付款',
+        '已取消',
+        '已付款',
+        '待發貨',
+        '已發貨',
+        '已送達',
+        '已完成',
+      ],
+      default: '未付款',
+    },
   },
   {
     versionKey: false,

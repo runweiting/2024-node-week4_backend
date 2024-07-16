@@ -48,14 +48,19 @@ const orders = {
     handleResponse(res, 200, '查詢成功', tradeInfo);
   },
   async newebpayNotify(req, res, next) {
-    console.log('notify 收到付款通知');
+    console.log('notify 收到付款');
     const decryptData = JSON.parse(create_mpg_aes_decrypt(req.body.TradeInfo));
     // 驗證一、檢查訂單是否已付款
     if (req.order.isPaid) {
-      console.log(
-        `核對訂單有誤，訂單編號：${req.order.merchantOrderNo} 已付款。`,
-      );
-      return handleResponse(res, 200, '核對訂單有誤，訂單已付款');
+      // 更新訂單 status
+      const targetOrder = await Order.findByIdAndUpdate(
+        req.order._id,
+        {
+          status: '已付款',
+        },
+        { new: true },
+      ).select('-tradeInfo');
+      return handleResponse(res, 200, '付款成功', targetOrder);
     }
     // 驗證二、比對 SHA 加密字串
     const testShaEncrypt = create_mpg_sha_encrypt(req.body.TradeInfo);

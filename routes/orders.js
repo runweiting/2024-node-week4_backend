@@ -20,12 +20,20 @@ router.post(
   '/newebpay_return',
   checkOrderExists,
   handleErrorAsync(async (req, res, next) => {
-    console.log('return 收到付款通知');
+    console.log('return 收到付款');
     if (req.order.isPaid) {
       // 帶入 isPaid = true 的 targetOrder 生成 token, expires 導向回 UserCallback
       genNewebpayReturnUrlJWT(req.order, res, next);
     } else {
-      return handleAppError(400, '訂單尚未付款', next);
+      console.log('return 通知訂單尚未付款');
+      handleAppError(400, '', next);
+      return res.redirect(
+        `${
+          process.env.NEWEBPAY_REDIRECT
+        }/#/callback?token=${token}&expires=${expires}&source=${
+          process.env.NEWEBPAY_REDIRECT_SOURCE
+        }&order=${order._id.toString()}`,
+      );
     }
   }),
 );
