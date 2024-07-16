@@ -60,7 +60,13 @@ const users = {
       console.error('郵件發送失敗', emailResponse.error);
       return handleAppError(500, '註冊成功，但郵件發送失敗，請稍後再試', next);
     }
-    generateSendJWT(newUser, 201, '註冊成功，請檢查您的郵件以完成驗證', res);
+    generateSendJWT(
+      newUser,
+      201,
+      '註冊成功，請檢查您的郵件以完成驗證',
+      res,
+      next,
+    );
   },
   async signIn(req, res, next) {
     const { email, password } = req.body;
@@ -86,7 +92,7 @@ const users = {
       // 回應統一的錯誤訊息以避免資安問題
       return handleAppError(400, '帳號或密碼不正確', next);
     }
-    generateSendJWT(targetUser, 200, '登入成功', res);
+    generateSendJWT(targetUser, 200, '登入成功', res, next);
   },
   signOut(req, res, next) {
     res.clearCookie('myToken');
@@ -114,7 +120,7 @@ const users = {
     const targetUser = await User.findByIdAndUpdate(req.user.id, {
       password: newPassword,
     });
-    generateSendJWT(targetUser, 201, '密碼更新成功', res);
+    generateSendJWT(targetUser, 201, '密碼更新成功', res, next);
   },
   async updateProfile(req, res, next) {
     const { name, gender, photo } = req.body;

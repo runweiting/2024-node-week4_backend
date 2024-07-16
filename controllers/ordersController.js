@@ -50,12 +50,13 @@ const orders = {
   async newebpayNotify(req, res, next) {
     console.log('notify 收到付款通知');
     const decryptData = JSON.parse(create_mpg_aes_decrypt(req.body.TradeInfo));
-    console.log('notify 解密資料:', decryptData);
-    console.log('notify targetOrder', req.targetOrder);
+    console.log('notify req.targetOrder', req.targetOrder);
     // 驗證一、檢查訂單是否已付款
     if (req.targetOrder.isPaid) {
-      console.log(`訂單編號：${req.targetOrder.merchantOrderNo} 已付款。`);
-      return handleResponse(res, 200, '訂單已付款');
+      console.log(
+        `核對訂單有誤，訂單編號：${req.targetOrder.merchantOrderNo} 已付款。`,
+      );
+      return handleResponse(res, 200, '核對訂單有誤，訂單已付款');
     }
     // 驗證二、比對 SHA 加密字串
     const testShaEncrypt = create_mpg_sha_encrypt(req.body.TradeInfo);
@@ -77,7 +78,7 @@ const orders = {
       },
     });
     // 交易完成，將成功資訊儲存於資料庫
-    console.log('付款完成！訂單編號：', req.targetOrder.merchantOrderNo);
+    console.log('notify 付款完成！訂單編號：', req.targetOrder.merchantOrderNo);
   },
 };
 

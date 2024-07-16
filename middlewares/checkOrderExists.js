@@ -7,18 +7,17 @@ const checkOrderExists = handleErrorAsync(async (req, res, next) => {
   // 可能因測試機 response 沒有顯示 CheckCode (手冊有寫 p.23, p.50)
   console.log('checkOrderExists');
   const decryptData = JSON.parse(create_mpg_aes_decrypt(req.body.TradeInfo));
-  console.log('checkOrderExists:', decryptData);
   const targetOrder = await Order.findOne({
     merchantOrderNo: decryptData.Result.MerchantOrderNo,
   }).populate({
     path: 'user',
     select: '_id',
   });
-  console.log('checkOrderExists targetOrder', req.targetOrder);
   if (!targetOrder) {
     return handleAppError(404, '此筆訂單不存在', next);
   }
   req.targetOrder = targetOrder;
+  console.log('checkOrderExists req.targetOrder', req.targetOrder);
   next();
 });
 

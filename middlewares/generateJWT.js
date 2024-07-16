@@ -24,7 +24,7 @@ const generateSendJWT = (user, statusCode, message, res, next) => {
   }
 };
 
-const genGoogleCallbackUrlJWT = (user, res) => {
+const genGoogleCallbackUrlJWT = (user, res, next) => {
   try {
     // 將 user _id 作為 payload 生成 token
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
@@ -45,7 +45,7 @@ const genGoogleCallbackUrlJWT = (user, res) => {
   }
 };
 
-const genNewebpayReturnUrlJWT = (targetOrder, res) => {
+const genNewebpayReturnUrlJWT = (targetOrder, res, next) => {
   try {
     // 將 user _id 作為 payload 生成 token
     const token = jwt.sign(

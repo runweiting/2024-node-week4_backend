@@ -396,7 +396,7 @@ router.get(
   '/google/callback',
   passport.authenticate('google', { session: false }),
   (req, res) => {
-    genGoogleCallbackUrlJWT(req.user, res);
+    genGoogleCallbackUrlJWT(req.user, res, next);
   },
   /**
    * #swagger.ignore = true

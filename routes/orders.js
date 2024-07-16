@@ -18,8 +18,8 @@ router.post(
   checkOrderExists,
   handleErrorAsync(async (req, res, next) => {
     console.log('return 收到付款通知');
-    // 生成 token, expires 並導向回 UserCallback
-    genNewebpayReturnUrlJWT(req.targetOrder, res);
+    // 帶入 isPaid = true 的 targetOrder 生成 token, expires 導向回 UserCallback
+    genNewebpayReturnUrlJWT(req.targetOrder, res, next);
   }),
 );
 
