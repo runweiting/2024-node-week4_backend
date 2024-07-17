@@ -15,6 +15,20 @@ router.post('/', isAuth, handleErrorAsync(OrdersController.createOrder));
 // 取得訂單
 router.get('/:id', isAuth, handleErrorAsync(OrdersController.getOrder));
 
+// 查詢訂單
+router.get(
+  '/status/:id',
+  isAuth,
+  handleErrorAsync(OrdersController.checkStatus),
+);
+
+// newebpay_notify
+router.post(
+  '/newebpay_notify',
+  checkOrderExists,
+  handleErrorAsync(OrdersController.newebpayNotify),
+);
+
 // newebpay_return
 router.post(
   '/newebpay_return',
@@ -25,24 +39,9 @@ router.post(
       // 帶入 isPaid = true 的 targetOrder 生成 token, expires 導向回 UserCallback
       genNewebpayReturnUrlJWT(req.order, res, next);
     } else {
-      console.log('return 通知訂單尚未付款');
-      handleAppError(400, '', next);
-      return res.redirect(
-        `${
-          process.env.NEWEBPAY_REDIRECT
-        }/#/callback?token=${token}&expires=${expires}&source=${
-          process.env.NEWEBPAY_REDIRECT_SOURCE
-        }&order=${order._id.toString()}`,
-      );
+      console.log('return 訂單尚未付款');
     }
   }),
-);
-
-// newebpay_notify
-router.post(
-  '/newebpay_notify',
-  checkOrderExists,
-  handleErrorAsync(OrdersController.newebpayNotify),
 );
 
 module.exports = router;

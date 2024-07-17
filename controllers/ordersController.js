@@ -47,6 +47,16 @@ const orders = {
     };
     handleResponse(res, 200, '查詢成功', tradeInfo);
   },
+  async checkStatus(req, res, next) {
+    const { id } = req.params;
+    const targetOrder = await Order.findById(id).select(
+      'amt itemDesc isPaid merchantOrderNo',
+    );
+    if (!targetOrder) {
+      return handleAppError(404, '訂單不存在', next);
+    }
+    handleResponse(res, 201, '查詢成功', targetOrder);
+  },
   async newebpayNotify(req, res, next) {
     console.log('notify 收到付款');
     const decryptData = JSON.parse(create_mpg_aes_decrypt(req.body.TradeInfo));
