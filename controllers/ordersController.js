@@ -50,7 +50,7 @@ const orders = {
   async checkStatus(req, res, next) {
     const { id } = req.params;
     const targetOrder = await Order.findById(id).select(
-      'amt itemDesc isPaid merchantOrderNo',
+      'amt itemDesc isPaid merchantOrderNo status',
     );
     if (!targetOrder) {
       return handleAppError(404, '訂單不存在', next);
@@ -63,14 +63,9 @@ const orders = {
     // 驗證一、檢查訂單是否已付款
     if (req.order.isPaid) {
       // 更新訂單 status
-      const targetOrder = await Order.findByIdAndUpdate(
-        req.order._id,
-        {
-          status: '已付款',
-        },
-        { new: true },
-      ).select('-tradeInfo');
-      return handleResponse(res, 200, '付款成功', targetOrder);
+      await Order.findByIdAndUpdate(req.order._id, { status: '已付款' });
+      // 回傳藍新 200 OK
+      return res.status(200).send('付款成功');
     }
     // 驗證二、比對 SHA 加密字串
     const testShaEncrypt = create_mpg_sha_encrypt(req.body.TradeInfo);
@@ -97,8 +92,6 @@ const orders = {
     );
     // 更新 req.order 狀態
     req.order.isPaid = updatedOrder.isPaid;
-    console.log('updatedOrder.isPaid', updatedOrder.isPaid);
-    console.log('req.order.isPaid', req.order.isPaid);
     // 交易完成，將成功資訊儲存於資料庫
     console.log('notify 付款完成！訂單編號：', req.order.merchantOrderNo);
   },
