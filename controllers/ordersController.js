@@ -58,12 +58,13 @@ const orders = {
     handleResponse(res, 201, '查詢成功', targetOrder);
   },
   async newebpayNotify(req, res, next) {
-    console.log('notify 收到付款');
+    console.log('===== notify 1 =====');
     const decryptData = JSON.parse(create_mpg_aes_decrypt(req.body.TradeInfo));
     // 驗證一、檢查訂單是否已付款
     if (req.order.isPaid) {
       // 更新訂單 status
       await Order.findByIdAndUpdate(req.order._id, { status: '已付款' });
+      console.log('===== notify 2 =====');
       // 回傳藍新 200 OK
       return res.status(200).send('付款成功');
     }
@@ -93,7 +94,7 @@ const orders = {
     // 更新 req.order 狀態
     req.order.isPaid = updatedOrder.isPaid;
     // 交易完成，將成功資訊儲存於資料庫
-    console.log('notify 付款完成！訂單編號：', req.order.merchantOrderNo);
+    console.log(`===== 付款完成！訂單編號：${req.order.merchantOrderNo} =====`);
   },
 };
 

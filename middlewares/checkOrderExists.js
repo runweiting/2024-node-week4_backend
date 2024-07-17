@@ -5,7 +5,7 @@ const { create_mpg_aes_decrypt } = require('../middlewares/encryption');
 // 檢查訂單是否存在
 const checkOrderExists = handleErrorAsync(async (req, res, next) => {
   // 可能因測試機 response 沒有顯示 CheckCode (手冊有寫 p.23, p.50)
-  console.log('checkOrderExists');
+  console.log('===== checkOrderExists =====');
   const decryptData = JSON.parse(create_mpg_aes_decrypt(req.body.TradeInfo));
   const targetOrder = await Order.findOne({
     merchantOrderNo: decryptData.Result.MerchantOrderNo,
@@ -16,14 +16,12 @@ const checkOrderExists = handleErrorAsync(async (req, res, next) => {
   if (!targetOrder) {
     return handleAppError(404, '此筆訂單不存在', next);
   }
-  console.log('targetOrder', targetOrder);
   req.order = {
     isPaid: targetOrder.isPaid,
     _id: targetOrder._id,
     merchantOrderNo: targetOrder.merchantOrderNo,
     userId: targetOrder.user._id,
   };
-  console.log('req.order', req.order);
   next();
 });
 

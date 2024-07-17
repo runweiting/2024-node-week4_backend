@@ -34,7 +34,7 @@ router.post(
   '/newebpay_return',
   checkOrderExists,
   handleErrorAsync(async (req, res, next) => {
-    console.log('return 收到付款');
+    console.log('===== return =====');
     if (req.order.isPaid) {
       // 帶入 isPaid = true 的 targetOrder 生成 token, expires 導向回 UserCallback
       genNewebpayReturnUrlJWT(req.order, res, next);
